@@ -9,6 +9,7 @@ import java.awt.*;
  */
 public class MainGUI extends JFrame {
     private JPanel rootPanel;
+    private JLabel jtext;
 
     public MainGUI() {
         super("Hi Maven");
@@ -17,6 +18,10 @@ public class MainGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setMinimumSize(new Dimension(400, 300));
         this.setPreferredSize(new Dimension(400, 300));
+
+
+        String text = "Hello Valera";
+        jtext.setText(text);
 
 
         setVisible(true);
