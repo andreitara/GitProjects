@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+       <bean id="ram" class="Ram">
+              <property name="size" value="8"/>
+       </bean>
+
+       <bean id="ecran" class="Ecran">
+              <property name="diagonal" value="16"/>
+       </bean>
+
+       <bean id="processor" class="Processor">
+              <property name="speed" value="3"/>
+       </bean>
+
+       <bean id="hardDisk" class="HardDisk">
+              <property name="size" value="700"/>
+       </bean>
+
+
+       <bean id="calculator" class="Calculator">
+              <constructor-arg name="name" value="HP-ProBook"/>
+              <constructor-arg name="ram" index="1" ref="ram"/>
+              <constructor-arg name="ecran" index="2" ref="ecran"/>
+              <constructor-arg name="processor" index="3" ref="processor"/>
+              <constructor-arg name="hardDisk" index="4" ref="hardDisk"/>
+       </bean>
+
+
+</beans>
