@@ -6,7 +6,6 @@ public class HelloSpring {
     private String helloSpring;
 
     public HelloSpring(){
-
     }
 
     public HelloSpring(String helloSpring) {
