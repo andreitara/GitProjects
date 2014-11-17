@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>SpringHow</groupId>
-    <artifactId>DI-SetterBased</artifactId>
+    <artifactId>CollectionBean</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -28,6 +28,7 @@
             <artifactId>spring-beans</artifactId>
             <version>${spring.version}</version>
         </dependency>
+
     </dependencies>
 
 </project>

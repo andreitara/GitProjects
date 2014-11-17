@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+       <bean id="collections" class="Collections">
+              <property name="list">
+                     <list>
+                            <value>1</value>
+                            <value>2</value>
+                            <value>3</value>
+                     </list>
+              </property>
+
+              <property name="map">
+                     <map>
+                            <entry key="one" value="111"/>
+                            <entry key="two" value="222"/>
+                            <entry key="three" value="333"/>
+                     </map>
+              </property>
+
+              <property name="set">
+                     <set>
+                            <value>HaHa</value>
+                            <value>HiHi</value>
+                            <value>HrrrHrrr</value>
+                     </set>
+              </property>
+
+              <property name="props">
+                     <props>
+                            <prop key="setting1">This is property one</prop>
+                            <prop key="setting2">This is property two</prop>
+                            <prop key="setting3">This is property three</prop>
+                     </props>
+              </property>
+       </bean>
+
+</beans>
