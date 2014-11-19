@@ -7,7 +7,9 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-       <aop:aspectj-autoproxy/>
+       <aop:aspectj-autoproxy>
+              <aop:include name="aspectPerson"/>
+       </aop:aspectj-autoproxy>
 
        <bean id="andrei" class="Person">
               <property name="name" value="Andrei"/>
