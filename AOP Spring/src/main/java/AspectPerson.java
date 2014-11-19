@@ -1,7 +1,4 @@
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 
 /**
  * Created by Andrei on 11/19/2014.
@@ -25,13 +22,13 @@ public class AspectPerson {
     @Pointcut(value = "execution(* Person.doAll(..))")
     public void doAll() {}
 
-    @Before(value = "doAll()")
+    @Before("execution(public void Person.doAll())")
     public void checkResource() throws InterruptedException {
         System.out.println("Before");
         this.getSemaphore().block();
     }
 
-    @After(value = "doAll()")
+    @AfterReturning("doAll()")
     public void afterResource(){
         System.out.println("After");
         this.getSemaphore().unblock();

@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Pointcut;
 /**
  * Created by Andrei on 11/19/2014.
  */
-@Aspect
+
 public class Person {
 
     private String name;
@@ -31,15 +31,17 @@ public class Person {
         }
     }
 
-    public void doAll(){
-        new Thread(new Runnable() {
+    public void doAll() throws InterruptedException {
+        Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 for(int i=1 ; i<10; i++){
                     doSomething();
                 }
             }
-        }).start();
+        });
+        t.start();
+        t.join();
     }
 
 }
