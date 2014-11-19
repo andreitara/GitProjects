@@ -26,12 +26,14 @@ public class AspectPerson {
     public void doAll() {}
 
     @Before(value = "doAll()")
-    public void checkResource(){
+    public void checkResource() throws InterruptedException {
         System.out.println("Before");
+        this.getSemaphore().block();
     }
 
     @After(value = "doAll()")
     public void afterResource(){
         System.out.println("After");
+        this.getSemaphore().unblock();
     }
 }
