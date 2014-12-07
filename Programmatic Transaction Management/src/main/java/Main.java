@@ -1,8 +1,11 @@
+import DAO.CarDriverDAO;
+import DAO.impl.AspectCarDriverTemplate;
 import DAO.impl.CarDriverTemplate;
 import DAO.tables.CarDriver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -10,11 +13,15 @@ import java.util.List;
  */
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws SQLException {
 
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
-        CarDriverTemplate template = (CarDriverTemplate) context.getBean("carJDBCtemplate");
+        //Without Aspect
+        //CarDriverTemplate template = (CarDriverTemplate) context.getBean("carJDBCtemplate");
+
+        //With Aspect
+        CarDriverDAO template = (CarDriverDAO) context.getBean("aspectCarDriverTemplate");
 
         List<CarDriver> list = template.getCarsAndTheseDrivers();
         System.out.println();
@@ -23,7 +30,7 @@ public class Main {
         System.out.println();
 
         //add new car and new driver into database
-        //template.insertCarAndDriver("Cristina","Lexus",2010,4600);
+        //template.insertCarAndDriver("Ion","Ferrari",2014,5000);
 
     }
 }

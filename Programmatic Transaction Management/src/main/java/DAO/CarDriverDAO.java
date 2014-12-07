@@ -3,6 +3,7 @@ package DAO;
 import DAO.tables.CarDriver;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public interface CarDriverDAO {
 
     public void setDataSource(DataSource dataSource);
     
-    public void insertCarAndDriver(String nameDriver, String nameCar, int yearCar, int engineCar);
+    public void insertCarAndDriver(String nameDriver, String nameCar, int yearCar, int engineCar) throws SQLException;
 
     public List<CarDriver> getCarsAndTheseDrivers();
 

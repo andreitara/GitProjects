@@ -1,6 +1,9 @@
+import DAO.aspect.AspectCarDriver;
+import DAO.impl.AspectCarDriverTemplate;
 import DAO.impl.CarDriverTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -9,6 +12,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  */
 
 @Configuration
+@EnableAspectJAutoProxy
 public class AppConfig {
 
     @Bean
@@ -29,12 +33,34 @@ public class AppConfig {
         return dataSourceTransactionManager;
     }
 
+
+    //***********************************************
+    //Without Aspect
+    //***********************************************
     @Bean
     public CarDriverTemplate carJDBCtemplate(){
         CarDriverTemplate carDriverTemplate = new CarDriverTemplate();
         carDriverTemplate.setDataSource(dataSource());
         carDriverTemplate.setPlatformTransactionManager(dataSourceTransactionManager());
         return carDriverTemplate;
+    }
+
+
+    //***********************************************
+    //With Aspect
+    //***********************************************
+    @Bean
+    public AspectCarDriver aspectCarDriver(){
+        AspectCarDriver aspectCarDriver = new AspectCarDriver();
+        aspectCarDriver.setPlatformTransactionManager(dataSourceTransactionManager());
+        return  aspectCarDriver;
+    }
+
+    @Bean
+    public AspectCarDriverTemplate aspectCarDriverTemplate(){
+        AspectCarDriverTemplate aspectCarDriverTemplate = new AspectCarDriverTemplate();
+        aspectCarDriverTemplate.setDataSource(dataSource());
+        return aspectCarDriverTemplate;
     }
 
 }

@@ -1,0 +1,124 @@
+body{
+    background: lightyellow;
+}
+
+.content{
+    width:1024px;
+    margin: auto;
+    text-align: center;
+    border:solid 2px;
+}
+
+.leftPanel{
+    float: left;
+}
+
+.rightPanel{
+    float: right;
+}
+
+.closeFloat{
+    clear: both;
+}
+
+.width30{
+    width: 30%;
+    margin: auto;
+}
+
+.width70{
+    width: 70%;
+    margin: auto;
+}
+
+.header{
+    margin: 3px;
+    border: solid 1px;
+    background: lightcoral;
+}
+
+.logo{
+    font-size: 32px;
+    font-style: italic;
+}
+
+.login{
+    text-align: right;
+    color: brown;
+}
+
+.welcome{
+    font-size: 24px;
+    height: 40px;
+    text-align: center;
+}
+
+.new{
+    border: solid 1px;
+    margin: 3px;
+    height: 200px;
+    background: lightblue;
+}
+
+.menu{
+    width: 100%;
+}
+
+.option {
+    width: auto;
+    background: grey;
+    padding: 5px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.coloredOption{
+    width: auto;
+    background: darkorange;
+    padding: 5px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.option:hover{
+    background: darkorange;
+}
+
+.optionIndex {
+    width: auto;
+    height: 150px;
+    background: gold;
+    padding: 5px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.optionIndex:hover{
+    background: red;
+}
+
+a.withoutline{
+    text-decoration: none;
+}
+
+.footer{
+    text-align: center;
+    background: lawngreen;
+    margin: 3px;
+}
+
+.somethingLeft{
+    width: 300px;
+    margin: 3px;
+    height: 800px;
+    background: darkseagreen;
+}
+
+.somethingRight{
+    width: 712px;
+    margin: 3px;
+    background: mediumaquamarine;
+}
+
+
+
