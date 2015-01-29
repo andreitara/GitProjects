@@ -94,10 +94,10 @@ public class BayesClassifier {
 
         System.out.println(model.toString());
 
-        /*double accuracy = calculateAccuracy(predictions);
-        System.out.println("Accuracy of " + model.getClass().getSimpleName() + ": "
-                + String.format("%.2f%%", accuracy)
-                + "\n---------------------------------");*/
+//        double accuracy = calculateAccuracy(predictions);
+//        System.out.println("Accuracy of " + model.getClass().getSimpleName() + ": "
+//                + String.format("%.2f%%", accuracy)
+//                + "\n---------------------------------");
     }
 
     public static double calculateAccuracy(FastVector predictions) {
