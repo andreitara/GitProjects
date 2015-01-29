@@ -30,8 +30,8 @@ public class GUI extends JFrame {
 
         comboBox1.addItem("NaiveBayes");
         comboBox1.addItem("NaiveBayesSimple");
-        //comboBox1.addItem("BayesNet");
         comboBox1.addItem("NaiveBayesUpdateable");
+        //comboBox1.addItem("BayesNet");
         //comboBox1.addItem("AODE");
         //comboBox1.addItem("AODEsr");
         //comboBox1.addItem("NaiveBayesMultinomial");
@@ -48,8 +48,6 @@ public class GUI extends JFrame {
                 appendOutput("Classify starting");
 
                 String model = comboBox1.getSelectedItem().toString();
-                appendOutput("Model is " + model);
-
                 try {
                     BayesClassifier bayesClassifier = new BayesClassifier();
                     bayesClassifier.setDatabase(databaseTextField.getText());

@@ -59,6 +59,7 @@ public class BayesClassifier {
             this.model = new WAODE();
         else
             this.model = new NaiveBayes();
+        this.model.setDebug(true);
     }
 
     public void setDatabase(String database){
