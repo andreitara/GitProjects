@@ -58,7 +58,7 @@ public class BayesClassifier {
         else if(model.equals("WAODE"))
             this.model = new WAODE();
         else
-            this.model = new NaiveBayes();
+            this.model = new NaiveBayesUpdateable();
         this.model.setDebug(true);
     }
 
@@ -95,10 +95,10 @@ public class BayesClassifier {
 
         System.out.println(model.toString());
 
-//        double accuracy = calculateAccuracy(predictions);
-//        System.out.println("Accuracy of " + model.getClass().getSimpleName() + ": "
-//                + String.format("%.2f%%", accuracy)
-//                + "\n---------------------------------");
+        //double accuracy = calculateAccuracy(predictions);
+        //System.out.println("Accuracy of " + model.getClass().getSimpleName() + ": "
+        //        + String.format("%.2f%%", accuracy)
+        //        + "\n---------------------------------");
     }
 
     public static double calculateAccuracy(FastVector predictions) {
