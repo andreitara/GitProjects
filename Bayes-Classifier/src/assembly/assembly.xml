@@ -28,7 +28,6 @@
                 <include>*.txt</include>
                 <include>*.png</include>
                 <include>*.bat</include>
-                <include>*.props</include>
                 <include>*.html</include>
                 <!--include>*.sh</include-->
                 <include>*.config</include>
