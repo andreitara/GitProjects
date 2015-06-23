@@ -11,6 +11,7 @@ import java.util.Date;
 @Table(name="[EcEnablement].[dbo].[TradeRelationship]")
 public class TradeRelationship {
 
+    @Id
     @Column(name="TradeRelationshipSID")
     private long TradeRelationshipSID;
 
