@@ -1,0 +1,28 @@
+SELECT TOP 1000
+        [TradeRelationshipSID]
+      ,[TpmTransactionSID]
+      ,[SenderPartySID]
+      ,[ReceiverPartySID]
+      ,[DependencyAgreementSID]
+      ,[CreatedBySID]
+      ,[ModifiedBySID]
+      ,[CreatedDateTime]
+      ,[LastModifiedDateTime]
+      ,[MethodID]
+      ,[IsActive]
+      ,[Name]
+  FROM [EcEnablement].[dbo].[TradeRelationship]
+
+  CREATE TABLE [dbo].[TradeRelationship](
+  	[TradeRelationshipSID] [bigint] NOT NULL,
+  	[TpmTransactionSID] [bigint] NOT NULL,
+  	[SenderPartySID] [int] NOT NULL,
+  	[ReceiverPartySID] [int] NOT NULL,
+  	[DependencyAgreementSID] [bigint] NULL,
+  	[CreatedBySID] [int] NOT NULL,
+  	[ModifiedBySID] [int] NOT NULL,
+  	[CreatedDateTime] [datetime] NOT NULL,
+  	[LastModifiedDateTime] [datetime] NOT NULL,
+  	[MethodID] [tinyint] NOT NULL,
+  	[IsActive] [bit] NOT NULL,
+  	[Name] [varchar](100) NULL)
