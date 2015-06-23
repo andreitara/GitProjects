@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="d8625" binding="externalPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="d8625" binding="externalPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="0">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -21,15 +21,20 @@
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <alignmentX value="0.0"/>
+              <alignmentY value="0.0"/>
+              <background color="-328966"/>
+            </properties>
             <border type="line" title=""/>
             <children>
-              <component id="2786" class="javax.swing.JLabel">
+              <component id="2786" class="javax.swing.JLabel" binding="treePanelTitle">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <opaque value="true"/>
+                  <text value="Process Tree Zone"/>
                 </properties>
               </component>
               <vspacer id="1999">
@@ -39,7 +44,7 @@
               </vspacer>
             </children>
           </grid>
-          <grid id="4928e" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="0">
+          <grid id="4928e" binding="workPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="0">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -63,24 +68,35 @@
                     <properties>
                       <alignmentX value="0.0"/>
                       <alignmentY value="0.0"/>
+                      <background color="-328966"/>
                     </properties>
                     <border type="line" title="">
                       <size top="1" left="1" bottom="1" right="1"/>
                     </border>
                     <children>
-                      <component id="b378c" class="javax.swing.JLabel">
+                      <component id="b378c" class="javax.swing.JLabel" binding="paintZoneTitle">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
-                          <text value="Label"/>
+                          <opaque value="true"/>
+                          <text value="Paint Zone"/>
                         </properties>
                       </component>
-                      <vspacer id="62963">
+                      <grid id="e0a8" binding="paintZone" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="0">
+                        <margin top="0" left="0" bottom="0" right="0"/>
                         <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <minimum-size width="200" height="-1"/>
+                            <preferred-size width="200" height="-1"/>
+                          </grid>
                         </constraints>
-                      </vspacer>
+                        <properties>
+                          <background color="-657931"/>
+                        </properties>
+                        <border type="none"/>
+                        <children/>
+                      </grid>
                     </children>
                   </grid>
                   <grid id="ba1a" binding="palettePanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="0">
@@ -88,15 +104,18 @@
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="2" indent="0" use-parent-layout="false"/>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <background color="-328966"/>
+                    </properties>
                     <border type="line" title=""/>
                     <children>
-                      <component id="73ad8" class="javax.swing.JLabel">
+                      <component id="73ad8" class="javax.swing.JLabel" binding="palettePanelTitle">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
-                          <text value="Label"/>
+                          <opaque value="true"/>
+                          <text value="Palette Zone"/>
                         </properties>
                       </component>
                       <vspacer id="a01f4">
@@ -122,15 +141,18 @@
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <background color="-328966"/>
+                </properties>
                 <border type="line" title=""/>
                 <children>
-                  <component id="9eeb2" class="javax.swing.JLabel">
+                  <component id="9eeb2" class="javax.swing.JLabel" binding="propertiesPanelTitle">
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text value="Label"/>
+                      <opaque value="true"/>
+                      <text value="Component Properties Zone"/>
                     </properties>
                   </component>
                 </children>
