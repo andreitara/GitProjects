@@ -13,17 +13,17 @@ public class InstitutionComment {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
+    @Column(name = "id")
     private int ID;
 
-    @Column(name = "Date")
+    @Column(name = "date")
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "institutionID")
     private Institution institution;
 
-    @Column(name = "Comment")
+    @Column(name = "comment")
     private String comment;
 
 

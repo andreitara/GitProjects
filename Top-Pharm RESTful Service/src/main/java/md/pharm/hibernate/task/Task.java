@@ -1,6 +1,10 @@
 package md.pharm.hibernate.task;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import md.pharm.hibernate.doctor.Doctor;
+import md.pharm.hibernate.institution.Institution;
+import md.pharm.hibernate.product.Objective;
+import md.pharm.hibernate.product.Product;
 import md.pharm.hibernate.training.Training;
 import md.pharm.hibernate.user.User;
 
@@ -17,29 +21,50 @@ public class Task {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "Type")
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "type")
     private String type;
 
-    @Column(name = "Status")
+    @Column(name = "status")
     private String status;
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(name="[TopPharm].[dbo].[UserTask]", joinColumns=@JoinColumn(name="TaskID"), inverseJoinColumns=@JoinColumn(name="UserID"))
-    private Set<User> users;
+    @Column(name = "visitNumbers")
+    private int visitNumbers;
 
-    @Column(name = "Date")
+    @Column(name = "date")
     private Date date;
 
-    @Column(name = "Duration")
+    @Column(name = "duration")
     private Date duration;
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(name="[TopPharm].[dbo].[DoctorTask]", joinColumns=@JoinColumn(name="TaskID"), inverseJoinColumns=@JoinColumn(name="DoctorID"))
-    //@ManyToMany(cascade=CascadeType.ALL, mappedBy="tasks")
+    @Column(name = "description")
+    private Date description;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "parentTask")
+    @JsonIgnore
+    private Task parentTask;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentTask", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Task> childTasks;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="[TopPharm].[dbo].[UserTask]", joinColumns=@JoinColumn(name="taskID"), inverseJoinColumns=@JoinColumn(name="userID"))
+    private Set<User> users;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="[TopPharm].[dbo].[DoctorTask]", joinColumns=@JoinColumn(name="taskID"), inverseJoinColumns=@JoinColumn(name="doctorID"))
     private Set<Doctor> doctors;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "institutionID")
+    private Institution institution;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.ALL)
     private Set<TaskComment> taskComments;
@@ -50,16 +75,19 @@ public class Task {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.ALL)
     private Set<Training> trainings;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="[TopPharm].[dbo].[ProductTask]", joinColumns=@JoinColumn(name="taskID"), inverseJoinColumns=@JoinColumn(name="productID"))
+    private Set<Product> products;
+
 
     public Task(){}
 
-    public Task(String type, String status, Set<User> users, Date date, Date duration, Set<Doctor> doctors) {
+    public Task(String type, String status, Set<User> users, Date date, Date duration) {
         this.type = type;
         this.status = status;
         this.users = users;
         this.date = date;
         this.duration = duration;
-        this.doctors = doctors;
     }
 
     public int getId() {
@@ -68,6 +96,14 @@ public class Task {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getType() {
@@ -86,12 +122,12 @@ public class Task {
         this.status = status;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public int getVisitNumbers() {
+        return visitNumbers;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setVisitNumbers(int visitNumbers) {
+        this.visitNumbers = visitNumbers;
     }
 
     public Date getDate() {
@@ -110,12 +146,52 @@ public class Task {
         this.duration = duration;
     }
 
+    public Date getDescription() {
+        return description;
+    }
+
+    public void setDescription(Date description) {
+        this.description = description;
+    }
+
+    public Task getParentTask() {
+        return parentTask;
+    }
+
+    public void setParentTask(Task parentTask) {
+        this.parentTask = parentTask;
+    }
+
+    public Set<Task> getChildTasks() {
+        return childTasks;
+    }
+
+    public void setChildTasks(Set<Task> childTasks) {
+        this.childTasks = childTasks;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
     public Set<Doctor> getDoctors() {
         return doctors;
     }
 
     public void setDoctors(Set<Doctor> doctors) {
         this.doctors = doctors;
+    }
+
+    public Institution getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(Institution institution) {
+        this.institution = institution;
     }
 
     public Set<TaskComment> getTaskComments() {
@@ -142,6 +218,14 @@ public class Task {
         this.trainings = trainings;
     }
 
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -150,20 +234,26 @@ public class Task {
         Task task = (Task) o;
 
         if (id != task.id) return false;
+        if (visitNumbers != task.visitNumbers) return false;
+        if (name != null ? !name.equals(task.name) : task.name != null) return false;
         if (type != null ? !type.equals(task.type) : task.type != null) return false;
         if (status != null ? !status.equals(task.status) : task.status != null) return false;
         if (date != null ? !date.equals(task.date) : task.date != null) return false;
-        return !(duration != null ? !duration.equals(task.duration) : task.duration != null);
+        if (duration != null ? !duration.equals(task.duration) : task.duration != null) return false;
+        return !(description != null ? !description.equals(task.description) : task.description != null);
 
     }
 
     @Override
     public int hashCode() {
         int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + visitNumbers;
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (duration != null ? duration.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
 }

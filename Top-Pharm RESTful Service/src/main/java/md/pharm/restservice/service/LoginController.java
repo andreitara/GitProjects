@@ -27,7 +27,7 @@ public class LoginController {
         if(user!=null) {
             ManageUser manageUser = new ManageUser();
             ManageConnection manageConnection = new ManageConnection();
-            User userFromDB = manageUser.getUserByLogin(user.getLogin());
+            User userFromDB = manageUser.getUserByLogin(user.getUsername());
             if (userFromDB.getPassword().equals(user.getPassword())) {
                 Connection connection = new Connection();
                 userFromDB.setConnection(connection);

@@ -14,29 +14,29 @@ public class Permission{
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
+    @Column(name = "id")
     private int id;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "UserID")
+    @JoinColumn(name = "userID")
     private User user;
 
-    @Column(name = "ReadUsers")
+    @Column(name = "readUsers")
     private boolean readUsers;
 
-    @Column(name = "WriteUsers")
+    @Column(name = "writeUsers")
     private boolean writeUsers;
 
-    @Column(name = "ReadMedicalEntity")
+    @Column(name = "readMedicalEntity")
     private boolean readMedicalEntity;
 
-    @Column(name = "WriteMedicalEntity")
+    @Column(name = "writeMedicalEntity")
     private boolean writeMedicalEntity;
 
-    @Column(name = "ReadTasks")
+    @Column(name = "readTasks")
     private boolean readTasks;
 
-    @Column(name = "WriteTasks")
+    @Column(name = "writeTasks")
     private boolean writeTasks;
 
     public Permission(){}

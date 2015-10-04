@@ -32,7 +32,7 @@ class StatelessAuthenticationFilter extends GenericFilterBean {
 				Permission permission = user.getPermission();
 				if(permission!=null && userHasPermission(permission,httpRequest)){
 					HeaderMapRequestWrapper wrapper = new HeaderMapRequestWrapper(httpRequest);
-					String username = user.getLogin();
+					String username = user.getUsername();
 					wrapper.addHeader(StaticStrings.HEADER_USERNAME, username);
 					chain.doFilter(wrapper, res);
 				}else{

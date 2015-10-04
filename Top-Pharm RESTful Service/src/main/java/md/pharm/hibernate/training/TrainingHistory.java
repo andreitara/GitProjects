@@ -8,22 +8,22 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name="[TopPharm].[dbo].[TaskHistory]")
+@Table(name="[TopPharm].[dbo].[TrainingHistory]")
 public class TrainingHistory {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
+    @Column(name = "id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TrainingID")
+    @JoinColumn(name = "trainingID")
     private Training training;
 
-    @Column(name = "Date")
+    @Column(name = "date")
     private Date date;
 
-    @Column(name = "Action")
+    @Column(name = "action")
     private String action;
 
     public TrainingHistory(){}

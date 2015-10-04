@@ -15,21 +15,21 @@ public class Message {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
+    @Column(name = "id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FromID")
+    @JoinColumn(name = "fromID")
     private User from;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ToID")
+    @JoinColumn(name = "toID")
     private User to;
 
-    @Column(name = "Date")
+    @Column(name = "date")
     private Date date;
 
-    @Column(name = "Message")
+    @Column(name = "message")
     private String message;
 
     public Message(){}

@@ -5,12 +5,18 @@
 
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.SQLServer2012Dialect</property>
-        <!--property name="hibernate.hbm2ddl.auto">update</property-->
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.connection.driver_class">net.sourceforge.jtds.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:jtds:sqlserver://localhost</property>
         <property name="hibernate.connection.username">sa</property>
         <property name="hibernate.connection.password">manager</property>
 
+        <mapping class="md.pharm.hibernate.common.Address"/>
+        <mapping class="md.pharm.hibernate.product.Product"/>
+        <mapping class="md.pharm.hibernate.product.ProductComment"/>
+        <mapping class="md.pharm.hibernate.product.ProductHistory"/>
+        <mapping class="md.pharm.hibernate.product.Objective"/>
+        <mapping class="md.pharm.hibernate.institution.WorkOffice"/>
         <mapping class="md.pharm.hibernate.user.User"/>
         <mapping class="md.pharm.hibernate.user.UserComment"/>
         <mapping class="md.pharm.hibernate.user.UserHistory"/>

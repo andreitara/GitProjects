@@ -1,23 +1,24 @@
-package md.pharm.hibernate.institution;
+package md.pharm.hibernate.product;
+
+import md.pharm.hibernate.doctor.Doctor;
 
 import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Created by Andrei on 9/4/2015.
+ * Created by Andrei on 10/4/2015.
  */
 @Entity
-@Table(name="[TopPharm].[dbo].[InstitutionHistory]")
-public class InstitutionHistory {
-
+@Table(name="[TopPharm].[dbo].[ProductHistory]")
+public class ProductHistory {
     @Id
     @GeneratedValue
     @Column(name = "id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "institutionID")
-    private Institution institution;
+    @JoinColumn(name = "doctorID")
+    private Product product;
 
     @Column(name = "date")
     private Date date;
@@ -25,10 +26,10 @@ public class InstitutionHistory {
     @Column(name = "action")
     private String action;
 
-    public InstitutionHistory(){}
+    public ProductHistory(){}
 
-    public InstitutionHistory(Institution institution, Date date, String action) {
-        this.institution = institution;
+    public ProductHistory(Product product, Date date, String action) {
+        this.product = product;
         this.date = date;
         this.action = action;
     }
@@ -41,12 +42,12 @@ public class InstitutionHistory {
         this.id = id;
     }
 
-    public Institution getInstitution() {
-        return institution;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setInstitution(Institution institution) {
-        this.institution = institution;
+    public void setDoctor(Product product) {
+        this.product = product;
     }
 
     public Date getDate() {
@@ -70,10 +71,10 @@ public class InstitutionHistory {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        InstitutionHistory that = (InstitutionHistory) o;
+        ProductHistory that = (ProductHistory) o;
 
         if (id != that.id) return false;
-        if (institution != null ? !institution.equals(that.institution) : that.institution != null) return false;
+        if (product != null ? !product.equals(that.product) : that.product != null) return false;
         if (date != null ? !date.equals(that.date) : that.date != null) return false;
         return !(action != null ? !action.equals(that.action) : that.action != null);
 
@@ -82,6 +83,7 @@ public class InstitutionHistory {
     @Override
     public int hashCode() {
         int result = id;
+        result = 31 * result + (product != null ? product.hashCode() : 0);
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (action != null ? action.hashCode() : 0);
         return result;

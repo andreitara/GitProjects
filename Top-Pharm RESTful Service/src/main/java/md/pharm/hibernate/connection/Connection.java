@@ -17,20 +17,20 @@ public class Connection {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "Date")
+    @Column(name = "date")
     private Date date;
 
-    @Column(name = "Status")
+    @Column(name = "status")
     private String status;
 
-    @Column(name = "ConnectionKey")
+    @Column(name = "connectionKey")
     private String connectionKey;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "UserID")
+    @JoinColumn(name = "userID")
     private User user;
 
     public Connection() {

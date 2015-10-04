@@ -38,7 +38,7 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestBody User user){
         Response response = new Response();
         ManageUser manageUser = new ManageUser();
-        User existUser = manageUser.getUserByLogin(user.getLogin());
+        User existUser = manageUser.getUserByLogin(user.getUsername());
         if(existUser == null) {
             if(user.getPermission() == null){
                 user.createDefaultPermission();

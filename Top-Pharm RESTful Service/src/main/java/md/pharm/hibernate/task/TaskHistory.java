@@ -13,17 +13,17 @@ public class TaskHistory {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
+    @Column(name = "id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TaskID")
+    @JoinColumn(name = "taskID")
     private Task task;
 
-    @Column(name = "Date")
+    @Column(name = "date")
     private Date date;
 
-    @Column(name = "Action")
+    @Column(name = "action")
     private String action;
 
     public TaskHistory(){}

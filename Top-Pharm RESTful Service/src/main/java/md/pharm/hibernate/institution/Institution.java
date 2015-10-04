@@ -1,5 +1,7 @@
 package md.pharm.hibernate.institution;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import md.pharm.hibernate.common.Address;
 import md.pharm.hibernate.doctor.Doctor;
 
 import javax.persistence.*;
@@ -11,42 +13,50 @@ import java.util.Set;
 
 @Entity
 @Table(name="[TopPharm].[dbo].[Institution]", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "Name")})
+        @UniqueConstraint(columnNames = "longName")})
 public class Institution {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "Name")
-    private String name;
+    @Column(name = "longName")
+    private String longName;
 
-    @Column(name = "Country")
-    private String country;
+    @Column(name = "shortName")
+    private String shortName;
 
-    @Column(name = "City")
-    private String city;
+    @Column(name = "phone1")
+    private String phone1;
 
-    @Column(name = "Street")
-    private String street;
+    @Column(name = "phone2")
+    private String phone2;
+
+    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "addressID")
+    private Address address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade = CascadeType.ALL)
-    private Set<Doctor> doctors;
+    @JsonIgnore
+    private Set<WorkOffice> workOffices;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<InstitutionComment> institutionComments;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<InstitutionHistory> institutionHistories;
 
     public Institution(){}
 
-    public Institution(String name, String country, String city, String street) {
-        this.name = name;
-        this.country = country;
-        this.city = city;
-        this.street = street;
+    public Institution(String longName, String shortName, String phone1, String phone2, Address address) {
+        this.longName = longName;
+        this.shortName = shortName;
+        this.phone1 = phone1;
+        this.phone2 = phone2;
+        this.address = address;
     }
 
     public int getId() {
@@ -57,44 +67,52 @@ public class Institution {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLongName() {
+        return longName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLongName(String longName) {
+        this.longName = longName;
     }
 
-    public String getCountry() {
-        return country;
+    public String getShortName() {
+        return shortName;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
-    public String getCity() {
-        return city;
+    public String getPhone1() {
+        return phone1;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setPhone1(String phone1) {
+        this.phone1 = phone1;
     }
 
-    public String getStreet() {
-        return street;
+    public String getPhone2() {
+        return phone2;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setPhone2(String phone2) {
+        this.phone2 = phone2;
     }
 
-    public Set<Doctor> getDoctors() {
-        return doctors;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setDoctors(Set<Doctor> doctors) {
-        this.doctors = doctors;
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Set<WorkOffice> getWorkOffices() {
+        return workOffices;
+    }
+
+    public void setWorkOffices(Set<WorkOffice> workOffices) {
+        this.workOffices = workOffices;
     }
 
     public Set<InstitutionComment> getInstitutionComments() {
@@ -121,20 +139,22 @@ public class Institution {
         Institution that = (Institution) o;
 
         if (id != that.id) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (country != null ? !country.equals(that.country) : that.country != null) return false;
-        if (city != null ? !city.equals(that.city) : that.city != null) return false;
-        return !(street != null ? !street.equals(that.street) : that.street != null);
+        if (longName != null ? !longName.equals(that.longName) : that.longName != null) return false;
+        if (shortName != null ? !shortName.equals(that.shortName) : that.shortName != null) return false;
+        if (phone1 != null ? !phone1.equals(that.phone1) : that.phone1 != null) return false;
+        if (phone2 != null ? !phone2.equals(that.phone2) : that.phone2 != null) return false;
+        return !(address != null ? !address.equals(that.address) : that.address != null);
 
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (country != null ? country.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (street != null ? street.hashCode() : 0);
+        result = 31 * result + (longName != null ? longName.hashCode() : 0);
+        result = 31 * result + (shortName != null ? shortName.hashCode() : 0);
+        result = 31 * result + (phone1 != null ? phone1.hashCode() : 0);
+        result = 31 * result + (phone2 != null ? phone2.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
     }
 }

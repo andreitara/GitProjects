@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -18,30 +19,33 @@ import java.util.Set;
 
 @Entity
 @Table(name="[TopPharm].[dbo].[User]", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "Login")})
+        @UniqueConstraint(columnNames = "username")})
 public class User{
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "Type")
+    @Column(name = "type")
     private String type;
 
-    @Column(name = "FirstName")
+    @Column(name = "firstName")
     private String firstName;
 
-    @Column(name = "LastName")
+    @Column(name = "lastName")
     private String lastName;
 
-    @Column(name = "Login")
-    private String login;
+    @Column(name = "BirthDate")
+    private Date birthDate;
 
-    @Column(name = "Password")
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "Email")
+    @Column(name = "email")
     private String email;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -75,13 +79,19 @@ public class User{
     public User() {
     }
 
-    public User(String type, String firstName, String lastName, String loginID, String password, String email) {
+    public User(String type, String firstName, String lastName, Date birthDate, String username, String password, String email) {
         this.type = type;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.login = loginID;
+        this.birthDate = birthDate;
+        this.username = username;
         this.password = password;
         this.email = email;
+    }
+
+    public void createDefaultPermission(){
+        Permission permission = new Permission(this,true,false,true,false,true,false);
+        this.permission = permission;
     }
 
     public int getId() {
@@ -116,12 +126,24 @@ public class User{
         this.lastName = lastName;
     }
 
-    public String getLogin() {
-        return login;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
@@ -168,6 +190,14 @@ public class User{
         this.tasks = tasks;
     }
 
+    public Permission getPermission() {
+        return permission;
+    }
+
+    public void setPermission(Permission permission) {
+        this.permission = permission;
+    }
+
     public Set<Message> getSendMessages() {
         return sendMessages;
     }
@@ -184,18 +214,6 @@ public class User{
         this.receivedMessages = receivedMessages;
     }
 
-    public Permission getPermission() {
-        return permission;
-    }
-
-    public void setPermission(Permission permission) {
-        this.permission = permission;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -203,10 +221,15 @@ public class User{
 
         User user = (User) o;
 
+        if (id != user.id) return false;
         if (type != null ? !type.equals(user.type) : user.type != null) return false;
         if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
         if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
-        return !(login != null ? !login.equals(user.login) : user.login != null);
+        if (birthDate != null ? !birthDate.equals(user.birthDate) : user.birthDate != null) return false;
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        return !(connection != null ? !connection.equals(user.connection) : user.connection != null);
 
     }
 
@@ -216,15 +239,11 @@ public class User{
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (login != null ? login.hashCode() : 0);
+        result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
+        result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (connection != null ? connection.hashCode() : 0);
         return result;
     }
-
-    public void createDefaultPermission(){
-        Permission permission = new Permission(this,true,false,true,false,true,false);
-        this.setPermission(permission);
-    }
-
 }

@@ -19,8 +19,8 @@ public class UserControllerTest {
 
     String userID1 = UUID.randomUUID().toString();
     String userID2 = UUID.randomUUID().toString();
-    User user1 = new User("A","First","Last",userID1,"password","email@toppharm.com");
-    User user2 = new User("A","First","Last",userID2,"password","email@toppharm.com");
+    User user1 = new User("A","First","Last",null,userID1,"password","email@toppharm.com");
+    User user2 = new User("A","First","Last",null,userID2,"password","email@toppharm.com");
 
 	@Test
 	public void createFirstUser() {

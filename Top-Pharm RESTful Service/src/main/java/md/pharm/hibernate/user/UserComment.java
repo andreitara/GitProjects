@@ -13,17 +13,17 @@ public class UserComment {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
-    private int ID;
+    @Column(name = "id")
+    private int id;
 
-    @Column(name = "Date")
+    @Column(name = "date")
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UserID")
+    @JoinColumn(name = "userID")
     private User user;
 
-    @Column(name = "Comment")
+    @Column(name = "comment")
     private String comment;
 
 
@@ -60,8 +60,12 @@ public class UserComment {
         this.comment = comment;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -71,7 +75,7 @@ public class UserComment {
 
         UserComment that = (UserComment) o;
 
-        if (ID != that.ID) return false;
+        if (id != that.id) return false;
         if (date != null ? !date.equals(that.date) : that.date != null) return false;
         if (user != null ? !user.equals(that.user) : that.user != null) return false;
         return !(comment != null ? !comment.equals(that.comment) : that.comment != null);
@@ -80,7 +84,7 @@ public class UserComment {
 
     @Override
     public int hashCode() {
-        int result = ID;
+        int result = id;
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (comment != null ? comment.hashCode() : 0);

@@ -13,17 +13,17 @@ public class DoctorHistory {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
+    @Column(name = "id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DoctorID")
+    @JoinColumn(name = "doctorID")
     private Doctor doctor;
 
-    @Column(name = "Date")
+    @Column(name = "date")
     private Date date;
 
-    @Column(name = "Action")
+    @Column(name = "action")
     private String action;
 
     public DoctorHistory(){}
