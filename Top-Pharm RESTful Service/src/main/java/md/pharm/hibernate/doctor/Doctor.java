@@ -1,8 +1,7 @@
 package md.pharm.hibernate.doctor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import md.pharm.hibernate.institution.Institution;
-import md.pharm.hibernate.institution.WorkOffice;
+import md.pharm.hibernate.institution.Office;
 import md.pharm.hibernate.task.Task;
 
 import javax.persistence.*;
@@ -20,7 +19,7 @@ public class Doctor {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "firstName")
     private String firstName;
@@ -56,11 +55,7 @@ public class Doctor {
     private String description;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<WorkOffice> workOffices;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "institutionID")
-    private Institution institution;
+    private Set<Office> offices;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -90,11 +85,11 @@ public class Doctor {
         this.description = description;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -186,20 +181,13 @@ public class Doctor {
         this.description = description;
     }
 
-    public Set<WorkOffice> getWorkOffices() {
-        return workOffices;
+    public Set<Office> getOffices() {
+        return offices;
     }
 
-    public void setWorkOffices(Set<WorkOffice> workOffices) {
-        this.workOffices = workOffices;
-    }
-
-    public Institution getInstitution() {
-        return institution;
-    }
-
-    public void setInstitution(Institution institution) {
-        this.institution = institution;
+    @JsonIgnore
+    public void setOffices(Set<Office> offices) {
+        this.offices = offices;
     }
 
     public Set<DoctorComment> getDoctorComments() {

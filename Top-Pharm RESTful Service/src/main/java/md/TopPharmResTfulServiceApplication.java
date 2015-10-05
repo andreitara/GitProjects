@@ -23,6 +23,7 @@ import javax.servlet.Filter;
 public class TopPharmResTfulServiceApplication extends WebMvcConfigurationSupport {
 
     public static void main(String[] args) {
+        //ManageInstitution manageInstitution = new ManageInstitution();
         SpringApplication.run(TopPharmResTfulServiceApplication.class, args);
     }
 

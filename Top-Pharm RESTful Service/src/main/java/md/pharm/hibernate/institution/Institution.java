@@ -2,7 +2,6 @@ package md.pharm.hibernate.institution;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import md.pharm.hibernate.common.Address;
-import md.pharm.hibernate.doctor.Doctor;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -38,7 +37,7 @@ public class Institution {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private Set<WorkOffice> workOffices;
+    private Set<Office> offices;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -106,12 +105,12 @@ public class Institution {
         this.address = address;
     }
 
-    public Set<WorkOffice> getWorkOffices() {
-        return workOffices;
+    public Set<Office> getOffices() {
+        return offices;
     }
 
-    public void setWorkOffices(Set<WorkOffice> workOffices) {
-        this.workOffices = workOffices;
+    public void setOffices(Set<Office> offices) {
+        this.offices = offices;
     }
 
     public Set<InstitutionComment> getInstitutionComments() {
