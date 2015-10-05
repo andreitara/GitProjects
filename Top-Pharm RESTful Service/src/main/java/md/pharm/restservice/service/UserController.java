@@ -30,7 +30,7 @@ public class UserController {
         }else{
             response.setResponseCode(ErrorCodes.InternalError.name);
             response.setResponseMessage(ErrorCodes.InternalError.userMessage);
-            return new ResponseEntity<Object>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
         }
     }
 
@@ -38,7 +38,7 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestBody User user){
         Response response = new Response();
         ManageUser manageUser = new ManageUser();
-        User existUser = manageUser.getUserByLogin(user.getUsername());
+        User existUser = manageUser.getUserByUsername(user.getUsername());
         if(existUser == null) {
             if(user.getPermission() == null){
                 user.createDefaultPermission();
@@ -52,12 +52,12 @@ public class UserController {
             } else {
                 response.setResponseCode(ErrorCodes.InternalError.name);
                 response.setResponseMessage(ErrorCodes.InternalError.userMessage);
-                return new ResponseEntity<Object>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<Object>(response, HttpStatus.OK);
             }
         }else{
             response.setResponseCode(ErrorCodes.AccountAlreadyExists.name);
             response.setResponseMessage(ErrorCodes.AccountAlreadyExists.userMessage);
-            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         }
     }
 
@@ -65,7 +65,7 @@ public class UserController {
     public ResponseEntity<?> getUser(@PathVariable(value = "username") String login){
         Response response = new Response();
         ManageUser manageUser = new ManageUser();
-        User user = manageUser.getUserByLogin(login);
+        User user = manageUser.getUserByUsername(login);
         response.setResponseCode(ErrorCodes.OK.name);
         response.setResponseMessage(ErrorCodes.OK.userMessage);
         response.addMapItem("user", user);
@@ -76,7 +76,7 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable(value = "username") String username){
         Response response = new Response();
         ManageUser manageUser = new ManageUser();
-        User user = manageUser.getUserByLogin(username);
+        User user = manageUser.getUserByUsername(username);
         if(user!=null){
             if(manageUser.deleteUser(user)){
                 response.setResponseCode(ErrorCodes.OK.name);
@@ -85,12 +85,12 @@ public class UserController {
             }else{
                 response.setResponseCode(ErrorCodes.InternalError.name);
                 response.setResponseMessage(ErrorCodes.InternalError.userMessage);
-                return new ResponseEntity<Object>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<Object>(response, HttpStatus.OK);
             }
         }else{
             response.setResponseCode(ErrorCodes.InternalError.name);
             response.setResponseMessage(ErrorCodes.InternalError.userMessage);
-            return new ResponseEntity<Object>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
         }
     }
 
@@ -98,14 +98,27 @@ public class UserController {
     public ResponseEntity<?> updateUser(@RequestBody User user){
         Response response = new Response();
         ManageUser manageUser = new ManageUser();
-        if(manageUser.updateUser(user)){
-            response.setResponseCode(ErrorCodes.OK.name);
-            response.setResponseMessage(ErrorCodes.OK.userMessage);
-            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        if(user.getId()> 0) {
+            User userFromDB = manageUser.getUserByID(user.getId());
+            if (userFromDB != null) {
+                if (manageUser.updateUser(user)) {
+                    response.setResponseCode(ErrorCodes.OK.name);
+                    response.setResponseMessage(ErrorCodes.OK.userMessage);
+                    return new ResponseEntity<Object>(response, HttpStatus.OK);
+                } else {
+                    response.setResponseCode(ErrorCodes.InternalError.name);
+                    response.setResponseMessage(ErrorCodes.InternalError.userMessage);
+                    return new ResponseEntity<Object>(response, HttpStatus.OK);
+                }
+            } else {
+                response.setResponseCode(ErrorCodes.ResourceNotExists.name);
+                response.setResponseMessage(ErrorCodes.ResourceNotExists.userMessage);
+                return new ResponseEntity<Object>(response, HttpStatus.OK);
+            }
         }else{
-            response.setResponseCode(ErrorCodes.InternalError.name);
-            response.setResponseMessage(ErrorCodes.InternalError.userMessage);
-            return new ResponseEntity<Object>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setResponseCode(ErrorCodes.WriteConditionNotMet.name);
+            response.setResponseMessage(ErrorCodes.WriteConditionNotMet.userMessage);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
         }
     }
 }

@@ -17,7 +17,7 @@ public class ManageConnection {
     private SessionFactory factory;
 
     public ManageConnection(){
-        try{
+        try {
             //factory = new Configuration().configure().buildSessionFactory();
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");

@@ -1,5 +1,6 @@
 package md.pharm.hibernate.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import md.pharm.hibernate.institution.Institution;
 
 import javax.persistence.*;
@@ -32,8 +33,9 @@ public class Address {
     @Column(name = "postalCode")
     private String postalCode;
 
-    //@OneToOne(fetch = FetchType.LAZY, mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private Institution institution;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "institutionID")
+    private Institution institution;
 
     public Address(){}
 
@@ -91,6 +93,15 @@ public class Address {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    @JsonIgnore
+    public Institution getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(Institution institution) {
+        this.institution = institution;
     }
 
     @Override

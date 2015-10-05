@@ -33,19 +33,18 @@ public class Institution {
     @Column(name = "phone2")
     private String phone2;
 
-    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "addressID")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
     private Address address;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<WorkOffice> workOffices;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<InstitutionComment> institutionComments;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<InstitutionHistory> institutionHistories;
 

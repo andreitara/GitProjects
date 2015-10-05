@@ -19,7 +19,7 @@ public class PermissionController {
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public ResponseEntity<?> getUserPermission(@PathVariable(value = "username") String username) {
         Response response = new Response();
-        User user = new ManageUser().getUserByLogin(username);
+        User user = new ManageUser().getUserByUsername(username);
         if(user!=null) {
             Permission permission = user.getPermission();
             response.setResponseCode(ErrorCodes.OK.name);
@@ -36,7 +36,7 @@ public class PermissionController {
     @RequestMapping(value = "/my", method = RequestMethod.GET)
     public ResponseEntity<?> getMyPermission(@RequestHeader(value = "username") String username) {
         Response response = new Response();
-        User user = new ManageUser().getUserByLogin(username);
+        User user = new ManageUser().getUserByUsername(username);
         if(user!=null) {
             Permission permission = user.getPermission();
             response.setResponseCode(ErrorCodes.OK.name);
@@ -53,7 +53,7 @@ public class PermissionController {
     @RequestMapping(value = "/update/{username}", method = RequestMethod.POST)
     public ResponseEntity<?> addRightsToUser(@PathVariable(value = "username") String username, @RequestBody Permission permission) {
         Response response = new Response();
-        User user = new ManageUser().getUserByLogin(username);
+        User user = new ManageUser().getUserByUsername(username);
         if(user!=null){
             permission.setId(user.getPermission().getId());
             permission.setUser(user);

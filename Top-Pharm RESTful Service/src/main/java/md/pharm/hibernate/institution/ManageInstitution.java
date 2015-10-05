@@ -1,11 +1,10 @@
 package md.pharm.hibernate.institution;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import md.pharm.hibernate.user.User;
+import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 
 import java.util.List;
@@ -64,20 +63,22 @@ public class ManageInstitution {
         return institutionID;
     }
 
-    public int updateInstitution(Institution institution){
+    public boolean updateInstitution(Institution institution){
+        boolean flag = false;
         Session session = factory.openSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
             session.update(institution);
             tx.commit();
+            flag = true;
         }catch(HibernateException e){
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
             session.close();
         }
-        return institution.getId();
+        return flag;
     }
 
     public Institution getInstitutionByID(int id){
@@ -95,6 +96,42 @@ public class ManageInstitution {
             session.close();
         }
         return institution;
+    }
+
+    public Institution getInstitutionByLongName(String longName){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Institution institution = null;
+        try{
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Institution.class);
+            institution = (Institution)criteria.add(Restrictions.eq("longName", longName)).uniqueResult();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return institution;
+    }
+
+    public boolean deleteInstitution(Institution institution){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        boolean flag = false;
+        try{
+            tx = session.beginTransaction();
+            session.delete(institution);
+            tx.commit();
+            flag = true;
+        }catch(HibernateException e){
+            if(tx!=null)tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return flag;
     }
 
 }

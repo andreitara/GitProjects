@@ -117,14 +117,14 @@ public class ManageUser {
         return user;
     }
 
-    public User getUserByLogin(String login){
+    public User getUserByUsername(String username){
         Session session = factory.openSession();
         Transaction tx = null;
         User user = null;
         try{
             tx = session.beginTransaction();
             Criteria criteria = session.createCriteria(User.class);
-            user = (User) criteria.add(Restrictions.eq("login",login)).uniqueResult();
+            user = (User) criteria.add(Restrictions.eq("username",username)).uniqueResult();
             tx.commit();
         }catch (HibernateException e){
             if(tx!=null) tx.rollback();

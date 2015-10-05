@@ -78,6 +78,7 @@ public class ErrorCodes {
     public static ErrorCode AccountAlreadyExists = new ErrorCode("AccountAlreadyExists", "Conflict", 409, "The specified username already exists");
     public static ErrorCode AccountBeingCreated = new ErrorCode("AccountBeingCreated", "Conflict", 409, "The specified account is in the process of being created");
     public static ErrorCode ResourceAlreadyExists = new ErrorCode("ResourceAlreadyExists", "Conflict", 409, "The specified resource already exists");
+    public static ErrorCode ResourceNotExists = new ErrorCode("ResourceNotExists", "Conflict", 409, "The specified resource not exists");
     public static ErrorCode ResourceTypeMismatch = new ErrorCode("ResourceTypeMismatch", "Conflict", 409, "The specified resource type does not match the type of the existing resource");
     public static ErrorCode MissingContentLengthHeader = new ErrorCode("MissingContentLengthHeader", "Length Required", 411, "The Content-Length header was not specified");
     public static ErrorCode WriteConditionNotMet = new ErrorCode("WriteConditionNotMet", "Precondition Failed", 412, "The condition specified in the conditional header(s) was not met for a write operation");

@@ -27,7 +27,7 @@ public class LoginController {
         if(user!=null) {
             ManageUser manageUser = new ManageUser();
             ManageConnection manageConnection = new ManageConnection();
-            User userFromDB = manageUser.getUserByLogin(user.getUsername());
+            User userFromDB = manageUser.getUserByUsername(user.getUsername());
             if (userFromDB.getPassword().equals(user.getPassword())) {
                 Connection connection = new Connection();
                 userFromDB.setConnection(connection);
@@ -58,7 +58,7 @@ public class LoginController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ResponseEntity<?> getUser(@RequestHeader(StaticStrings.HEADER_USERNAME) String username){
         Response response = new Response();
-        User user = new ManageUser().getUserByLogin(username);
+        User user = new ManageUser().getUserByUsername(username);
         if(user!=null) {
             Connection connection = user.getConnection();
             if (connection != null && new ManageConnection().deleteConnection(connection) == false) {

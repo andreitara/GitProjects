@@ -14,8 +14,9 @@ import md.pharm.hibernate.user.permission.ManagePermission;
  * Created by Andrei on 10/4/2015.
  */
 public class Main {
-
+/*
     public static void main(String[] args){
+
         ManageConnection manageConnection = new ManageConnection();
         ManagePermission managePermission = new ManagePermission();
         ManageUser manageUser = new ManageUser();
@@ -25,5 +26,8 @@ public class Main {
         ManageTask manageTask = new ManageTask();
         ManageTraining manageTraining = new ManageTraining();
         ManageProduct manageProduct = new ManageProduct();
+
+
     }
+*/
 }
