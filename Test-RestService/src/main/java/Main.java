@@ -1,4 +1,5 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
+import md.pharm.hibernate.institution.Institution;
 import md.pharm.hibernate.user.permission.Permission;
 
 /**
@@ -16,11 +17,18 @@ public class Main {
         //PermissionControllerTest.getAdminMyPermission();
 
         //UserControllerTest.createUserByAdmin();
+        //UserControllerTest.updateUserByAdmin();
         //UserControllerTest.deleteUserByAdmin();
         //UserControllerTest.getUserByAdmin();
         //UserControllerTest.getAllUsersByAdmin();
         //UserControllerTest.createUserByUser();
         //UserControllerTest.deleteUserByUser();
+
+        InstitutionsControllerTest.createInstitutionByAdmin();
+        //InstitutionsControllerTest.getInstitutionsByAdmin(12);
+        //InstitutionsControllerTest.getAllInstitutionsByAdmin();
+        //InstitutionsControllerTest.updateInstitutionByAdmin(10);
+        //InstitutionsControllerTest.deleteInstitutionByAdmin(5);
 
 
     }

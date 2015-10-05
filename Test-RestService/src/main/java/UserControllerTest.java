@@ -18,10 +18,10 @@ import java.util.UUID;
 public class UserControllerTest {
     static String userID1 = UUID.randomUUID().toString();
     static String userID2 = UUID.randomUUID().toString();
-    static User user1 = new User("Admin","First1","Last1",userID1,"password1","email1@toppharm.com");
-    static User user2 = new User("Admin","First2","Last2",userID2,"password2","email2@toppharm.com");
+    static User user1 = new User("Admin","First1","Last1",null,userID1,"password1","email1@toppharm.com");
+    static User user2 = new User("Admin","First2","Last2",null,userID2,"password2","email2@toppharm.com");
 
-    static User user = new User("user","user","user","user","user","user@email.com");
+    static User user = new User("user","user","user",null,"user","user","user@email.com");
 
     public static void createUserByAdmin() throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
@@ -33,15 +33,26 @@ public class UserControllerTest {
         System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
     }
 
+    public static void updateUserByAdmin() throws JsonProcessingException {
+        user.setId(2);
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
+        HttpEntity entity = new HttpEntity(user, headers);
+        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.UPDATE_USER_URI, HttpMethod.POST, entity, Response.class);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
+    }
+
     public static void createUserByUser() throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("auth-token", StaticStrings.USER_AUTH_TOKEN);
         HttpEntity entity = new HttpEntity(user1, headers);
         HttpEntity<String> response = restTemplate.exchange(StaticStrings.CREATE_USER_URI, HttpMethod.POST, entity, String.class);
-        System.out.println(response.getBody());
-        //ObjectMapper mapper = new ObjectMapper();
-        //System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
+        System.out.println();
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
     }
 
     public static void getAllUsersByAdmin() throws JsonProcessingException {

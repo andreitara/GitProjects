@@ -16,7 +16,7 @@ public class LoginControllerTest {
 
     public static void loginAdmin() throws JsonProcessingException {
         User user = new User();
-        user.setLogin("admin");
+        user.setUsername("admin");
         user.setPassword("admin");
         RestTemplate restTemplate = new RestTemplate();
         Response response = restTemplate.postForObject(StaticStrings.LOGIN_URI, user, Response.class);
@@ -36,7 +36,7 @@ public class LoginControllerTest {
 
     public static void loginUser() throws JsonProcessingException {
         User user = new User();
-        user.setLogin("user");
+        user.setUsername("user");
         user.setPassword("user");
         RestTemplate restTemplate = new RestTemplate();
         Response response = restTemplate.postForObject(StaticStrings.LOGIN_URI, user, Response.class);
