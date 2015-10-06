@@ -51,7 +51,7 @@ public class DoctorWorkOfficeController {
                         if (id != null) {
                             response.setResponseCode(ErrorCodes.Created.name);
                             response.setResponseMessage(ErrorCodes.Created.userMessage);
-                            doctor.setId(id);
+                            office.setId(id);
                             response.addMapItem("office", office);
                             return new ResponseEntity<Object>(response, HttpStatus.CREATED);
                         } else {

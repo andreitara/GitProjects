@@ -10,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Andrei on 10/4/2015.
@@ -98,6 +99,44 @@ public class ManageProduct {
             session.close();
         }
         return product;
+    }
+
+    public Set<Objective> getObjectivesByID(int id){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Product product = null;
+        Set<Objective> list = null;
+        try{
+            tx = session.beginTransaction();
+            product = (Product)session.get(Product.class, id);
+            list = product.getObjectives();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return list;
+    }
+
+    public boolean delete(Product product){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        boolean flag = false;
+        try{
+            tx = session.beginTransaction();
+            session.delete(product);
+            tx.commit();
+            flag = true;
+        }catch(HibernateException e){
+            if(tx!=null)tx.rollback();
+            e.printStackTrace();
+            flag = false;
+        }finally {
+            session.close();
+        }
+        return flag;
     }
 
 }

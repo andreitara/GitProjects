@@ -1,5 +1,6 @@
 package md.pharm.hibernate.institution;
 
+import md.pharm.hibernate.common.Address;
 import md.pharm.hibernate.user.User;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -63,6 +64,23 @@ public class ManageInstitution {
         return institutionID;
     }
 
+    public Integer addInstitutionAddress(Address address){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Integer id = null;
+        try{
+            tx = session.beginTransaction();
+            id = (Integer) session.save(address);
+            tx.commit();
+        }catch(HibernateException e){
+            if(tx!=null)tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return id;
+    }
+
     public boolean updateInstitution(Institution institution){
         boolean flag = false;
         Session session = factory.openSession();
@@ -70,6 +88,24 @@ public class ManageInstitution {
         try{
             tx = session.beginTransaction();
             session.update(institution);
+            tx.commit();
+            flag = true;
+        }catch(HibernateException e){
+            if(tx!=null)tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return flag;
+    }
+
+    public boolean updateAddress(Address address){
+        boolean flag = false;
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try{
+            tx = session.beginTransaction();
+            session.update(address);
             tx.commit();
             flag = true;
         }catch(HibernateException e){
@@ -96,6 +132,29 @@ public class ManageInstitution {
             session.close();
         }
         return institution;
+    }
+
+    public Address getInstitutionAddressByInstitutionID(int id){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Institution institution = null;
+        Address address = null;
+        boolean flag = false;
+        try{
+            tx = session.beginTransaction();
+            institution = (Institution)session.get(Institution.class, id);
+            if(institution!=null) address = institution.getAddress();
+            tx.commit();
+            flag = true;
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+            flag = false;
+        }finally {
+            session.close();
+        }
+        if(flag) return null;
+        return address;
     }
 
     public Institution getInstitutionByLongName(String longName){
