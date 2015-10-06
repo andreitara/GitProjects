@@ -27,6 +27,10 @@ public class StaticStrings {
     public static String UPDATE_INSTITUTION_URI =   REST_IP_PORT + "/toppharm/medical/institution/update";
     public static String DELETE_INSTITUTION_URI =   REST_IP_PORT + "/toppharm/medical/institution/delete/{id}";
 
+    public static String GET_INSTITUTION_ADDRESS_URI =      REST_IP_PORT + "/toppharm/medical/institution/{id}/address";
+    public static String CREATE_INSTITUTION_ADDRESS_URI =   REST_IP_PORT + "/toppharm/medical/institution/{id}/address/create";
+    public static String UPDATE_INSTITUTION_ADDRESS_URI =   REST_IP_PORT + "/toppharm/medical/institution/{id}/address/update";
+
     public static String GET_ALL_DOCTORS_URI = REST_IP_PORT + "/toppharm/medical/doctor/all";
     public static String GET_DOCTORS_URI =     REST_IP_PORT + "/toppharm/medical/doctor/{id}";
     public static String CREATE_DOCTORS_URI =  REST_IP_PORT + "/toppharm/medical/doctor/create";
@@ -44,4 +48,10 @@ public class StaticStrings {
     public static String CREATE_PRODUCT_URI =   REST_IP_PORT + "/toppharm/medical/product/create";
     public static String UPDATE_PRODUCT_URI =   REST_IP_PORT + "/toppharm/medical/product/update";
     public static String DELETE_PRODUCT_URI =   REST_IP_PORT + "/toppharm/medical/product/delete/{id}";
+
+    public static String GET_ALL_PRODUCT_OBJECTIVES_URI = REST_IP_PORT + "/toppharm/medical/product/{productID}/objective/all";
+    public static String GET_PRODUCT_OBJECTIVE_URI =      REST_IP_PORT + "/toppharm/medical/product/{productID}/objective/{id}";
+    public static String CREATE_PRODUCT_OBJECTIVE_URI =   REST_IP_PORT + "/toppharm/medical/product/{productID}/objective/create";
+    public static String UPDATE_PRODUCT_OBJECTIVE_URI =   REST_IP_PORT + "/toppharm/medical/product/{productID}/objective/update";
+    public static String DELETE_PRODUCT_OBJECTIVE_URI =   REST_IP_PORT + "/toppharm/medical/product/{productID}/objective/delete/{id}";
 }
