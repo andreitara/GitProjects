@@ -72,8 +72,8 @@ public class Task {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.ALL)
     private Set<TaskHistory> taskHistories;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.ALL)
-    private Set<Training> trainings;
+    //@OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.ALL)
+    //private Set<Training> trainings;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(name="[TopPharm].[dbo].[ProductTask]", joinColumns=@JoinColumn(name="taskID"), inverseJoinColumns=@JoinColumn(name="productID"))
@@ -210,13 +210,13 @@ public class Task {
         this.taskHistories = taskHistories;
     }
 
-    public Set<Training> getTrainings() {
-        return trainings;
-    }
+   // public Set<Training> getTrainings() {
+   //     return trainings;
+   // }
 
-    public void setTrainings(Set<Training> trainings) {
-        this.trainings = trainings;
-    }
+   // public void setTrainings(Set<Training> trainings) {
+   //     this.trainings = trainings;
+   // }
 
     public Set<Product> getProducts() {
         return products;

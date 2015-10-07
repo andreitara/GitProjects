@@ -25,7 +25,8 @@ public class InstitutionController {
         if(list!=null){
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
-            response.addMapItem("institutions", list);
+            response.setObject(list);
+            //response.addMapItem("institutions", list);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }else{
             response.setResponseCode(ErrorCodes.InternalError.name);
@@ -41,13 +42,14 @@ public class InstitutionController {
         Institution institutionFromDB = manage.getInstitutionByLongName(institution.getLongName());
         if(institutionFromDB == null) {
             Address address = institution.getAddress();
-            address.setInstitution(institution);
+            if(address!=null) address.setInstitution(institution);
             Integer id = manage.addInstitution(institution);
             if (id != null) {
-                address.setInstitution(null);
+                if(address!=null) address.setInstitution(null);
                 response.setResponseCode(ErrorCodes.Created.name);
                 response.setResponseMessage(ErrorCodes.Created.userMessage);
-                response.addMapItem("institution", institution);
+                response.setObject(institution.getId());
+                //response.addMapItem("institution", institution);
                 return new ResponseEntity<Object>(response, HttpStatus.CREATED);
             } else {
                 response.setResponseCode(ErrorCodes.InternalError.name);
@@ -68,9 +70,21 @@ public class InstitutionController {
         if(institution.getId()>0) {
             Institution institutionFromDB = manage.getInstitutionByID(institution.getId());
             if (institutionFromDB != null) {
-                int addressID = institutionFromDB.getAddress().getId();
-                Address address = institution.getAddress();
-                if(address!=null) address.setId(addressID);
+                Address addressFromDB = institutionFromDB.getAddress();
+                addressFromDB.setInstitution(institution);
+                if(addressFromDB!=null) {
+                    int addressID = institutionFromDB.getAddress().getId();
+                    Address address = institution.getAddress();
+                    if (address != null) {
+                        address.setId(addressID);
+                        address.setInstitution(institution);
+                    }else{
+                        institution.setAddress(addressFromDB);
+                    }
+                }else{
+                    Address address = institution.getAddress();
+                    if (address != null) address.setInstitution(institution);
+                }
                 if (manage.updateInstitution(institution)) {
                     response.setResponseCode(ErrorCodes.OK.name);
                     response.setResponseMessage(ErrorCodes.OK.userMessage);
@@ -125,7 +139,8 @@ public class InstitutionController {
             if(address!=null) address.setInstitution(null);
             response.setResponseCode(ErrorCodes.InternalError.name);
             response.setResponseMessage(ErrorCodes.InternalError.userMessage);
-            response.addMapItem("institution", institution);
+            response.setObject(institution);
+            //response.addMapItem("institution", institution);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }else{
             response.setResponseCode(ErrorCodes.ResourceNotExists.name);

@@ -18,7 +18,7 @@ import java.util.Map;
  */
 
 @RestController
-@RequestMapping("toppharm/")
+@RequestMapping("toppharm/user")
 public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -33,15 +33,9 @@ public class LoginController {
                 userFromDB.setConnection(connection);
                 connection.setUser(userFromDB);
                 manageConnection.addConnection(connection);
-
-                Map<String, Object> map = new HashMap<>();
-                map.put(StaticStrings.HEADER_SECURITY_TOKEN, connection.getConnectionKey());
-                map.put("user", userFromDB);
-
+                response.setObject(connection.getConnectionKey());
                 response.setResponseCode(ErrorCodes.ValidAuthenticationInfo.name);
                 response.setResponseMessage(ErrorCodes.ValidAuthenticationInfo.userMessage);
-                response.setMap(map);
-
                 return new ResponseEntity<Object>(response, HttpStatus.OK);
             } else {
                 response.setResponseCode(ErrorCodes.InvalidAuthenticationInfo.name);

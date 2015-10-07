@@ -66,6 +66,23 @@ public class ManageProduct {
         return id;
     }
 
+    public Integer addProductObjective(Objective objective){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Integer id = null;
+        try{
+            tx = session.beginTransaction();
+            id = (Integer) session.save(objective);
+            tx.commit();
+        }catch(HibernateException e){
+            if(tx!=null)tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return id;
+    }
+
     public boolean updateProduct(Product product){
         boolean flag = false;
         Session session = factory.openSession();
@@ -73,6 +90,24 @@ public class ManageProduct {
         try{
             tx = session.beginTransaction();
             session.update(product);
+            tx.commit();
+            flag = true;
+        }catch(HibernateException e){
+            if(tx!=null)tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return flag;
+    }
+
+    public boolean updateObjective(Objective objective){
+        boolean flag = false;
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try{
+            tx = session.beginTransaction();
+            session.update(objective);
             tx.commit();
             flag = true;
         }catch(HibernateException e){
@@ -101,14 +136,50 @@ public class ManageProduct {
         return product;
     }
 
-    public Set<Objective> getObjectivesByID(int id){
+    public Objective getObjectiveByID(int id){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Objective objective = null;
+        try{
+            tx = session.beginTransaction();
+            objective = (Objective)session.get(Objective.class, id);
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return objective;
+    }
+
+    public Product getProductByObjectiveID(int objectiveID){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Objective objective = null;
+        Product product = null;
+        try{
+            tx = session.beginTransaction();
+            objective = (Objective)session.get(Objective.class, objectiveID);
+            if(objective != null) product = objective.getProduct();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return product;
+    }
+
+    public Set<Objective> getObjectivesByProductID(int productID){
         Session session = factory.openSession();
         Transaction tx = null;
         Product product = null;
         Set<Objective> list = null;
         try{
             tx = session.beginTransaction();
-            product = (Product)session.get(Product.class, id);
+            product = (Product)session.get(Product.class, productID);
             list = product.getObjectives();
             tx.commit();
         }catch (HibernateException e){
@@ -127,6 +198,25 @@ public class ManageProduct {
         try{
             tx = session.beginTransaction();
             session.delete(product);
+            tx.commit();
+            flag = true;
+        }catch(HibernateException e){
+            if(tx!=null)tx.rollback();
+            e.printStackTrace();
+            flag = false;
+        }finally {
+            session.close();
+        }
+        return flag;
+    }
+
+    public boolean deleteObjective(Objective objective){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        boolean flag = false;
+        try{
+            tx = session.beginTransaction();
+            session.delete(objective);
             tx.commit();
             flag = true;
         }catch(HibernateException e){

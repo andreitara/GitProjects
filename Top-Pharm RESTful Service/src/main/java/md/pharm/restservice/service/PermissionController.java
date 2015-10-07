@@ -16,15 +16,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("toppharm/user/permission/")
 public class PermissionController {
 
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public ResponseEntity<?> getUserPermission(@PathVariable(value = "username") String username) {
+    @RequestMapping(value = "/{userID}", method = RequestMethod.GET)
+    public ResponseEntity<?> getUserPermission(@PathVariable(value = "userID") Integer userID) {
         Response response = new Response();
-        User user = new ManageUser().getUserByUsername(username);
+        User user = new ManageUser().getUserByID(userID);
         if(user!=null) {
             Permission permission = user.getPermission();
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
-            response.addMapItem("permission",permission);
+            response.setObject(permission);
+            //response.addMapItem("permission",permission);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }else{
             response.setResponseCode(ErrorCodes.ResourceNotFound.name);
@@ -41,7 +42,8 @@ public class PermissionController {
             Permission permission = user.getPermission();
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
-            response.addMapItem("permission",permission);
+            response.setObject(permission);
+            //response.addMapItem("permission",permission);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }else{
             response.setResponseCode(ErrorCodes.ResourceNotFound.name);
@@ -50,10 +52,10 @@ public class PermissionController {
         }
     }
 
-    @RequestMapping(value = "/update/{username}", method = RequestMethod.POST)
-    public ResponseEntity<?> addRightsToUser(@PathVariable(value = "username") String username, @RequestBody Permission permission) {
+    @RequestMapping(value = "/update/{userID}", method = RequestMethod.POST)
+    public ResponseEntity<?> addRightsToUser(@PathVariable(value = "userID") Integer userID, @RequestBody Permission permission) {
         Response response = new Response();
-        User user = new ManageUser().getUserByUsername(username);
+        User user = new ManageUser().getUserByID(userID);
         if(user!=null){
             permission.setId(user.getPermission().getId());
             permission.setUser(user);

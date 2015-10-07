@@ -23,7 +23,7 @@ public class ProductObjectiveController {
     public ResponseEntity<?> getAll(@PathVariable(value = "productID") int productID){
         Response response = new Response();
         ManageProduct manageProduct = new ManageProduct();
-        Set<Objective> list = manageProduct.getObjectivesByID(productID);
+        Set<Objective> list = manageProduct.getObjectivesByProductID(productID);
         if(list!=null){
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
@@ -40,14 +40,17 @@ public class ProductObjectiveController {
     public ResponseEntity<?> create(@PathVariable(value = "productID") int productID, @RequestBody Objective objective){
         Response response = new Response();
         ManageProduct manage = new ManageProduct();
-        if(product.getId()== null) {
-            if (true) {//TODO condition if not exists this doctor in DB
-                Integer id = manage.addProduct(product);
+        Product product = manage.getProductByID(productID);
+        if(product != null) {
+            if (true) {//TODO condition if not exists this product in DB
+                product.setObjectives(null);
+                objective.setProduct(product);
+                Integer id = manage.addProductObjective(objective);
                 if (id != null) {
                     response.setResponseCode(ErrorCodes.Created.name);
                     response.setResponseMessage(ErrorCodes.Created.userMessage);
                     product.setId(id);
-                    response.addMapItem("product", product);
+                    response.addMapItem("objective", objective);
                     return new ResponseEntity<Object>(response, HttpStatus.CREATED);
                 } else {
                     response.setResponseCode(ErrorCodes.InternalError.name);
@@ -67,27 +70,34 @@ public class ProductObjectiveController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@RequestBody Product product){
+    public ResponseEntity<?> createUser(@PathVariable(value = "productID") Integer productID, @RequestBody Objective objective) {
         Response response = new Response();
         ManageProduct manage = new ManageProduct();
-        if(product.getId()!=null) {
-            Product productFromDB = manage.getProductByID(product.getId());
-            if (productFromDB != null) {
-                if (manage.updateProduct(product)) {
-                    response.setResponseCode(ErrorCodes.OK.name);
-                    response.setResponseMessage(ErrorCodes.OK.userMessage);
-                    return new ResponseEntity<Object>(response, HttpStatus.OK);
+        if (objective.getId() != null) {
+            Product product = manage.getProductByObjectiveID(objective.getId());
+            if (product.getId().equals(productID)) {
+                Objective objectiveFromDB = manage.getObjectiveByID(objective.getId());
+                if (objectiveFromDB != null) {
+                    if (manage.updateObjective(objective)) {
+                        response.setResponseCode(ErrorCodes.OK.name);
+                        response.setResponseMessage(ErrorCodes.OK.userMessage);
+                        return new ResponseEntity<Object>(response, HttpStatus.OK);
+                    } else {
+                        response.setResponseCode(ErrorCodes.InternalError.name);
+                        response.setResponseMessage(ErrorCodes.InternalError.userMessage);
+                        return new ResponseEntity<Object>(response, HttpStatus.OK);
+                    }
                 } else {
-                    response.setResponseCode(ErrorCodes.InternalError.name);
-                    response.setResponseMessage(ErrorCodes.InternalError.userMessage);
+                    response.setResponseCode(ErrorCodes.ResourceNotExists.name);
+                    response.setResponseMessage(ErrorCodes.ResourceNotExists.userMessage);
                     return new ResponseEntity<Object>(response, HttpStatus.OK);
                 }
             } else {
-                response.setResponseCode(ErrorCodes.ResourceNotExists.name);
-                response.setResponseMessage(ErrorCodes.ResourceNotExists.userMessage);
+                response.setResponseCode(ErrorCodes.WriteConditionNotMet.name);
+                response.setResponseMessage(ErrorCodes.WriteConditionNotMet.userMessage);
                 return new ResponseEntity<Object>(response, HttpStatus.OK);
             }
-        }else{
+        } else {
             response.setResponseCode(ErrorCodes.WriteConditionNotMet.name);
             response.setResponseMessage(ErrorCodes.WriteConditionNotMet.userMessage);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
@@ -95,12 +105,14 @@ public class ProductObjectiveController {
     }
 
     @RequestMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") int id){
+    public ResponseEntity<?> delete(@PathVariable(value = "productID") Integer productID, @PathVariable(value = "id") int id){
         Response response = new Response();
         ManageProduct manage = new ManageProduct();
-        Product product = manage.getProductByID(id);
-        if(product!=null){
-            if(manage.delete(product)){
+        Product product = manage.getProductByObjectiveID(productID);
+        Objective objective = manage.getObjectiveByID(id);
+        if(product!=null && objective==null && product.getId().equals(productID)){
+            objective.setProduct(null);
+            if(manage.deleteObjective(objective)){
                 response.setResponseCode(ErrorCodes.OK.name);
                 response.setResponseMessage(ErrorCodes.OK.userMessage);
                 return new ResponseEntity<Object>(response, HttpStatus.OK);
@@ -117,14 +129,15 @@ public class ProductObjectiveController {
     }
 
     @RequestMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable(value = "id") int id){
+    public ResponseEntity<?> get(@PathVariable(value = "productID") Integer productID, @PathVariable(value = "id") int id){
         Response response = new Response();
         ManageProduct manageProduct = new ManageProduct();
-        Product product = manageProduct.getProductByID(id);
-        if(product!=null) {
+        Product product = manageProduct.getProductByObjectiveID(id);
+        Objective objective = manageProduct.getObjectiveByID(id);
+        if(product!=null && product.getId().equals(productID)) {
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
-            response.addMapItem("product", product);
+            response.addMapItem("objective", objective);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }else{
             response.setResponseCode(ErrorCodes.ResourceNotExists.name);

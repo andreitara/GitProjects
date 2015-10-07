@@ -10,7 +10,7 @@ public class StaticStrings {
     final public static String HEADER_SECURITY_TOKEN = "auth-token";
     final public static String HEADER_USERNAME = "username";
 
-    final public static List<String> ACCESSIBLE_PAGES = Arrays.asList("toppharm/login");
+    final public static List<String> ACCESSIBLE_PAGES = Arrays.asList("toppharm/user/login");
 
     final public static String ERROR_PAGES = "toppharm/error";
 

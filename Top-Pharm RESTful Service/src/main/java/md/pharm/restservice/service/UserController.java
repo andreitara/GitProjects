@@ -25,7 +25,8 @@ public class UserController {
         if(list!=null){
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
-            response.addMapItem("users", list);
+            //response.addMapItem("users", list);
+            response.setObject(list);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }else{
             response.setResponseCode(ErrorCodes.InternalError.name);
@@ -47,7 +48,8 @@ public class UserController {
             if (id != null) {
                 response.setResponseCode(ErrorCodes.Created.name);
                 response.setResponseMessage(ErrorCodes.Created.userMessage);
-                response.addMapItem("user", user);
+                response.setObject(id);
+                //response.addMapItem("user", user);
                 return new ResponseEntity<Object>(response, HttpStatus.CREATED);
             } else {
                 response.setResponseCode(ErrorCodes.InternalError.name);
@@ -61,22 +63,23 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/{username}",method = RequestMethod.GET)
-    public ResponseEntity<?> getUser(@PathVariable(value = "username") String login){
+    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
+    public ResponseEntity<?> getUser(@PathVariable(value = "id") Integer id){
         Response response = new Response();
         ManageUser manageUser = new ManageUser();
-        User user = manageUser.getUserByUsername(login);
+        User user = manageUser.getUserByID(id);
         response.setResponseCode(ErrorCodes.OK.name);
         response.setResponseMessage(ErrorCodes.OK.userMessage);
-        response.addMapItem("user", user);
+        //response.addMapItem("user", user);
+        response.setObject(user);
         return  new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
-    @RequestMapping("/delete/{username}")
-    public ResponseEntity<?> deleteUser(@PathVariable(value = "username") String username){
+    @RequestMapping("/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable(value = "id") Integer id){
         Response response = new Response();
         ManageUser manageUser = new ManageUser();
-        User user = manageUser.getUserByUsername(username);
+        User user = manageUser.getUserByID(id);
         if(user!=null){
             if(manageUser.deleteUser(user)){
                 response.setResponseCode(ErrorCodes.OK.name);

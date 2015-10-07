@@ -1,5 +1,6 @@
 package md.pharm.hibernate.user.permission;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import md.pharm.hibernate.user.User;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class Permission{
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userID")
+    @JsonIgnore
     private User user;
 
     @Column(name = "readUsers")
