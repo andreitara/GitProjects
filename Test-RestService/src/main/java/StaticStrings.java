@@ -5,20 +5,23 @@ public class StaticStrings {
 
     public static String REST_IP_PORT = "http://localhost:8181";
 
-    public static String ADMIN_AUTH_TOKEN = "0b7faed1-93d3-47c1-a124-ebf404ebbae5";
-    public static String USER_AUTH_TOKEN = "2a1f8617-9188-4a59-a5d2-8ab5401760c0";
+    public static int ADMIN_ID = 1;
+    public static int USER_ID = 3;
 
-    public static String LOGIN_URI =  REST_IP_PORT + "/toppharm/login";
-    public static String LOGOUT_URI = REST_IP_PORT + "/toppharm/logout";
+    public static String ADMIN_AUTH_TOKEN = "1f58a801-b348-4f60-862e-b23acd61dd76";
+    public static String USER_AUTH_TOKEN = "5d9cf22b-4688-4754-8a37-ca6d63f97f8f";
 
-    public static String GET_USER_PERMISSION_URI = REST_IP_PORT + "/toppharm/user/permission/{username}";
+    public static String LOGIN_URI =  REST_IP_PORT + "/toppharm/user/login";
+    public static String LOGOUT_URI = REST_IP_PORT + "/toppharm/user/logout";
+
+    public static String GET_USER_PERMISSION_URI = REST_IP_PORT + "/toppharm/user/permission/{userID}";
     public static String GET_MY_PERMISSION_URI =   REST_IP_PORT + "/toppharm/user/permission/my";
-    public static String UPDATE_PERMISSION_URI =   REST_IP_PORT + "/toppharm/user/permission/update";
+    public static String UPDATE_PERMISSION_URI =   REST_IP_PORT + "/toppharm/user/permission/update/{userID}";
 
-    public static String DELETE_USER_URI =   REST_IP_PORT + "/toppharm/user/delete/{username}";
+    public static String DELETE_USER_URI =   REST_IP_PORT + "/toppharm/user/delete/{id}";
     public static String UPDATE_USER_URI =   REST_IP_PORT + "/toppharm/user/update";
     public static String CREATE_USER_URI =   REST_IP_PORT + "/toppharm/user/create";
-    public static String GET_USER_URI =      REST_IP_PORT + "/toppharm/user/{username}";
+    public static String GET_USER_URI =      REST_IP_PORT + "/toppharm/user/{id}";
     public static String GET_ALL_USERS_URI = REST_IP_PORT + "/toppharm/user/all";
 
     public static String GET_ALL_INSTITUTIONS_URI = REST_IP_PORT + "/toppharm/medical/institution/all";

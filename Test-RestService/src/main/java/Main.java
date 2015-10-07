@@ -13,22 +13,23 @@ public class Main {
         //LoginControllerTest.loginUser();
         //LoginControllerTest.logoutUser();
 
-        //PermissionControllerTest.getAdminUserPermission();
+        //PermissionControllerTest.getAdminUserPermission(3);
         //PermissionControllerTest.getAdminMyPermission();
+        //PermissionControllerTest.updatePermissionsByAdmin(3);
 
         //UserControllerTest.createUserByAdmin();
-        //UserControllerTest.updateUserByAdmin();
-        //UserControllerTest.deleteUserByAdmin();
-        //UserControllerTest.getUserByAdmin();
+        //UserControllerTest.updateUserByAdmin(2);
+        //UserControllerTest.deleteUserByAdmin(2);
+        //UserControllerTest.getUserByAdmin(2);
         //UserControllerTest.getAllUsersByAdmin();
         //UserControllerTest.createUserByUser();
         //UserControllerTest.deleteUserByUser();
 
-        InstitutionsControllerTest.createInstitutionByAdmin();
-        //InstitutionsControllerTest.getInstitutionsByAdmin(12);
+        //InstitutionsControllerTest.createInstitutionByAdmin();
+        //InstitutionsControllerTest.getInstitutionsByAdmin(4);
         //InstitutionsControllerTest.getAllInstitutionsByAdmin();
-        //InstitutionsControllerTest.updateInstitutionByAdmin(10);
-        //InstitutionsControllerTest.deleteInstitutionByAdmin(5);
+        InstitutionsControllerTest.updateInstitutionByAdmin(4);
+        //InstitutionsControllerTest.deleteInstitutionByAdmin(3);
 
 
     }

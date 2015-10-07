@@ -33,8 +33,9 @@ public class UserControllerTest {
         System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
     }
 
-    public static void updateUserByAdmin() throws JsonProcessingException {
-        user.setId(2);
+    public static void updateUserByAdmin(int id) throws JsonProcessingException {
+        user.setId(id);
+        user.setFirstName("USER");
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
@@ -65,25 +66,25 @@ public class UserControllerTest {
         System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
     }
 
-    public static void getUserByAdmin() throws JsonProcessingException {
+    public static void getUserByAdmin(int id) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
         HttpEntity entity = new HttpEntity(headers);
         Map<String,String> params = new HashMap<>();
-        params.put("username","user");
+        params.put("id",String.valueOf(id));
         HttpEntity<Response> response = restTemplate.exchange(StaticStrings.GET_USER_URI, HttpMethod.GET, entity, Response.class, params);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
     }
 
-    public static void deleteUserByAdmin() throws JsonProcessingException {
+    public static void deleteUserByAdmin(int id) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
         HttpEntity entity = new HttpEntity(headers);
         Map<String,String> params = new HashMap<>();
-        params.put("username","ion.cretu");
+        params.put("id",String.valueOf(id));
         HttpEntity<Response> response = restTemplate.exchange(StaticStrings.DELETE_USER_URI, HttpMethod.GET, entity, Response.class, params);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));

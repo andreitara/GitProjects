@@ -16,8 +16,10 @@ import java.util.Map;
  */
 public class InstitutionsControllerTest {
 
-    public static Address address = new Address("street1", "city1", "state", "country", "code");
-    public static Institution institution = new Institution("Long Name 3", "LN", "1234","4321", address);
+    public static Address address = new Address("street34666", "city", "state", "country", "code");
+    public static Institution institution = new Institution("Long Name 34666", "LN", "1234","4321", address);
+
+    public static Institution institution2 = new Institution("Long Name fdg", "LN", "1234","4321", null);
 
     public static void getAllInstitutionsByAdmin() throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
@@ -45,18 +47,18 @@ public class InstitutionsControllerTest {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
-        HttpEntity entity = new HttpEntity(institution, headers);
+        HttpEntity entity = new HttpEntity(institution2, headers);
         HttpEntity<Response> response = restTemplate.exchange(StaticStrings.CREATE_INSTITUTION_URI, HttpMethod.POST, entity, Response.class);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
     }
 
     public static void updateInstitutionByAdmin(int id) throws JsonProcessingException {
-        institution.setId(id);
+        institution2.setId(id);
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
-        HttpEntity entity = new HttpEntity(institution, headers);
+        HttpEntity entity = new HttpEntity(institution2, headers);
         HttpEntity<Response> response = restTemplate.exchange(StaticStrings.UPDATE_INSTITUTION_URI, HttpMethod.POST, entity, Response.class);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
