@@ -28,9 +28,28 @@ public class Main {
         //InstitutionsControllerTest.createInstitutionByAdmin();
         //InstitutionsControllerTest.getInstitutionsByAdmin(4);
         //InstitutionsControllerTest.getAllInstitutionsByAdmin();
-        InstitutionsControllerTest.updateInstitutionByAdmin(4);
+        //InstitutionsControllerTest.updateInstitutionByAdmin(4);
         //InstitutionsControllerTest.deleteInstitutionByAdmin(3);
 
+        //InstitutionAddressControllerTest.getInstitutionAddressByAdmin(4);
+        //InstitutionAddressControllerTest.createInstitutionAddressByAdmin(9);
+        //InstitutionAddressControllerTest.updateInstitutionAddressByAdmin(5);
+
+        //DoctorControllerTest.createDoctorByAdmin();
+        //DoctorControllerTest.updateDoctorByAdmin(1);
+        //DoctorControllerTest.getAllDoctorsByAdmin();
+        //DoctorControllerTest.getDoctorByAdmin(2);
+        //DoctorControllerTest.deleteDoctorByAdmin(2);
+
+        //ProductControllerTest.getAllProductsByAdmin();
+        //ProductControllerTest.createProductByAdmin();
+        //ProductControllerTest.getProductByAdmin(2);
+        //ProductControllerTest.updateDoctorByAdmin(1);
+        //ProductControllerTest.deleteProductByAdmin(1);
+
+        //ProductObjectiveControllerTest.createProductByAdmin(2);
+        //ProductObjectiveControllerTest.getAllProductObjectivesByAdmin(2);
+        ProductObjectiveControllerTest.getProductByAdmin(2,2);
 
     }
 }

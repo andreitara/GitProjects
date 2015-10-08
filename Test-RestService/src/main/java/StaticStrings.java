@@ -30,15 +30,15 @@ public class StaticStrings {
     public static String UPDATE_INSTITUTION_URI =   REST_IP_PORT + "/toppharm/medical/institution/update";
     public static String DELETE_INSTITUTION_URI =   REST_IP_PORT + "/toppharm/medical/institution/delete/{id}";
 
-    public static String GET_INSTITUTION_ADDRESS_URI =      REST_IP_PORT + "/toppharm/medical/institution/{id}/address";
-    public static String CREATE_INSTITUTION_ADDRESS_URI =   REST_IP_PORT + "/toppharm/medical/institution/{id}/address/create";
-    public static String UPDATE_INSTITUTION_ADDRESS_URI =   REST_IP_PORT + "/toppharm/medical/institution/{id}/address/update";
+    public static String GET_INSTITUTION_ADDRESS_URI =      REST_IP_PORT + "/toppharm/medical/institution/{institutionID}/address/";
+    public static String CREATE_INSTITUTION_ADDRESS_URI =   REST_IP_PORT + "/toppharm/medical/institution/{institutionID}/address/create";
+    public static String UPDATE_INSTITUTION_ADDRESS_URI =   REST_IP_PORT + "/toppharm/medical/institution/{institutionID}/address/update";
 
     public static String GET_ALL_DOCTORS_URI = REST_IP_PORT + "/toppharm/medical/doctor/all";
-    public static String GET_DOCTORS_URI =     REST_IP_PORT + "/toppharm/medical/doctor/{id}";
-    public static String CREATE_DOCTORS_URI =  REST_IP_PORT + "/toppharm/medical/doctor/create";
-    public static String UPDATE_DOCTORS_URI =  REST_IP_PORT + "/toppharm/medical/doctor/update";
-    public static String DELETE_DOCTORS_URI =  REST_IP_PORT + "/toppharm/medical/doctor/delete/{id}";
+    public static String GET_DOCTOR_URI =     REST_IP_PORT + "/toppharm/medical/doctor/{id}";
+    public static String CREATE_DOCTOR_URI =  REST_IP_PORT + "/toppharm/medical/doctor/create";
+    public static String UPDATE_DOCTOR_URI =  REST_IP_PORT + "/toppharm/medical/doctor/update";
+    public static String DELETE_DOCTOR_URI =  REST_IP_PORT + "/toppharm/medical/doctor/delete/{id}";
 
     public static String GET_ALL_OFFICES_OF_DOCTOR_URI = REST_IP_PORT + "/toppharm/medical/doctor/{doctorID}/office/all";
     public static String GET_OFFICE_URI =                REST_IP_PORT + "/toppharm/medical/doctor/{doctorID}/office/{id}";
