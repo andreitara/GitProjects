@@ -1,5 +1,7 @@
 package md.pharm.hibernate.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -21,16 +23,16 @@ public class Objective {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "productID")
+    @JsonIgnore
     private Product product;
 
     public Objective(){}
 
-    public Objective(String name, String description, Product product) {
+    public Objective(String name, String description) {
         this.name = name;
         this.description = description;
-        this.product = product;
     }
 
     public Integer getId() {

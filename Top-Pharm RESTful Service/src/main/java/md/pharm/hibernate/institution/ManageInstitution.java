@@ -139,17 +139,17 @@ public class ManageInstitution {
         Transaction tx = null;
         Institution institution = null;
         Address address = null;
-        boolean flag = false;
+        boolean flag = true;
         try{
             tx = session.beginTransaction();
             institution = (Institution)session.get(Institution.class, id);
             if(institution!=null) address = institution.getAddress();
             tx.commit();
-            flag = true;
+            flag = false;
         }catch (HibernateException e){
             if(tx!=null) tx.rollback();
             e.printStackTrace();
-            flag = false;
+            flag = true;
         }finally {
             session.close();
         }

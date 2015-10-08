@@ -27,7 +27,8 @@ public class ProductController {
         if(list!=null){
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
-            response.addMapItem("products", list);
+            response.setObject(list);
+            //response.addMapItem("products", list);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }else{
             response.setResponseCode(ErrorCodes.InternalError.name);
@@ -46,8 +47,9 @@ public class ProductController {
                 if (id != null) {
                     response.setResponseCode(ErrorCodes.Created.name);
                     response.setResponseMessage(ErrorCodes.Created.userMessage);
-                    product.setId(id);
-                    response.addMapItem("product", product);
+                    response.setObject(id);
+                    //product.setId(id);
+                    //response.addMapItem("product", product);
                     return new ResponseEntity<Object>(response, HttpStatus.CREATED);
                 } else {
                     response.setResponseCode(ErrorCodes.InternalError.name);
@@ -124,7 +126,8 @@ public class ProductController {
         if(product!=null) {
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
-            response.addMapItem("product", product);
+            response.setObject(product);
+            //response.addMapItem("product", product);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }else{
             response.setResponseCode(ErrorCodes.ResourceNotExists.name);

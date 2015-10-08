@@ -25,7 +25,8 @@ public class DoctorController {
         if(list!=null){
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
-            response.addMapItem("doctors", list);
+            response.setObject(list);
+            //response.addMapItem("doctors", list);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }else{
             response.setResponseCode(ErrorCodes.InternalError.name);
@@ -44,8 +45,9 @@ public class DoctorController {
                 if (id != null) {
                     response.setResponseCode(ErrorCodes.Created.name);
                     response.setResponseMessage(ErrorCodes.Created.userMessage);
-                    doctor.setId(id);
-                    response.addMapItem("doctor", doctor);
+                    response.setObject(id);
+                    //doctor.setId(id);
+                    //response.addMapItem("doctor", doctor);
                     return new ResponseEntity<Object>(response, HttpStatus.CREATED);
                 } else {
                     response.setResponseCode(ErrorCodes.InternalError.name);
@@ -122,7 +124,8 @@ public class DoctorController {
         if(doctor!=null) {
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
-            response.addMapItem("doctor", doctor);
+            response.setObject(doctor);
+            //response.addMapItem("doctor", doctor);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }else{
             response.setResponseCode(ErrorCodes.ResourceNotExists.name);

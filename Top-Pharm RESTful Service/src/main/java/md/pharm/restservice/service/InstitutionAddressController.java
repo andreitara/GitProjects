@@ -30,7 +30,8 @@ public class InstitutionAddressController {
             if(address != null) {
                 response.setResponseCode(ErrorCodes.OK.name);
                 response.setResponseMessage(ErrorCodes.OK.userMessage);
-                response.addMapItem("address", address);
+                response.setObject(address);
+                //response.addMapItem("address", address);
                 return new ResponseEntity<Object>(response, HttpStatus.OK);
             }else{
                 response.setResponseCode(ErrorCodes.ResourceNotExists.name);
@@ -57,8 +58,9 @@ public class InstitutionAddressController {
                 if (id != null) {
                     response.setResponseCode(ErrorCodes.Created.name);
                     response.setResponseMessage(ErrorCodes.Created.userMessage);
-                    address.setId(id);
-                    response.addMapItem("address", address);
+                    response.setObject(id);
+                    //address.setId(id);
+                    //response.addMapItem("address", address);
                     return new ResponseEntity<Object>(response, HttpStatus.CREATED);
                 } else {
                     response.setResponseCode(ErrorCodes.InternalError.name);
@@ -86,6 +88,7 @@ public class InstitutionAddressController {
             Address addressFromDB = manageInstitution.getInstitutionAddressByInstitutionID(institutionID);
             if (addressFromDB != null) {
                 address.setInstitution(institution);
+                institution.setAddress(null);
                 address.setId(addressFromDB.getId());
                 if (manageInstitution.updateAddress(address)) {
                     response.setResponseCode(ErrorCodes.OK.name);
@@ -99,7 +102,7 @@ public class InstitutionAddressController {
                 }
             } else {
                 response.setResponseCode(ErrorCodes.WriteConditionNotMet.name);
-                response.setResponseMessage(ErrorCodes.WriteConditionNotMet.userMessage + " - address exists");
+                response.setResponseMessage(ErrorCodes.WriteConditionNotMet.userMessage + " - address not exists");
                 return new ResponseEntity<Object>(response, HttpStatus.OK);
             }
         } else {

@@ -40,6 +40,7 @@ public class Product {
     private Set<Objective> objectives;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy="products", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Task> tasks;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
