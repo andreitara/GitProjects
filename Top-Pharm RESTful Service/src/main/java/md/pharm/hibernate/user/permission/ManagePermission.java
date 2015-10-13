@@ -1,5 +1,6 @@
 package md.pharm.hibernate.user.permission;
 
+import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.user.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -18,6 +19,7 @@ public class ManagePermission {
     private SessionFactory factory;
 
     public ManagePermission(){
+        /*
         try{
             //factory = new Configuration().configure().buildSessionFactory();
             Configuration configuration = new Configuration();
@@ -28,6 +30,8 @@ public class ManagePermission {
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
+        */
+        factory = TopPharmResTfulServiceApplication.factory;
     }
 
     public List<Permission> getPermissions(){

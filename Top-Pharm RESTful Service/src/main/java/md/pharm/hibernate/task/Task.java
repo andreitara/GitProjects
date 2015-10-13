@@ -3,10 +3,11 @@ package md.pharm.hibernate.task;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import md.pharm.hibernate.doctor.Doctor;
 import md.pharm.hibernate.institution.Institution;
-import md.pharm.hibernate.product.Objective;
 import md.pharm.hibernate.product.Product;
-import md.pharm.hibernate.training.Training;
 import md.pharm.hibernate.user.User;
+//import org.hibernate.annotations.Cascade;
+//import org.hibernate.annotations.CascadeType;
+
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,7 +23,7 @@ public class Task {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -43,22 +44,22 @@ public class Task {
     private Date duration;
 
     @Column(name = "description")
-    private Date description;
+    private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parentTask")
     @JsonIgnore
     private Task parentTask;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentTask", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentTask")
     @JsonIgnore
     private Set<Task> childTasks;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="[TopPharm].[dbo].[UserTask]", joinColumns=@JoinColumn(name="taskID"), inverseJoinColumns=@JoinColumn(name="userID"))
     private Set<User> users;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="[TopPharm].[dbo].[DoctorTask]", joinColumns=@JoinColumn(name="taskID"), inverseJoinColumns=@JoinColumn(name="doctorID"))
     private Set<Doctor> doctors;
 
@@ -66,35 +67,38 @@ public class Task {
     @JoinColumn(name = "institutionID")
     private Institution institution;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @JsonIgnore
     private Set<TaskComment> taskComments;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @JsonIgnore
     private Set<TaskHistory> taskHistories;
 
     //@OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.ALL)
     //private Set<Training> trainings;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="[TopPharm].[dbo].[ProductTask]", joinColumns=@JoinColumn(name="taskID"), inverseJoinColumns=@JoinColumn(name="productID"))
     private Set<Product> products;
 
-
     public Task(){}
 
-    public Task(String type, String status, Set<User> users, Date date, Date duration) {
+    public Task(String name, String type, String status, int visitNumbers, Date date, Date duration, String description) {
+        this.name = name;
         this.type = type;
         this.status = status;
-        this.users = users;
+        this.visitNumbers = visitNumbers;
         this.date = date;
         this.duration = duration;
+        this.description = description;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -146,11 +150,11 @@ public class Task {
         this.duration = duration;
     }
 
-    public Date getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Date description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

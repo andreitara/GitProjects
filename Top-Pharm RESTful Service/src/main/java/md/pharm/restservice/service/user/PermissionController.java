@@ -1,8 +1,9 @@
-package md.pharm.restservice.service;
+package md.pharm.restservice.service.user;
 
 import md.pharm.hibernate.user.ManageUser;
 import md.pharm.hibernate.user.User;
 import md.pharm.hibernate.user.permission.Permission;
+import md.pharm.restservice.service.Response;
 import md.pharm.restservice.util.ErrorCodes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,5 +1,6 @@
 package md.pharm.hibernate.doctor;
 
+import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.institution.Institution;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -18,6 +19,7 @@ public class ManageDoctor {
     private SessionFactory factory;
 
     public ManageDoctor(){
+        /*
         try{
             //factory = new Configuration().configure().buildSessionFactory();
             Configuration configuration = new Configuration();
@@ -28,6 +30,8 @@ public class ManageDoctor {
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
+        */
+        factory = TopPharmResTfulServiceApplication.factory;
     }
 
     public List<Doctor> getDoctors(){

@@ -1,5 +1,6 @@
 package md.pharm.hibernate.user;
 
+import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.connection.Connection;
 import md.pharm.hibernate.connection.ManageConnection;
 import org.hibernate.*;
@@ -18,6 +19,7 @@ public class ManageUser {
     private SessionFactory factory;
 
     public ManageUser(){
+        /*
         try{
             //factory = new Configuration().configure().buildSessionFactory();
             Configuration configuration = new Configuration();
@@ -28,6 +30,8 @@ public class ManageUser {
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
+        */
+        factory = TopPharmResTfulServiceApplication.factory;
     }
 
     public List<User> getUsers(){

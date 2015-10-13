@@ -1,5 +1,6 @@
 package md.pharm.hibernate.institution;
 
+import md.TopPharmResTfulServiceApplication;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -15,6 +16,7 @@ public class ManageOffice {
     private SessionFactory factory;
 
     public ManageOffice(){
+        /*
         try{
             //factory = new Configuration().configure().buildSessionFactory();
             Configuration configuration = new Configuration();
@@ -25,6 +27,8 @@ public class ManageOffice {
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
+        */
+        factory = TopPharmResTfulServiceApplication.factory;
     }
 
     public Integer addOffice(Office office){

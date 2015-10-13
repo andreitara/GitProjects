@@ -1,4 +1,4 @@
-package md.pharm.restservice.service;
+package md.pharm.restservice.service.institution;
 
 import md.pharm.hibernate.common.Address;
 import md.pharm.hibernate.doctor.Doctor;
@@ -7,6 +7,7 @@ import md.pharm.hibernate.institution.Institution;
 import md.pharm.hibernate.institution.ManageInstitution;
 import md.pharm.hibernate.institution.ManageOffice;
 import md.pharm.hibernate.institution.Office;
+import md.pharm.restservice.service.Response;
 import md.pharm.restservice.util.ErrorCodes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

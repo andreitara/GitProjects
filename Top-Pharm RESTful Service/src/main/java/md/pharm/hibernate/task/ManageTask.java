@@ -1,9 +1,8 @@
 package md.pharm.hibernate.task;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import md.TopPharmResTfulServiceApplication;
+import md.pharm.hibernate.doctor.Doctor;
+import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
@@ -17,6 +16,7 @@ public class ManageTask {
     private SessionFactory factory;
 
     public ManageTask(){
+        /*
         try{
             //factory = new Configuration().configure().buildSessionFactory();
             Configuration configuration = new Configuration();
@@ -27,6 +27,8 @@ public class ManageTask {
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
+        */
+        factory = TopPharmResTfulServiceApplication.factory;
     }
 
     public List<Task> getTasks(){
@@ -63,20 +65,23 @@ public class ManageTask {
         return taskID;
     }
 
-    public int updateTask(Task task){
+    public boolean updateTask(Task task){
         Session session = factory.openSession();
         Transaction tx = null;
+        boolean flag = false;
         try{
             tx = session.beginTransaction();
             session.update(task);
             tx.commit();
+            flag = true;
         }catch(HibernateException e){
             if(tx!=null)tx.rollback();
             e.printStackTrace();
+            flag = false;
         }finally {
             session.close();
         }
-        return task.getId();
+        return flag;
     }
 
     public Task getTaskByID(int id){
@@ -95,4 +100,88 @@ public class ManageTask {
         }
         return task;
     }
+
+    public boolean deleteTask(Task task){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        boolean flag = false;
+        try{
+            tx = session.beginTransaction();
+            session.delete(task);
+            tx.commit();
+            flag = true;
+        }catch(HibernateException e){
+            if(tx!=null)tx.rollback();
+            e.printStackTrace();
+            flag = false;
+        }finally {
+            session.close();
+        }
+        return flag;
+    }
+
+    public boolean deleteDoctorTask(Integer taskID, Integer doctorID){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        boolean flag = false;
+        try{
+            tx = session.beginTransaction();
+            //session.delete(task);
+            Query query = session.createSQLQuery("delete [TopPharm].[dbo].[DoctorTask] where taskID = " + taskID + " and doctorID = " + doctorID);
+            int result = query.executeUpdate();
+            tx.commit();
+            flag = true;
+        }catch(HibernateException e){
+            if(tx!=null)tx.rollback();
+            e.printStackTrace();
+            flag = false;
+        }finally {
+            session.close();
+        }
+        return flag;
+    }
+
+    public boolean deleteProductTask(Integer taskID, Integer productID){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        boolean flag = false;
+        try{
+            tx = session.beginTransaction();
+            //session.delete(task);
+            Query query = session.createSQLQuery("delete [TopPharm].[dbo].[ProductTask] where taskID = " + taskID + " and productID = " + productID);
+            int result = query.executeUpdate();
+            tx.commit();
+            flag = true;
+        }catch(HibernateException e){
+            if(tx!=null)tx.rollback();
+            e.printStackTrace();
+            flag = false;
+        }finally {
+            session.close();
+        }
+        return flag;
+    }
+
+    public boolean deleteUserTask(Integer taskID, Integer userID){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        boolean flag = false;
+        try{
+            tx = session.beginTransaction();
+            //session.delete(task);
+            Query query = session.createSQLQuery("delete [TopPharm].[dbo].[UserTask] where taskID = " + taskID + " and userID = " + userID);
+            int result = query.executeUpdate();
+            tx.commit();
+            flag = true;
+        }catch(HibernateException e){
+            if(tx!=null)tx.rollback();
+            e.printStackTrace();
+            flag = false;
+        }finally {
+            session.close();
+        }
+        return flag;
+    }
+
+
 }

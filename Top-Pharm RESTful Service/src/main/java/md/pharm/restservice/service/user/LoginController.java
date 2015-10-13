@@ -1,9 +1,10 @@
-package md.pharm.restservice.service;
+package md.pharm.restservice.service.user;
 
 import md.pharm.hibernate.connection.Connection;
 import md.pharm.hibernate.connection.ManageConnection;
 import md.pharm.hibernate.user.ManageUser;
 import md.pharm.hibernate.user.User;
+import md.pharm.restservice.service.Response;
 import md.pharm.restservice.util.ErrorCodes;
 import md.pharm.restservice.util.StaticStrings;
 import org.springframework.http.HttpStatus;

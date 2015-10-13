@@ -1,7 +1,10 @@
-package md.pharm.restservice.service;
+package md.pharm.restservice.service.product;
 
 import md.pharm.hibernate.doctor.Doctor;
 import md.pharm.hibernate.doctor.ManageDoctor;
+import md.pharm.hibernate.product.ManageProduct;
+import md.pharm.hibernate.product.Product;
+import md.pharm.restservice.service.Response;
 import md.pharm.restservice.util.ErrorCodes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,23 +13,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Created by Andrei on 10/5/2015.
+ * Created by Andrei on 10/6/2015.
  */
 
 @RestController
-@RequestMapping("toppharm/medical/doctor")
-public class DoctorController {
+@RequestMapping("toppharm/medical/product")
+public class ProductController {
 
     @RequestMapping("/all")
     public ResponseEntity<?> getAll(){
         Response response = new Response();
-        ManageDoctor manageDoctor = new ManageDoctor();
-        List<Doctor> list = manageDoctor.getDoctors();
+        ManageProduct manageProduct = new ManageProduct();
+        List<Product> list = manageProduct.getProducts();
         if(list!=null){
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
             response.setObject(list);
-            //response.addMapItem("doctors", list);
+            //response.addMapItem("products", list);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }else{
             response.setResponseCode(ErrorCodes.InternalError.name);
@@ -36,18 +39,18 @@ public class DoctorController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<?> create(@RequestBody Doctor doctor){
+    public ResponseEntity<?> create(@RequestBody Product product){
         Response response = new Response();
-        ManageDoctor manage = new ManageDoctor();
-        if(doctor.getId()== null) {
+        ManageProduct manage = new ManageProduct();
+        if(product.getId()== null) {
             if (true) {//TODO condition if not exists this doctor in DB
-                Integer id = manage.addDoctor(doctor);
+                Integer id = manage.addProduct(product);
                 if (id != null) {
                     response.setResponseCode(ErrorCodes.Created.name);
                     response.setResponseMessage(ErrorCodes.Created.userMessage);
                     response.setObject(id);
-                    //doctor.setId(id);
-                    //response.addMapItem("doctor", doctor);
+                    //product.setId(id);
+                    //response.addMapItem("product", product);
                     return new ResponseEntity<Object>(response, HttpStatus.CREATED);
                 } else {
                     response.setResponseCode(ErrorCodes.InternalError.name);
@@ -67,13 +70,13 @@ public class DoctorController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@RequestBody Doctor doctor){
+    public ResponseEntity<?> createUser(@RequestBody Product product){
         Response response = new Response();
-        ManageDoctor manage = new ManageDoctor();
-        if(doctor.getId()!=null) {
-            Doctor doctorFromDB = manage.getDoctorByID(doctor.getId());
-            if (doctorFromDB != null) {
-                if (manage.updateDoctor(doctor)) {
+        ManageProduct manage = new ManageProduct();
+        if(product.getId()!=null) {
+            Product productFromDB = manage.getProductByID(product.getId());
+            if (productFromDB != null) {
+                if (manage.updateProduct(product)) {
                     response.setResponseCode(ErrorCodes.OK.name);
                     response.setResponseMessage(ErrorCodes.OK.userMessage);
                     return new ResponseEntity<Object>(response, HttpStatus.OK);
@@ -97,10 +100,10 @@ public class DoctorController {
     @RequestMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") int id){
         Response response = new Response();
-        ManageDoctor manage = new ManageDoctor();
-        Doctor doctor = manage.getDoctorByID(id);
-        if(doctor!=null){
-            if(manage.deleteDoctor(doctor)){
+        ManageProduct manage = new ManageProduct();
+        Product product = manage.getProductByID(id);
+        if(product!=null){
+            if(manage.delete(product)){
                 response.setResponseCode(ErrorCodes.OK.name);
                 response.setResponseMessage(ErrorCodes.OK.userMessage);
                 return new ResponseEntity<Object>(response, HttpStatus.OK);
@@ -119,13 +122,13 @@ public class DoctorController {
     @RequestMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable(value = "id") int id){
         Response response = new Response();
-        ManageDoctor manageDoctor = new ManageDoctor();
-        Doctor doctor = manageDoctor.getDoctorByID(id);
-        if(doctor!=null) {
+        ManageProduct manageProduct = new ManageProduct();
+        Product product = manageProduct.getProductByID(id);
+        if(product!=null) {
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
-            response.setObject(doctor);
-            //response.addMapItem("doctor", doctor);
+            response.setObject(product);
+            //response.addMapItem("product", product);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }else{
             response.setResponseCode(ErrorCodes.ResourceNotExists.name);

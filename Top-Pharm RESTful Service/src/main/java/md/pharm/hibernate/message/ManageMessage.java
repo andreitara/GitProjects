@@ -1,5 +1,6 @@
 package md.pharm.hibernate.message;
 
+import md.TopPharmResTfulServiceApplication;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,6 +18,7 @@ public class ManageMessage {
     private SessionFactory factory;
 
     public ManageMessage(){
+        /*
         try{
             //factory = new Configuration().configure().buildSessionFactory();
             Configuration configuration = new Configuration();
@@ -27,6 +29,8 @@ public class ManageMessage {
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
+        */
+        factory = TopPharmResTfulServiceApplication.factory;
     }
 
     public List<Message> getMessages(){

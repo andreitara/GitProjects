@@ -1,4 +1,4 @@
-package md.pharm.restservice.service;
+package md.pharm.restservice.service.doctor;
 
 import md.pharm.hibernate.doctor.Doctor;
 import md.pharm.hibernate.doctor.ManageDoctor;
@@ -6,10 +6,13 @@ import md.pharm.hibernate.institution.Institution;
 import md.pharm.hibernate.institution.ManageInstitution;
 import md.pharm.hibernate.institution.ManageOffice;
 import md.pharm.hibernate.institution.Office;
+import md.pharm.restservice.service.Response;
 import md.pharm.restservice.util.ErrorCodes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 /**
  * Created by Andrei on 10/5/2015.
@@ -46,6 +49,10 @@ public class DoctorWorkOfficeController {
             if(institution!=null) {
                 if (office.getId() == null) {
                     if (true) {//TODO condition if not exists this office in DB
+                        institution.setAddress(null);
+                        doctor.setOffices(null);
+                        office.setInstitution(institution);
+                        office.setDoctor(doctor);
                         ManageOffice manageOffice = new ManageOffice();
                         Integer id = manageOffice.addOffice(office);
                         if (id != null) {
@@ -82,7 +89,7 @@ public class DoctorWorkOfficeController {
     }
 
     @RequestMapping(value = "/update/institution/{institutionID}", method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@PathVariable("doctorID") Integer doctorID, @PathVariable("institutionID") Integer institutionID, @RequestBody Office office){
+    public ResponseEntity<?> update(@PathVariable("doctorID") Integer doctorID, @PathVariable("institutionID") Integer institutionID, @RequestBody Office office){
         Response response = new Response();
         ManageDoctor manageDoctor = new ManageDoctor();
         Doctor doctor = manageDoctor.getDoctorByID(doctorID);
@@ -94,13 +101,29 @@ public class DoctorWorkOfficeController {
                     ManageOffice manageOffice = new ManageOffice();
                     Office officeFromDB = manageOffice.getOfficeByID(office.getId());
                     if (officeFromDB != null) {
-                        if (manageOffice.updateOffice(office)) {
-                            response.setResponseCode(ErrorCodes.OK.name);
-                            response.setResponseMessage(ErrorCodes.OK.userMessage);
-                            return new ResponseEntity<Object>(response, HttpStatus.OK);
-                        } else {
-                            response.setResponseCode(ErrorCodes.InternalError.name);
-                            response.setResponseMessage(ErrorCodes.InternalError.userMessage);
+                        boolean flag = false;
+                        Set<Office> offices = doctor.getOffices();
+                        for(Office off : offices){
+                            if(off.getId().equals(office.getId()))
+                                flag = true;
+                        }
+                        if (flag) {
+                            institution.setAddress(null);
+                            doctor.setOffices(null);
+                            office.setInstitution(institution);
+                            office.setDoctor(doctor);
+                            if (manageOffice.updateOffice(office)) {
+                                response.setResponseCode(ErrorCodes.OK.name);
+                                response.setResponseMessage(ErrorCodes.OK.userMessage);
+                                return new ResponseEntity<Object>(response, HttpStatus.OK);
+                            } else {
+                                response.setResponseCode(ErrorCodes.InternalError.name);
+                                response.setResponseMessage(ErrorCodes.InternalError.userMessage);
+                                return new ResponseEntity<Object>(response, HttpStatus.OK);
+                            }
+                        }else{
+                            response.setResponseCode(ErrorCodes.WriteConditionNotMet.name);
+                            response.setResponseMessage(ErrorCodes.WriteConditionNotMet.userMessage);
                             return new ResponseEntity<Object>(response, HttpStatus.OK);
                         }
                     } else {
@@ -134,7 +157,7 @@ public class DoctorWorkOfficeController {
             ManageOffice manageOffice = new ManageOffice();
             Office office = manageOffice.getOfficeByID(id);
             if (office != null) {
-                if(office.getDoctor().getId()==doctorID) {
+                if(office.getDoctor().getId()== doctorID) {
                     if (manageOffice.deleteOffice(office)) {
                         response.setResponseCode(ErrorCodes.OK.name);
                         response.setResponseMessage(ErrorCodes.OK.userMessage);
