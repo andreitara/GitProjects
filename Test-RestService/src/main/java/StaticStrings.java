@@ -57,4 +57,30 @@ public class StaticStrings {
     public static String CREATE_PRODUCT_OBJECTIVE_URI =   REST_IP_PORT + "/toppharm/medical/product/{productID}/objective/create";
     public static String UPDATE_PRODUCT_OBJECTIVE_URI =   REST_IP_PORT + "/toppharm/medical/product/{productID}/objective/update";
     public static String DELETE_PRODUCT_OBJECTIVE_URI =   REST_IP_PORT + "/toppharm/medical/product/{productID}/objective/delete/{id}";
+
+
+    public static String GET_ALL_TASKS_URI = REST_IP_PORT + "/toppharm/task/all";
+    public static String GET_TASK_URI =     REST_IP_PORT + "/toppharm/task/{id}";
+    public static String CREATE_TASK_URI =  REST_IP_PORT + "/toppharm/task/create";
+    public static String UPDATE_TASK_URI =  REST_IP_PORT + "/toppharm/task/update";
+    public static String DELETE_TASK_URI =  REST_IP_PORT + "/toppharm/task/delete/{id}";
+
+    public static String ADD_INSTITUTION_TASK_URI =     REST_IP_PORT + "/toppharm/task/{taskID}/institution/add/{institutionID}";
+    public static String UPDATE_INSTITUTION_TASK_URI =  REST_IP_PORT + "/toppharm/task/{taskID}/institution/update/{institutionID}";
+    public static String DELETE_INSTITUTION_TASK_URI =  REST_IP_PORT + "/toppharm/task/{taskID}/institution/delete";
+    public static String GET_INSTITUTION_TASK_URI =     REST_IP_PORT + "/toppharm/task/{taskID}/institution/";
+
+    public static String ADD_DOCTOR_TASK_URI =     REST_IP_PORT + "/toppharm/task/{taskID}/doctor/add/{doctorID}";
+    public static String DELETE_DOCTOR_TASK_URI =  REST_IP_PORT + "/toppharm/task/{taskID}/doctor/delete/{doctorID}";
+    public static String GET_DOCTORS_TASK_URI =    REST_IP_PORT + "/toppharm/task/{taskID}/doctor/all";
+
+    public static String ADD_USER_TASK_URI =     REST_IP_PORT + "/toppharm/task/{taskID}/user/add/{userID}";
+    public static String DELETE_USER_TASK_URI =  REST_IP_PORT + "/toppharm/task/{taskID}/user/delete/{userID}";
+    public static String GET_USERS_TASK_URI =    REST_IP_PORT + "/toppharm/task/{taskID}/user/all";
+
+    public static String ADD_PRODUCT_TASK_URI =     REST_IP_PORT + "/toppharm/task/{taskID}/product/add/{productID}";
+    public static String DELETE_PRODUCT_TASK_URI =  REST_IP_PORT + "/toppharm/task/{taskID}/product/delete/{productID}";
+    public static String GET_PRODUCTS_TASK_URI =    REST_IP_PORT + "/toppharm/task/{taskID}/product/all";
+
+
 }

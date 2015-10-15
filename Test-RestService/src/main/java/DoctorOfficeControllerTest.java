@@ -1,7 +1,6 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import md.pharm.hibernate.product.Objective;
-import md.pharm.hibernate.product.Product;
+import md.pharm.hibernate.institution.Office;
 import md.pharm.restservice.service.Response;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,73 +11,74 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Andrei on 10/8/2015.
+ * Created by Andrei on 10/10/2015.
  */
-public class ProductObjectiveControllerTest {
+public class DoctorOfficeControllerTest {
 
-    public static Objective objective = new Objective("obj name 2", "obj description 2");
+    public static Office office = new Office("block", 3, "34B", "Cabinetul ultimul din dreapta");
 
-    public static void createProductByAdmin(int productID) throws JsonProcessingException {
+    public static void createOfficeByAdmin(int doctorID, int institutionID) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
-        HttpEntity entity = new HttpEntity(objective, headers);
+        HttpEntity entity = new HttpEntity(office, headers);
         Map<String,String> params = new HashMap<>();
-        params.put("productID",String.valueOf(productID));
-        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.CREATE_PRODUCT_OBJECTIVE_URI, HttpMethod.POST, entity, Response.class, params);
+        params.put("doctorID",String.valueOf(doctorID));
+        params.put("institutionID",String.valueOf(institutionID));
+        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.CREATE_OFFICE_FOR_DOCTOR_URI, HttpMethod.POST, entity, Response.class, params);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
     }
 
-    public static void updateProductObjectiveByAdmin(int productID, int id) throws JsonProcessingException {
-        objective.setId(id);
-        objective.setName("ION");
+    public static void getAllDoctorOfficesByAdmin(int doctorID) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
-        HttpEntity entity = new HttpEntity(objective, headers);
+        HttpEntity entity = new HttpEntity(null, headers);
         Map<String,String> params = new HashMap<>();
-        params.put("productID",String.valueOf(productID));
-        //params.put("id",String.valueOf(id));
-        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.UPDATE_PRODUCT_OBJECTIVE_URI, HttpMethod.POST, entity, Response.class, params);
+        params.put("doctorID",String.valueOf(doctorID));
+        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.GET_ALL_OFFICES_OF_DOCTOR_URI, HttpMethod.GET, entity, Response.class, params);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
     }
 
-    public static void getAllProductObjectivesByAdmin(int productID) throws JsonProcessingException {
+    public static void getDoctorOfficesByAdmin(int doctorID, int id) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
-        HttpEntity entity = new HttpEntity(headers);
+        HttpEntity entity = new HttpEntity(null, headers);
         Map<String,String> params = new HashMap<>();
-        params.put("productID",String.valueOf(productID));
-        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.GET_ALL_PRODUCT_OBJECTIVES_URI, HttpMethod.GET, entity, Response.class, params);
-        ObjectMapper mapper = new ObjectMapper();
-        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
-    }
-
-    public static void getProductByAdmin(int productID, int id) throws JsonProcessingException {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
-        HttpEntity entity = new HttpEntity(headers);
-        Map<String,String> params = new HashMap<>();
-        params.put("productID",String.valueOf(productID));
+        params.put("doctorID",String.valueOf(doctorID));
         params.put("id",String.valueOf(id));
-        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.GET_PRODUCT_OBJECTIVE_URI, HttpMethod.GET, entity, Response.class, params);
+        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.GET_OFFICE_URI, HttpMethod.GET, entity, Response.class, params);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
     }
 
-    public static void deleteProductObjectiveByAdmin(int productID, int id) throws JsonProcessingException {
+    public static void updateDoctorOfficesByAdmin(int doctorID, int institutionID) throws JsonProcessingException {
+        office.setId(3);
+        office.setDescription("Update");
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
-        HttpEntity entity = new HttpEntity(headers);
+        HttpEntity entity = new HttpEntity(office, headers);
         Map<String,String> params = new HashMap<>();
-        params.put("productID",String.valueOf(productID));
+        params.put("doctorID",String.valueOf(doctorID));
+        params.put("institutionID",String.valueOf(institutionID));
+        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.UPDATE_OFFICE_FOR_DOCTOR_URI, HttpMethod.POST, entity, Response.class, params);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
+    }
+
+    public static void deleteDoctorOfficeByAdmin(int doctorID, int id) throws JsonProcessingException {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
+        HttpEntity entity = new HttpEntity(office, headers);
+        Map<String,String> params = new HashMap<>();
+        params.put("doctorID",String.valueOf(doctorID));
         params.put("id",String.valueOf(id));
-        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.DELETE_PRODUCT_OBJECTIVE_URI, HttpMethod.DELETE, entity, Response.class, params);
+        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.DELETE_OFFICE_FOR_DOCTOR_URI, HttpMethod.POST, entity, Response.class, params);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
     }
