@@ -1,13 +1,10 @@
 package md.pharm.hibernate.user;
 
-import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.connection.Connection;
 import md.pharm.hibernate.connection.ManageConnection;
+import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.*;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.service.ServiceRegistry;
 
 import java.util.List;
 
@@ -17,25 +14,14 @@ import java.util.List;
 public class ManageUser {
 
     private SessionFactory factory;
+    private Session session;
 
     public ManageUser(){
-        /*
-        try{
-            //factory = new Configuration().configure().buildSessionFactory();
-            Configuration configuration = new Configuration();
-            configuration.configure("hibernate.cfg.xml");
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            factory = configuration.buildSessionFactory(serviceRegistry);
-        }catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-        */
-        factory = TopPharmResTfulServiceApplication.factory;
+        factory = HibernateUtil.getSessionFactory();
+        session = HibernateUtil.getSession();
     }
 
     public List<User> getUsers(){
-        Session session = factory.openSession();
         Transaction tx = null;
         List<User> list = null;
         try{
@@ -46,13 +32,11 @@ public class ManageUser {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return list;
     }
 
     public Integer addUser(User user){
-        Session session = factory.openSession();
         Transaction tx = null;
         Integer userID = null;
         try{
@@ -63,13 +47,12 @@ public class ManageUser {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
+            //session.close();
         }
         return userID;
     }
 
     public boolean updateUser(User user){
-        Session session = factory.openSession();
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -81,13 +64,12 @@ public class ManageUser {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
+            //session.close();
         }
         return flag;
     }
 
     public boolean deleteUser(User user){
-        Session session = factory.openSession();
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -99,13 +81,12 @@ public class ManageUser {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
+            //session.close();
         }
         return flag;
     }
 
     public User getUserByID(int id){
-        Session session = factory.openSession();
         Transaction tx = null;
         User user = null;
         try{
@@ -116,13 +97,12 @@ public class ManageUser {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
+            //session.close();
         }
         return user;
     }
 
     public User getUserByUsername(String username){
-        Session session = factory.openSession();
         Transaction tx = null;
         User user = null;
         try{
@@ -134,7 +114,7 @@ public class ManageUser {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
+            //session.close();
         }
         return user;
     }

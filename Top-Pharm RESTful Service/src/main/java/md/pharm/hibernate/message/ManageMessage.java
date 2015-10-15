@@ -1,13 +1,10 @@
 package md.pharm.hibernate.message;
 
-import md.TopPharmResTfulServiceApplication;
+import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 
 import java.util.List;
 
@@ -16,25 +13,14 @@ import java.util.List;
  */
 public class ManageMessage {
     private SessionFactory factory;
+    private Session session;
 
     public ManageMessage(){
-        /*
-        try{
-            //factory = new Configuration().configure().buildSessionFactory();
-            Configuration configuration = new Configuration();
-            configuration.configure("hibernate.cfg.xml");
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            factory = configuration.buildSessionFactory(serviceRegistry);
-        }catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-        */
-        factory = TopPharmResTfulServiceApplication.factory;
+        factory = HibernateUtil.getSessionFactory();
+        session = HibernateUtil.getSession();
     }
 
     public List<Message> getMessages(){
-        Session session = factory.openSession();
         Transaction tx = null;
         List<Message> list = null;
         try{
@@ -45,13 +31,11 @@ public class ManageMessage {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return list;
     }
 
     public Integer addMessage(Message message){
-        Session session = factory.openSession();
         Transaction tx = null;
         Integer messageID = null;
         try{
@@ -62,13 +46,11 @@ public class ManageMessage {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return messageID;
     }
 
     public int updateMessage(Message message){
-        Session session = factory.openSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -78,13 +60,11 @@ public class ManageMessage {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return message.getId();
     }
 
     public Message getMessageByID(int id){
-        Session session = factory.openSession();
         Transaction tx = null;
         Message message = null;
         try{
@@ -95,7 +75,6 @@ public class ManageMessage {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return message;
     }

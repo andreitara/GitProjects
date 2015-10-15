@@ -1,6 +1,7 @@
 package md.pharm.hibernate.connection;
 
 import md.pharm.hibernate.user.User;
+import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -15,22 +16,14 @@ import java.util.List;
 public class ManageConnection {
 
     private SessionFactory factory;
+    private Session session;
 
     public ManageConnection(){
-        try {
-            //factory = new Configuration().configure().buildSessionFactory();
-            Configuration configuration = new Configuration();
-            configuration.configure("hibernate.cfg.xml");
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            factory = configuration.buildSessionFactory(serviceRegistry);
-        }catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
+        factory = HibernateUtil.getSessionFactory();
+        session = HibernateUtil.getSession();
     }
 
-    public List<Connection> getUsers(){
-        Session session = factory.openSession();
+    public List<Connection> getConnections(){
         Transaction tx = null;
         List<Connection> list = null;
         try{
@@ -41,13 +34,11 @@ public class ManageConnection {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return list;
     }
 
     public Integer addConnection(Connection connection){
-        Session session = factory.openSession();
         Transaction tx = null;
         Integer connectionID = null;
         try{
@@ -58,13 +49,11 @@ public class ManageConnection {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return connectionID;
     }
 
     public int updateConnection(Connection connection){
-        Session session = factory.openSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -74,14 +63,12 @@ public class ManageConnection {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return connection.getId();
     }
 
     public boolean deleteConnection(Connection connection){
         boolean flag = false;
-        Session session = factory.openSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -92,13 +79,11 @@ public class ManageConnection {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return flag;
     }
 
     public Connection getConnectionByID(int id){
-        Session session = factory.openSession();
         Transaction tx = null;
         Connection connection = null;
         try{
@@ -109,13 +94,11 @@ public class ManageConnection {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return connection;
     }
 
     public Connection getConnectionByConnectionKey(String key){
-        Session session = factory.openSession();
         Transaction tx = null;
         Connection connection = null;
         try{
@@ -127,7 +110,6 @@ public class ManageConnection {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return connection;
     }

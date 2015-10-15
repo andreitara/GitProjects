@@ -2,6 +2,7 @@ package md.pharm.hibernate.user.permission;
 
 import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.user.User;
+import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,25 +18,14 @@ import java.util.List;
  */
 public class ManagePermission {
     private SessionFactory factory;
+    private Session session;
 
     public ManagePermission(){
-        /*
-        try{
-            //factory = new Configuration().configure().buildSessionFactory();
-            Configuration configuration = new Configuration();
-            configuration.configure("hibernate.cfg.xml");
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            factory = configuration.buildSessionFactory(serviceRegistry);
-        }catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-        */
-        factory = TopPharmResTfulServiceApplication.factory;
+        factory = HibernateUtil.getSessionFactory();
+        session = HibernateUtil.getSession();
     }
 
     public List<Permission> getPermissions(){
-        Session session = factory.openSession();
         Transaction tx = null;
         List<Permission> list = null;
         try{
@@ -46,13 +36,11 @@ public class ManagePermission {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return list;
     }
 
     public Integer addPermission(Permission permission){
-        Session session = factory.openSession();
         Transaction tx = null;
         Integer id = null;
         try{
@@ -63,13 +51,11 @@ public class ManagePermission {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return id;
     }
 
     public int updatePermission(Permission permission){
-        Session session = factory.openSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -79,13 +65,11 @@ public class ManagePermission {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return permission.getId();
     }
 
     public void deletePermission(Permission permission){
-        Session session = factory.openSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -95,7 +79,6 @@ public class ManagePermission {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
     }
 

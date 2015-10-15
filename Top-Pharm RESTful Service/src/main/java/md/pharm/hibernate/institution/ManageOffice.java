@@ -1,6 +1,7 @@
 package md.pharm.hibernate.institution;
 
 import md.TopPharmResTfulServiceApplication;
+import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -14,25 +15,14 @@ import java.util.List;
  */
 public class ManageOffice {
     private SessionFactory factory;
+    private Session session;
 
     public ManageOffice(){
-        /*
-        try{
-            //factory = new Configuration().configure().buildSessionFactory();
-            Configuration configuration = new Configuration();
-            configuration.configure("hibernate.cfg.xml");
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            factory = configuration.buildSessionFactory(serviceRegistry);
-        }catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-        */
-        factory = TopPharmResTfulServiceApplication.factory;
+        factory = HibernateUtil.getSessionFactory();
+        session = HibernateUtil.getSession();
     }
 
     public Integer addOffice(Office office){
-        Session session = factory.openSession();
         Transaction tx = null;
         Integer id = null;
         try{
@@ -43,14 +33,12 @@ public class ManageOffice {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return id;
     }
 
     public boolean updateOffice(Office office){
         boolean flag = false;
-        Session session = factory.openSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -61,13 +49,11 @@ public class ManageOffice {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return flag;
     }
 
     public Office getOfficeByID(int id){
-        Session session = factory.openSession();
         Transaction tx = null;
         Office office = null;
         try{
@@ -78,13 +64,11 @@ public class ManageOffice {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return office;
     }
 
     public boolean deleteOffice(Office office){
-        Session session = factory.openSession();
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -96,7 +80,6 @@ public class ManageOffice {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return flag;
     }

@@ -25,25 +25,8 @@ import javax.servlet.Filter;
 @SpringBootApplication
 public class TopPharmResTfulServiceApplication extends WebMvcConfigurationSupport {
 
-    public static SessionFactory factory;
-    public static ManageTask manageTask;
-
     public static void main(String[] args) {
-        //Initiate SessionFactory
-        try {
-            org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
-            configuration.configure("hibernate.cfg.xml");
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            factory = configuration.buildSessionFactory(serviceRegistry);
-        } catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
 
-        //Initiate Manage classes
-        manageTask = new ManageTask();
-
-        //Run Spring Application
         SpringApplication.run(TopPharmResTfulServiceApplication.class, args);
     }
 

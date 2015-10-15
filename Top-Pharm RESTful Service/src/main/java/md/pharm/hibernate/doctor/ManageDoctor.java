@@ -2,6 +2,7 @@ package md.pharm.hibernate.doctor;
 
 import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.institution.Institution;
+import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,25 +18,14 @@ import java.util.List;
  */
 public class ManageDoctor {
     private SessionFactory factory;
+    private Session session;
 
     public ManageDoctor(){
-        /*
-        try{
-            //factory = new Configuration().configure().buildSessionFactory();
-            Configuration configuration = new Configuration();
-            configuration.configure("hibernate.cfg.xml");
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            factory = configuration.buildSessionFactory(serviceRegistry);
-        }catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-        */
-        factory = TopPharmResTfulServiceApplication.factory;
+        factory = HibernateUtil.getSessionFactory();
+        session = HibernateUtil.getSession();
     }
 
     public List<Doctor> getDoctors(){
-        Session session = factory.openSession();
         Transaction tx = null;
         List<Doctor> list = null;
         try{
@@ -46,14 +36,12 @@ public class ManageDoctor {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return list;
     }
 
     public Integer addDoctor(Doctor doctor){
         boolean flag = false;
-        Session session = factory.openSession();
         Transaction tx = null;
         Integer doctorID = null;
         try{
@@ -65,7 +53,6 @@ public class ManageDoctor {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         if(flag) return doctorID;
         else return null;
@@ -73,7 +60,6 @@ public class ManageDoctor {
 
     public boolean updateDoctor(Doctor doctor){
         boolean flag = false;
-        Session session = factory.openSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -85,13 +71,11 @@ public class ManageDoctor {
             e.printStackTrace();
             flag = false;
         }finally {
-            session.close();
         }
         return flag;
     }
 
     public boolean deleteDoctor(Doctor doctor){
-        Session session = factory.openSession();
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -104,13 +88,11 @@ public class ManageDoctor {
             e.printStackTrace();
             flag = false;
         }finally {
-            session.close();
         }
         return flag;
     }
 
     public Doctor getDoctorByID(int id){
-        Session session = factory.openSession();
         Transaction tx = null;
         Doctor doctor = null;
         try{
@@ -121,7 +103,6 @@ public class ManageDoctor {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return doctor;
     }

@@ -127,11 +127,10 @@ public class TaskController {
     @RequestMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable(value = "id") int id){
         Response response = new Response();
-        ManageTask manageTask = TopPharmResTfulServiceApplication.manageTask;
+        ManageTask manageTask = new ManageTask();
         Task task = manageTask.getTaskByID(id);
+        //Task task = new Task("taskName","simple","new",2,null,null,"description");
         if(task!=null) {
-            Task testTask = new Task("taskName","simple","new",2,null,null,"description");
-            testTask.setDoctors(task.getDoctors());
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
             response.setObject(task);

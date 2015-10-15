@@ -3,6 +3,7 @@ package md.pharm.hibernate.institution;
 import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.common.Address;
 import md.pharm.hibernate.user.User;
+import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -17,25 +18,14 @@ import java.util.List;
 public class ManageInstitution {
 
     private SessionFactory factory;
+    private Session session;
 
     public ManageInstitution(){
-        /*
-        try{
-            //factory = new Configuration().configure().buildSessionFactory();
-            Configuration configuration = new Configuration();
-            configuration.configure("hibernate.cfg.xml");
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            factory = configuration.buildSessionFactory(serviceRegistry);
-        }catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-        */
-        factory = TopPharmResTfulServiceApplication.factory;
+        factory = HibernateUtil.getSessionFactory();
+        session = HibernateUtil.getSession();
     }
 
     public List<Institution> getInstitutions(){
-        Session session = factory.openSession();
         Transaction tx = null;
         List<Institution> list = null;
         try{
@@ -46,13 +36,11 @@ public class ManageInstitution {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return list;
     }
 
     public Integer addInstitution(Institution institution){
-        Session session = factory.openSession();
         Transaction tx = null;
         Integer institutionID = null;
         try{
@@ -63,13 +51,11 @@ public class ManageInstitution {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return institutionID;
     }
 
     public Integer addInstitutionAddress(Address address){
-        Session session = factory.openSession();
         Transaction tx = null;
         Integer id = null;
         try{
@@ -80,14 +66,12 @@ public class ManageInstitution {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return id;
     }
 
     public boolean updateInstitution(Institution institution){
         boolean flag = false;
-        Session session = factory.openSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -98,14 +82,12 @@ public class ManageInstitution {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return flag;
     }
 
     public boolean updateAddress(Address address){
         boolean flag = false;
-        Session session = factory.openSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -116,13 +98,11 @@ public class ManageInstitution {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return flag;
     }
 
     public Institution getInstitutionByID(int id){
-        Session session = factory.openSession();
         Transaction tx = null;
         Institution institution = null;
         try{
@@ -133,15 +113,13 @@ public class ManageInstitution {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return institution;
     }
 
     public Address getInstitutionAddressByInstitutionID(int id){
-        Session session = factory.openSession();
         Transaction tx = null;
-        Institution institution = null;
+        Institution institution;
         Address address = null;
         boolean flag = true;
         try{
@@ -155,14 +133,12 @@ public class ManageInstitution {
             e.printStackTrace();
             flag = true;
         }finally {
-            session.close();
         }
         if(flag) return null;
         return address;
     }
 
     public Institution getInstitutionByLongName(String longName){
-        Session session = factory.openSession();
         Transaction tx = null;
         Institution institution = null;
         try{
@@ -174,13 +150,11 @@ public class ManageInstitution {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return institution;
     }
 
     public boolean deleteInstitution(Institution institution){
-        Session session = factory.openSession();
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -192,7 +166,6 @@ public class ManageInstitution {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return flag;
     }

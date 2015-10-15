@@ -11,6 +11,21 @@
         <property name="hibernate.connection.username">sa</property>
         <property name="hibernate.connection.password">manager</property>
 
+        <!-- configuration pool via c3p0-->
+        <property name="c3p0.acquire_increment">1</property>
+        <property name="c3p0.idle_test_period">800</property> <!-- seconds -->
+        <property name="c3p0.max_size">20</property>
+        <property name="c3p0.max_statements">20</property>
+        <property name="c3p0.min_size">5</property>
+        <property name="c3p0.timeout">1800</property> <!-- seconds -->
+        <property name="c3p0.maxConnectionAge">1200</property>
+        <property name="conneciton.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+
+        <property name="current_session_context_class">thread</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheRegionFactoryAvailableException</property>
+
+
         <mapping class="md.pharm.hibernate.common.Address"/>
         <mapping class="md.pharm.hibernate.product.Product"/>
         <mapping class="md.pharm.hibernate.product.ProductComment"/>

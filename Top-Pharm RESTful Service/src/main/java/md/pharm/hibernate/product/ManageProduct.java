@@ -2,6 +2,7 @@ package md.pharm.hibernate.product;
 
 import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.doctor.Doctor;
+import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,25 +20,14 @@ import java.util.Set;
 public class ManageProduct {
 
     private SessionFactory factory;
+    private Session session;
 
     public ManageProduct(){
-        /*
-        try{
-            //factory = new Configuration().configure().buildSessionFactory();
-            Configuration configuration = new Configuration();
-            configuration.configure("hibernate.cfg.xml");
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            factory = configuration.buildSessionFactory(serviceRegistry);
-        }catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-        */
-        factory = TopPharmResTfulServiceApplication.factory;
+        factory = HibernateUtil.getSessionFactory();
+        session = HibernateUtil.getSession();
     }
 
     public List<Product> getProducts(){
-        Session session = factory.openSession();
         Transaction tx = null;
         List<Product> list = null;
         try{
@@ -48,13 +38,11 @@ public class ManageProduct {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return list;
     }
 
     public Integer addProduct(Product product){
-        Session session = factory.openSession();
         Transaction tx = null;
         Integer id = null;
         try{
@@ -65,13 +53,11 @@ public class ManageProduct {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return id;
     }
 
     public Integer addProductObjective(Objective objective){
-        Session session = factory.openSession();
         Transaction tx = null;
         Integer id = null;
         try{
@@ -82,14 +68,12 @@ public class ManageProduct {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return id;
     }
 
     public boolean updateProduct(Product product){
         boolean flag = false;
-        Session session = factory.openSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -100,14 +84,12 @@ public class ManageProduct {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return flag;
     }
 
     public boolean updateObjective(Objective objective){
         boolean flag = false;
-        Session session = factory.openSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -118,13 +100,11 @@ public class ManageProduct {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return flag;
     }
 
     public Product getProductByID(int id){
-        Session session = factory.openSession();
         Transaction tx = null;
         Product product = null;
         try{
@@ -135,13 +115,11 @@ public class ManageProduct {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return product;
     }
 
     public Objective getObjectiveByID(int id){
-        Session session = factory.openSession();
         Transaction tx = null;
         Objective objective = null;
         try{
@@ -152,13 +130,11 @@ public class ManageProduct {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return objective;
     }
 
     public Product getProductByObjectiveID(int objectiveID){
-        Session session = factory.openSession();
         Transaction tx = null;
         Objective objective = null;
         Product product = null;
@@ -171,13 +147,11 @@ public class ManageProduct {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return product;
     }
 
     public Set<Objective> getObjectivesByProductID(int productID){
-        Session session = factory.openSession();
         Transaction tx = null;
         Product product = null;
         Set<Objective> list = null;
@@ -190,13 +164,11 @@ public class ManageProduct {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-            session.close();
         }
         return list;
     }
 
     public boolean delete(Product product){
-        Session session = factory.openSession();
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -209,13 +181,11 @@ public class ManageProduct {
             e.printStackTrace();
             flag = false;
         }finally {
-            session.close();
         }
         return flag;
     }
 
     public boolean deleteObjective(Objective objective){
-        Session session = factory.openSession();
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -228,7 +198,6 @@ public class ManageProduct {
             e.printStackTrace();
             flag = false;
         }finally {
-            session.close();
         }
         return flag;
     }
