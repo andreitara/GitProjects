@@ -2,6 +2,7 @@ package md.pharm.hibernate.user.permission;
 
 import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.user.User;
+import md.pharm.restservice.service.util.Country;
 import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -17,15 +18,16 @@ import java.util.List;
  * Created by Andrei on 9/28/2015.
  */
 public class ManagePermission {
-    private SessionFactory factory;
-    private Session session;
 
-    public ManagePermission(){
-        factory = HibernateUtil.getSessionFactory();
-        session = HibernateUtil.getSession();
+    private Session session;
+    private Country country;
+
+    public ManagePermission(String country){
+        this.country = Country.valueOf(country);
     }
 
     public List<Permission> getPermissions(){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         List<Permission> list = null;
         try{
@@ -41,6 +43,7 @@ public class ManagePermission {
     }
 
     public Integer addPermission(Permission permission){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Integer id = null;
         try{
@@ -56,6 +59,7 @@ public class ManagePermission {
     }
 
     public int updatePermission(Permission permission){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -70,6 +74,7 @@ public class ManagePermission {
     }
 
     public void deletePermission(Permission permission){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         try{
             tx = session.beginTransaction();

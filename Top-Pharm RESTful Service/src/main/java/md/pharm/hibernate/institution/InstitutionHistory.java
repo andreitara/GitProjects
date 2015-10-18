@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by Andrei on 9/4/2015.
  */
 @Entity
-@Table(name="[TopPharm].[dbo].[InstitutionHistory]")
+@Table(name="InstitutionHistory")
 public class InstitutionHistory {
 
     @Id

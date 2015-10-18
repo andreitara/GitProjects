@@ -4,13 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import md.pharm.hibernate.institution.Institution;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Andrei on 10/4/2015.
  */
 
 @Entity
-@Table(name="[TopPharm].[dbo].[Address]")
+@Table(name="Address")
 public class Address {
 
     @Id
@@ -19,28 +21,39 @@ public class Address {
     private Integer id;
 
     @Column(name = "street")
+    @Size(max = 50)
     private String street;
 
+    @Column(name = "district")
+    @Size(max = 30)
+    private String district;
+
     @Column(name = "city")
+    @Size(max = 30)
     private String city;
 
     @Column(name = "state")
+    @Size(max = 30)
     private String state;
 
     @Column(name = "country")
+    @Size(max = 30)
     private String country;
 
     @Column(name = "postalCode")
+    @Size(max = 30)
     private String postalCode;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "institutionID")
+    @JsonIgnore
     private Institution institution;
 
     public Address(){}
 
-    public Address(String street, String city, String state, String country, String postalCode) {
+    public Address(String street, String district, String city, String state, String country, String postalCode) {
         this.street = street;
+        this.district = district;
         this.city = city;
         this.state = state;
         this.country = country;
@@ -61,6 +74,14 @@ public class Address {
 
     public void setStreet(String street) {
         this.street = street;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public String getCity() {
@@ -111,8 +132,9 @@ public class Address {
 
         Address address = (Address) o;
 
-        if (id != address.id) return false;
+        if (id != null ? !id.equals(address.id) : address.id != null) return false;
         if (street != null ? !street.equals(address.street) : address.street != null) return false;
+        if (district != null ? !district.equals(address.district) : address.district != null) return false;
         if (city != null ? !city.equals(address.city) : address.city != null) return false;
         if (state != null ? !state.equals(address.state) : address.state != null) return false;
         if (country != null ? !country.equals(address.country) : address.country != null) return false;
@@ -122,8 +144,9 @@ public class Address {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (street != null ? street.hashCode() : 0);
+        result = 31 * result + (district != null ? district.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (country != null ? country.hashCode() : 0);

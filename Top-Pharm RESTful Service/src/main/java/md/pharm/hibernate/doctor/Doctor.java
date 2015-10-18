@@ -3,8 +3,13 @@ package md.pharm.hibernate.doctor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import md.pharm.hibernate.institution.Office;
 import md.pharm.hibernate.task.Task;
+import md.pharm.hibernate.user.User;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Set;
 import java.util.Date;
 
@@ -13,7 +18,7 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name="[TopPharm].[dbo].[Doctor]")
+@Table(name="Doctor")
 public class Doctor {
 
     @Id
@@ -22,33 +27,52 @@ public class Doctor {
     private Integer id;
 
     @Column(name = "firstName")
+    @NotNull
+    @Size(min = 1, max = 40)
     private String firstName;
 
     @Column(name = "lastName")
+    @NotNull
+    @Size(min = 1, max = 40)
     private String lastName;
 
+    @Column(name = "fatherName")
+    @Size(min = 1, max = 40)
+    private String fatherName;
+
     @Column(name = "specialty")
+    @NotNull
+    @Size(min = 1, max = 40)
     private String specialty;
 
     @Column(name = "birthDate")
     private Date birthDate;
 
     @Column(name = "phone1")
+    @Pattern(regexp = "^\\+?([0-9])+$", message = "Invalid phone number")
+    @Size(max = 20)
     private String phone1;
 
     @Column(name = "phone2")
+    @Pattern(regexp = "^\\+?([0-9])+$", message = "Invalid phone number")
+    @Size(max = 20)
     private String phone2;
 
     @Column(name = "email")
+    @Email
+    @Size(max = 320)
     private String email;
 
     @Column(name = "loyaltyCategory")
+    @Size(max = 20)
     private String loyaltyCategory;
 
     @Column(name = "saleCategory")
+    @Size(max = 20)
     private String saleCategory;
 
     @Column(name = "generalCategory")
+    @Size(max = 20)
     private String generalCategory;
 
     @Column(name = "description")
@@ -69,11 +93,16 @@ public class Doctor {
     @JsonIgnore
     private Set<Task> tasks;
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy="doctors", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<User> users;
+
     public Doctor(){}
 
-    public Doctor(String firstName, String lastName, String specialty, Date birthDate, String phone1, String phone2, String email, String loyaltyCategory, String saleCategory, String generalCategory, String description) {
+    public Doctor(String firstName, String lastName, String fatherName, String specialty, Date birthDate, String phone1, String phone2, String email, String loyaltyCategory, String saleCategory, String generalCategory, String description) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.fatherName = fatherName;
         this.specialty = specialty;
         this.birthDate = birthDate;
         this.phone1 = phone1;
@@ -107,6 +136,14 @@ public class Doctor {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getFatherName() {
+        return fatherName;
+    }
+
+    public void setFatherName(String fatherName) {
+        this.fatherName = fatherName;
     }
 
     public String getSpecialty() {
@@ -214,6 +251,14 @@ public class Doctor {
         this.tasks = tasks;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -221,7 +266,7 @@ public class Doctor {
 
         Doctor doctor = (Doctor) o;
 
-        if (id != doctor.id) return false;
+        if (id != null ? !id.equals(doctor.id) : doctor.id != null) return false;
         if (firstName != null ? !firstName.equals(doctor.firstName) : doctor.firstName != null) return false;
         if (lastName != null ? !lastName.equals(doctor.lastName) : doctor.lastName != null) return false;
         if (specialty != null ? !specialty.equals(doctor.specialty) : doctor.specialty != null) return false;
@@ -241,7 +286,7 @@ public class Doctor {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (specialty != null ? specialty.hashCode() : 0);

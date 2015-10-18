@@ -11,14 +11,14 @@ import java.util.UUID;
  */
 
 @Entity
-@Table(name="[TopPharm].[dbo].[Connection]", uniqueConstraints = {
+@Table(name="Connection", uniqueConstraints = {
         @UniqueConstraint(columnNames = "ConnectionKey")})
 public class Connection {
 
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "date")
     private Date date;
@@ -44,7 +44,7 @@ public class Connection {
         this.user = user;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -87,7 +87,7 @@ public class Connection {
 
         Connection that = (Connection) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (date != null ? !date.equals(that.date) : that.date != null) return false;
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
         return !(connectionKey != null ? !connectionKey.equals(that.connectionKey) : that.connectionKey != null);
@@ -96,7 +96,7 @@ public class Connection {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (connectionKey != null ? connectionKey.hashCode() : 0);

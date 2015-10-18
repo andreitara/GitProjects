@@ -6,12 +6,10 @@ import md.pharm.hibernate.task.ManageTask;
 import md.pharm.hibernate.task.Task;
 import md.pharm.restservice.service.Response;
 import md.pharm.restservice.util.ErrorCodes;
+import md.pharm.restservice.util.StaticStrings;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -24,9 +22,9 @@ import java.util.Set;
 public class ProductTaskController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResponseEntity<?> getAll(@PathVariable(value = "taskID") int taskID){
+    public ResponseEntity<?> getAll(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "taskID") Integer taskID){
         Response response = new Response();
-        ManageTask manageTask = new ManageTask();
+        ManageTask manageTask = new ManageTask(country);
         Task task = manageTask.getTaskByID(taskID);
         if(task!=null){
             Set<Product> products = task.getProducts();
@@ -42,12 +40,12 @@ public class ProductTaskController {
     }
 
     @RequestMapping(value = "/add/{productID}", method = RequestMethod.POST)
-    public ResponseEntity<?> add(@PathVariable(value = "taskID") int taskID, @PathVariable(value = "productID") Integer productID){
+    public ResponseEntity<?> add(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "taskID") Integer taskID, @PathVariable(value = "productID") Integer productID){
         Response response = new Response();
-        ManageTask manageTask = new ManageTask();
+        ManageTask manageTask = new ManageTask(country);
         Task task = manageTask.getTaskByID(taskID);
         if(task!=null){
-            ManageProduct manageProduct = new ManageProduct();
+            ManageProduct manageProduct = new ManageProduct(country);
             Product product = manageProduct.getProductByID(productID);
             if(product!=null) {
                 //doctor.getTasks().add(task);
@@ -69,12 +67,12 @@ public class ProductTaskController {
     }
 
     @RequestMapping(value = "/delete/{productID}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> delete(@PathVariable(value = "taskID") int taskID, @PathVariable(value = "productID") int productID){
+    public ResponseEntity<?> delete(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "taskID") Integer taskID, @PathVariable(value = "productID") Integer productID){
         Response response = new Response();
-        ManageTask manageTask = new ManageTask();
+        ManageTask manageTask = new ManageTask(country);
         Task task = manageTask.getTaskByID(taskID);
         if(task!=null){
-            ManageProduct manageProduct = new ManageProduct();
+            ManageProduct manageProduct = new ManageProduct(country);
             Product product = manageProduct.getProductByID(productID);
             if(product!=null) {
                 if(manageTask.deleteProductTask(taskID, productID)) {

@@ -1,12 +1,9 @@
 package md.pharm.hibernate.connection;
 
-import md.pharm.hibernate.user.User;
+import md.pharm.restservice.service.util.Country;
 import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.*;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.service.ServiceRegistry;
 
 import java.util.List;
 
@@ -15,15 +12,19 @@ import java.util.List;
  */
 public class ManageConnection {
 
-    private SessionFactory factory;
     private Session session;
+    private Country country;
 
-    public ManageConnection(){
-        factory = HibernateUtil.getSessionFactory();
-        session = HibernateUtil.getSession();
+    public ManageConnection(String country){
+        this.country = Country.valueOf(country);
+    }
+
+    public ManageConnection(Country country){
+        this.country = country;
     }
 
     public List<Connection> getConnections(){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         List<Connection> list = null;
         try{
@@ -39,6 +40,7 @@ public class ManageConnection {
     }
 
     public Integer addConnection(Connection connection){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Integer connectionID = null;
         try{
@@ -54,6 +56,7 @@ public class ManageConnection {
     }
 
     public int updateConnection(Connection connection){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -68,6 +71,7 @@ public class ManageConnection {
     }
 
     public boolean deleteConnection(Connection connection){
+        session = HibernateUtil.getSession(country);
         boolean flag = false;
         Transaction tx = null;
         try{
@@ -84,6 +88,7 @@ public class ManageConnection {
     }
 
     public Connection getConnectionByID(int id){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Connection connection = null;
         try{
@@ -99,6 +104,7 @@ public class ManageConnection {
     }
 
     public Connection getConnectionByConnectionKey(String key){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Connection connection = null;
         try{

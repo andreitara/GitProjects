@@ -1,9 +1,9 @@
 package md.pharm.hibernate.message;
 
+import md.pharm.restservice.service.util.Country;
 import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
@@ -12,15 +12,16 @@ import java.util.List;
  * Created by Andrei on 9/5/2015.
  */
 public class ManageMessage {
-    private SessionFactory factory;
-    private Session session;
 
-    public ManageMessage(){
-        factory = HibernateUtil.getSessionFactory();
-        session = HibernateUtil.getSession();
+    private Session session;
+    private Country country;
+
+    public ManageMessage(String country){
+        this.country = Country.valueOf(country);
     }
 
     public List<Message> getMessages(){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         List<Message> list = null;
         try{
@@ -36,6 +37,7 @@ public class ManageMessage {
     }
 
     public Integer addMessage(Message message){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Integer messageID = null;
         try{
@@ -51,6 +53,7 @@ public class ManageMessage {
     }
 
     public int updateMessage(Message message){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -65,6 +68,7 @@ public class ManageMessage {
     }
 
     public Message getMessageByID(int id){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Message message = null;
         try{

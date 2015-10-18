@@ -1,18 +1,15 @@
 package md.pharm.restservice.security;
 
 import antlr.StringUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import md.pharm.hibernate.user.ManageUser;
 import md.pharm.hibernate.user.User;
 import md.pharm.hibernate.user.permission.Permission;
-import md.pharm.restservice.service.Response;
 import md.pharm.restservice.util.ErrorCodes;
 import md.pharm.restservice.util.StaticStrings;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 class StatelessAuthenticationFilter extends GenericFilterBean {
@@ -26,32 +23,28 @@ class StatelessAuthenticationFilter extends GenericFilterBean {
 			chain.doFilter(req, res);
 		}else {
 			String token = ((HttpServletRequest) req).getHeader(StaticStrings.HEADER_SECURITY_TOKEN);
-			ManageUser manageUser = new ManageUser();
+			ManageUser manageUser = new ManageUser("MD");
 			User user = manageUser.getUserByConnectionKey(token);
+			if(user==null){
+				manageUser = new ManageUser("RO");
+				user = manageUser.getUserByConnectionKey(token);
+			}
 			if(user != null){
 				Permission permission = user.getPermission();
 				if(permission!=null && userHasPermission(permission,httpRequest)){
 					HeaderMapRequestWrapper wrapper = new HeaderMapRequestWrapper(httpRequest);
 					String username = user.getUsername();
+					String country = user.getCountry();
 					wrapper.addHeader(StaticStrings.HEADER_USERNAME, username);
+					wrapper.addHeader(StaticStrings.HEADER_COUNTRY, country);
 					chain.doFilter(wrapper, res);
 				}else{
                     String newURI = "error/" + ErrorCodes.InsufficientAccountPermissions.name;
                     req.getRequestDispatcher(newURI).forward(req, res);
-                    //Response response = new Response();
-                    //response.setResponseCode(ErrorCodes.InsufficientAccountPermissions.name);
-                    //response.setResponseMessage(ErrorCodes.InsufficientAccountPermissions.userMessage);
-                    //ObjectMapper mapper = new ObjectMapper();
-                    //((HttpServletResponse) res).sendError(HttpServletResponse.SC_OK, mapper.writeValueAsString(response));
 				}
 			}else{
                 String newURI = "error/" + ErrorCodes.InvalidAuthenticationInfo.name;
                 req.getRequestDispatcher(newURI).forward(req, res);
-				//Response response = new Response();
-				//response.setResponseCode(ErrorCodes.InvalidAuthenticationInfo.name);
-				//response.setResponseMessage(ErrorCodes.InvalidAuthenticationInfo.userMessage);
-				//ObjectMapper mapper = new ObjectMapper();
-				//((HttpServletResponse) res).sendError(HttpServletResponse.SC_UNAUTHORIZED, mapper.writeValueAsString(response));
 			}
 		}
 	}

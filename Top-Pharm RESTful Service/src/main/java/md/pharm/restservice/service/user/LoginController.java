@@ -26,19 +26,30 @@ public class LoginController {
     public ResponseEntity<?> createUser(@RequestBody User user){
         Response response = new Response();
         if(user!=null) {
-            ManageUser manageUser = new ManageUser();
-            ManageConnection manageConnection = new ManageConnection();
+            ManageUser manageUser = new ManageUser("MD");
+            ManageConnection manageConnection = new ManageConnection("MD");
             User userFromDB = manageUser.getUserByUsername(user.getUsername());
-            if (userFromDB.getPassword().equals(user.getPassword())) {
-                Connection connection = new Connection();
-                userFromDB.setConnection(connection);
-                connection.setUser(userFromDB);
-                manageConnection.addConnection(connection);
-                response.setObject(connection.getConnectionKey());
-                response.setResponseCode(ErrorCodes.ValidAuthenticationInfo.name);
-                response.setResponseMessage(ErrorCodes.ValidAuthenticationInfo.userMessage);
-                return new ResponseEntity<Object>(response, HttpStatus.OK);
-            } else {
+            if(userFromDB == null){
+                manageUser = new ManageUser("RO");
+                manageConnection = new ManageConnection("RO");
+                userFromDB = manageUser.getUserByUsername(user.getUsername());
+            }
+            if(userFromDB!=null) {
+                if (userFromDB.getPassword().equals(user.getPassword())) {
+                    Connection connection = new Connection();
+                    userFromDB.setConnection(connection);
+                    connection.setUser(userFromDB);
+                    manageConnection.addConnection(connection);
+                    response.setObject(connection.getConnectionKey());
+                    response.setResponseCode(ErrorCodes.ValidAuthenticationInfo.name);
+                    response.setResponseMessage(ErrorCodes.ValidAuthenticationInfo.userMessage);
+                    return new ResponseEntity<Object>(response, HttpStatus.OK);
+                } else {
+                    response.setResponseCode(ErrorCodes.InvalidAuthenticationInfo.name);
+                    response.setResponseMessage(ErrorCodes.InvalidAuthenticationInfo.userMessage);
+                    return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+                }
+            }else{
                 response.setResponseCode(ErrorCodes.InvalidAuthenticationInfo.name);
                 response.setResponseMessage(ErrorCodes.InvalidAuthenticationInfo.userMessage);
                 return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
@@ -51,12 +62,12 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ResponseEntity<?> getUser(@RequestHeader(StaticStrings.HEADER_USERNAME) String username){
+    public ResponseEntity<?> getUser(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @RequestHeader(StaticStrings.HEADER_USERNAME) String username){
         Response response = new Response();
-        User user = new ManageUser().getUserByUsername(username);
+        User user = new ManageUser(country).getUserByUsername(username);
         if(user!=null) {
             Connection connection = user.getConnection();
-            if (connection != null && new ManageConnection().deleteConnection(connection) == false) {
+            if (connection != null && new ManageConnection(country).deleteConnection(connection) == false) {
                 response.setResponseCode(ErrorCodes.InternalError.name);
                 response.setResponseMessage(ErrorCodes.InternalError.userMessage);
                 return new ResponseEntity<Object>(response, HttpStatus.INTERNAL_SERVER_ERROR);

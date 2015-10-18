@@ -8,6 +8,7 @@ import md.pharm.hibernate.task.ManageTask;
 import md.pharm.hibernate.training.ManageTraining;
 import md.pharm.hibernate.user.ManageUser;
 import md.pharm.hibernate.user.permission.ManagePermission;
+import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
@@ -26,7 +27,8 @@ import javax.servlet.Filter;
 public class TopPharmResTfulServiceApplication extends WebMvcConfigurationSupport {
 
     public static void main(String[] args) {
-
+        HibernateUtil.buildROSessionFactory();
+        HibernateUtil.buildMDSessionFactory();
         SpringApplication.run(TopPharmResTfulServiceApplication.class, args);
     }
 

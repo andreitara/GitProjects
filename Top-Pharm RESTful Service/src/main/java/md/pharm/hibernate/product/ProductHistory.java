@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by Andrei on 10/4/2015.
  */
 @Entity
-@Table(name="[TopPharm].[dbo].[ProductHistory]")
+@Table(name="ProductHistory")
 public class ProductHistory {
     @Id
     @GeneratedValue

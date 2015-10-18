@@ -2,6 +2,7 @@ package md.pharm.hibernate.doctor;
 
 import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.institution.Institution;
+import md.pharm.restservice.service.util.Country;
 import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -17,15 +18,15 @@ import java.util.List;
  * Created by Andrei on 9/5/2015.
  */
 public class ManageDoctor {
-    private SessionFactory factory;
     private Session session;
+    Country country;
 
-    public ManageDoctor(){
-        factory = HibernateUtil.getSessionFactory();
-        session = HibernateUtil.getSession();
+    public ManageDoctor(String country){
+        this.country = Country.valueOf(country);
     }
 
     public List<Doctor> getDoctors(){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         List<Doctor> list = null;
         try{
@@ -41,6 +42,7 @@ public class ManageDoctor {
     }
 
     public Integer addDoctor(Doctor doctor){
+        session = HibernateUtil.getSession(country);
         boolean flag = false;
         Transaction tx = null;
         Integer doctorID = null;
@@ -59,6 +61,7 @@ public class ManageDoctor {
     }
 
     public boolean updateDoctor(Doctor doctor){
+        session = HibernateUtil.getSession(country);
         boolean flag = false;
         Transaction tx = null;
         try{
@@ -76,6 +79,7 @@ public class ManageDoctor {
     }
 
     public boolean deleteDoctor(Doctor doctor){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -93,6 +97,7 @@ public class ManageDoctor {
     }
 
     public Doctor getDoctorByID(int id){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Doctor doctor = null;
         try{

@@ -10,7 +10,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name="[TopPharm].[dbo].[Training]")
+@Table(name="Training")
 public class Training {
 
     @Id

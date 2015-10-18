@@ -2,6 +2,7 @@ package md.pharm.hibernate.product;
 
 import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.doctor.Doctor;
+import md.pharm.restservice.service.util.Country;
 import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -19,15 +20,15 @@ import java.util.Set;
  */
 public class ManageProduct {
 
-    private SessionFactory factory;
     private Session session;
+    private Country country;
 
-    public ManageProduct(){
-        factory = HibernateUtil.getSessionFactory();
-        session = HibernateUtil.getSession();
+    public ManageProduct(String country){
+        this.country = Country.valueOf(country);
     }
 
     public List<Product> getProducts(){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         List<Product> list = null;
         try{
@@ -43,6 +44,7 @@ public class ManageProduct {
     }
 
     public Integer addProduct(Product product){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Integer id = null;
         try{
@@ -58,6 +60,7 @@ public class ManageProduct {
     }
 
     public Integer addProductObjective(Objective objective){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Integer id = null;
         try{
@@ -73,6 +76,7 @@ public class ManageProduct {
     }
 
     public boolean updateProduct(Product product){
+        session = HibernateUtil.getSession(country);
         boolean flag = false;
         Transaction tx = null;
         try{
@@ -89,6 +93,7 @@ public class ManageProduct {
     }
 
     public boolean updateObjective(Objective objective){
+        session = HibernateUtil.getSession(country);
         boolean flag = false;
         Transaction tx = null;
         try{
@@ -105,6 +110,7 @@ public class ManageProduct {
     }
 
     public Product getProductByID(int id){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Product product = null;
         try{
@@ -120,6 +126,7 @@ public class ManageProduct {
     }
 
     public Objective getObjectiveByID(int id){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Objective objective = null;
         try{
@@ -135,6 +142,7 @@ public class ManageProduct {
     }
 
     public Product getProductByObjectiveID(int objectiveID){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Objective objective = null;
         Product product = null;
@@ -152,6 +160,7 @@ public class ManageProduct {
     }
 
     public Set<Objective> getObjectivesByProductID(int productID){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Product product = null;
         Set<Objective> list = null;
@@ -169,6 +178,7 @@ public class ManageProduct {
     }
 
     public boolean delete(Product product){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -186,6 +196,7 @@ public class ManageProduct {
     }
 
     public boolean deleteObjective(Objective objective){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         boolean flag = false;
         try{

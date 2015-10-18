@@ -3,13 +3,15 @@ package md.pharm.hibernate.institution;
 import md.pharm.hibernate.doctor.Doctor;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Andrei on 10/4/2015.
  */
 
 @Entity
-@Table(name="[TopPharm].[dbo].[Office]")
+@Table(name="Office")
 public class Office {
 
     @Id
@@ -18,12 +20,14 @@ public class Office {
     private Integer id;
 
     @Column(name = "block")
+    @Size(max = 10)
     private String block;
 
     @Column(name = "floor")
     private int floor;
 
     @Column(name = "officeNumber")
+    @Size(max = 10)
     private String officeNumber;
 
     @Column(name = "descripiton")
@@ -31,10 +35,12 @@ public class Office {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "institutionID")
+    @Valid
     private Institution institution;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctorID")
+    @Valid
     private Doctor doctor;
 
     public Office(){}

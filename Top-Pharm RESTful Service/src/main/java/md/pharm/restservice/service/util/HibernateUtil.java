@@ -10,26 +10,47 @@ import org.hibernate.service.ServiceRegistry;
  */
 public class HibernateUtil {
 
-    private static SessionFactory factory;
+    private static SessionFactory mdFactory;
+    private static SessionFactory roFactory;
 
-    public static void buildSessionFactory() {
+    public static void buildMDSessionFactory() {
         try {
             org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
-            configuration.configure("hibernate.cfg.xml");
+            configuration.configure("md.hibernate.cfg.xml");
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            factory = configuration.buildSessionFactory(serviceRegistry);
+            mdFactory = configuration.buildSessionFactory(serviceRegistry);
         } catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
+            System.err.println("Failed to create MD SessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
     }
 
-    public static SessionFactory getSessionFactory() {
-        if(factory==null) buildSessionFactory();
-        return factory;
+    public static void buildROSessionFactory() {
+        try {
+            org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
+            configuration.configure("ro.hibernate.cfg.xml");
+            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+            roFactory = configuration.buildSessionFactory(serviceRegistry);
+        } catch (Throwable ex) {
+            System.err.println("Failed to create RO SessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
     }
 
-    public static Session getSession(){
+    public static SessionFactory getSessionFactory(Country country) {
+        switch (country){
+            case MD:
+                if(mdFactory==null) buildMDSessionFactory();
+                return mdFactory;
+            case RO:
+                if(roFactory==null) buildROSessionFactory();
+                return roFactory;
+        }
+        return null;
+    }
+
+    public static Session getSession(Country country){
+        SessionFactory factory = getSessionFactory(country);
         Session session = factory.getCurrentSession();
         if(session==null){
             session = factory.openSession();

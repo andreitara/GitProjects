@@ -8,7 +8,8 @@ import java.util.List;
  */
 public class StaticStrings {
     final public static String HEADER_SECURITY_TOKEN = "auth-token";
-    final public static String HEADER_USERNAME = "username";
+    final public static String HEADER_USERNAME = "toppharm-username";
+    final public static String HEADER_COUNTRY = "toppharm-country";
 
     final public static List<String> ACCESSIBLE_PAGES = Arrays.asList("toppharm/user/login");
 

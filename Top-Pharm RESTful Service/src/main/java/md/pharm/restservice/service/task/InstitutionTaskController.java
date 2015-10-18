@@ -8,12 +8,10 @@ import md.pharm.hibernate.task.ManageTask;
 import md.pharm.hibernate.task.Task;
 import md.pharm.restservice.service.Response;
 import md.pharm.restservice.util.ErrorCodes;
+import md.pharm.restservice.util.StaticStrings;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -26,9 +24,9 @@ import java.util.Set;
 public class InstitutionTaskController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<?> getAll(@PathVariable(value = "taskID") int taskID){
+    public ResponseEntity<?> getAll(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "taskID") int taskID){
         Response response = new Response();
-        ManageTask manageTask = new ManageTask();
+        ManageTask manageTask = new ManageTask(country);
         Task task = manageTask.getTaskByID(taskID);
         if(task!=null){
             Institution institution = task.getInstitution();
@@ -44,12 +42,12 @@ public class InstitutionTaskController {
     }
 
     @RequestMapping(value = "/add/{institutionID}", method = RequestMethod.POST)
-    public ResponseEntity<?> add(@PathVariable(value = "taskID") int taskID, @PathVariable(value = "institutionID") Integer institutionID){
+    public ResponseEntity<?> add(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "taskID") Integer taskID, @PathVariable(value = "institutionID") Integer institutionID){
         Response response = new Response();
-        ManageTask manageTask = new ManageTask();
+        ManageTask manageTask = new ManageTask(country);
         Task task = manageTask.getTaskByID(taskID);
         if(task!=null){
-            ManageInstitution manageInstitution = new ManageInstitution();
+            ManageInstitution manageInstitution = new ManageInstitution(country);
             Institution institution = manageInstitution.getInstitutionByID(institutionID);
             if(institution!=null) {
                 //doctor.getTasks().add(task);
@@ -71,12 +69,12 @@ public class InstitutionTaskController {
     }
 
     @RequestMapping(value = "/update/{institutionID}", method = RequestMethod.POST)
-    public ResponseEntity<?> update(@PathVariable(value = "taskID") int taskID, @PathVariable(value = "institutionID") Integer institutionID){
+    public ResponseEntity<?> update(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "taskID") Integer taskID, @PathVariable(value = "institutionID") Integer institutionID){
         Response response = new Response();
-        ManageTask manageTask = new ManageTask();
+        ManageTask manageTask = new ManageTask(country);
         Task task = manageTask.getTaskByID(taskID);
         if(task!=null){
-            ManageInstitution manageInstitution = new ManageInstitution();
+            ManageInstitution manageInstitution = new ManageInstitution(country);
             Institution institution = manageInstitution.getInstitutionByID(institutionID);
             if(institution!=null) {
                 //doctor.getTasks().add(task);
@@ -98,9 +96,9 @@ public class InstitutionTaskController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public ResponseEntity<?> delete(@PathVariable(value = "taskID") int taskID) {
+    public ResponseEntity<?> delete(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "taskID") int taskID) {
         Response response = new Response();
-        ManageTask manageTask = new ManageTask();
+        ManageTask manageTask = new ManageTask(country);
         Task task = manageTask.getTaskByID(taskID);
         if (task != null) {
             task.setInstitution(null);

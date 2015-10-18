@@ -17,34 +17,7 @@ import java.util.UUID;
 @WebAppConfiguration
 public class UserControllerTest {
 
-    String userID1 = UUID.randomUUID().toString();
-    String userID2 = UUID.randomUUID().toString();
-    User user1 = new User("A","First","Last",null,userID1,"password","email@toppharm.com");
-    User user2 = new User("A","First","Last",null,userID2,"password","email@toppharm.com");
-
-	@Test
-	public void createFirstUser() {
-
-	}
-
-	@Test
-	public void createSecondUser() {
-
-	}
-
-	@Test
-	public void getAllUsers() {
-
-	}
-
-	@Test
-	public void getFirstUser() {
-
-	}
-
-	@Test
-	public void deleteSecondUser() {
-
-	}
-
+    @Test
+    public void test(){
+    }
 }

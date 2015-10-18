@@ -6,12 +6,10 @@ import md.pharm.hibernate.user.ManageUser;
 import md.pharm.hibernate.user.User;
 import md.pharm.restservice.service.Response;
 import md.pharm.restservice.util.ErrorCodes;
+import md.pharm.restservice.util.StaticStrings;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -24,16 +22,15 @@ import java.util.Set;
 public class UserTaskController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResponseEntity<?> getAll(@PathVariable(value = "taskID") int taskID){
+    public ResponseEntity<?> getAll(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "taskID") Integer taskID){
         Response response = new Response();
-        ManageTask manageTask = new ManageTask();
+        ManageTask manageTask = new ManageTask(country);
         Task task = manageTask.getTaskByID(taskID);
         if(task!=null){
             Set<User> users = task.getUsers();
             response.setResponseCode(ErrorCodes.OK.name);
             response.setResponseMessage(ErrorCodes.OK.userMessage);
             response.setObject(users);
-            //response.addMapItem("doctors", list);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }else{
             response.setResponseCode(ErrorCodes.InternalError.name);
@@ -43,15 +40,14 @@ public class UserTaskController {
     }
 
     @RequestMapping(value = "/add/{userID}", method = RequestMethod.POST)
-    public ResponseEntity<?> add(@PathVariable(value = "taskID") int taskID, @PathVariable(value = "userID") int userID){
+    public ResponseEntity<?> add(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "taskID") Integer taskID, @PathVariable(value = "userID") Integer userID){
         Response response = new Response();
-        ManageTask manageTask = new ManageTask();
+        ManageTask manageTask = new ManageTask(country);
         Task task = manageTask.getTaskByID(taskID);
         if(task!=null){
-            ManageUser manageUser = new ManageUser();
+            ManageUser manageUser = new ManageUser(country);
             User user = manageUser.getUserByID(userID);
             if(user!=null) {
-                //doctor.getTasks().add(task);
                 task.getUsers().add(user);
                 manageTask.updateTask(task);
                 response.setResponseCode(ErrorCodes.OK.name);
@@ -70,12 +66,12 @@ public class UserTaskController {
     }
 
     @RequestMapping(value = "/delete/{userID}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> delete(@PathVariable(value = "taskID") int taskID, @PathVariable(value = "userID") int userID){
+    public ResponseEntity<?> delete(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "taskID") Integer taskID, @PathVariable(value = "userID") Integer userID){
         Response response = new Response();
-        ManageTask manageTask = new ManageTask();
+        ManageTask manageTask = new ManageTask(country);
         Task task = manageTask.getTaskByID(taskID);
         if(task!=null){
-            ManageUser manageUser = new ManageUser();
+            ManageUser manageUser = new ManageUser(country);
             User user = manageUser.getUserByID(userID);
             if(user!=null) {
                 if(manageTask.deleteUserTask(taskID,userID)) {

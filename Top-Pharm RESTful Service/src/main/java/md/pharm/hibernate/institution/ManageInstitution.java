@@ -2,7 +2,9 @@ package md.pharm.hibernate.institution;
 
 import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.common.Address;
+import md.pharm.hibernate.task.Task;
 import md.pharm.hibernate.user.User;
+import md.pharm.restservice.service.util.Country;
 import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -10,6 +12,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,15 +20,15 @@ import java.util.List;
  */
 public class ManageInstitution {
 
-    private SessionFactory factory;
     private Session session;
+    private Country country;
 
-    public ManageInstitution(){
-        factory = HibernateUtil.getSessionFactory();
-        session = HibernateUtil.getSession();
+    public ManageInstitution(String country){
+        this.country = Country.valueOf(country);
     }
 
     public List<Institution> getInstitutions(){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         List<Institution> list = null;
         try{
@@ -40,7 +43,83 @@ public class ManageInstitution {
         return list;
     }
 
+    public  List<Institution> getInstitutionsByName(String name){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List<Institution> institutions = null;
+        try{
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Institution.class).add(Restrictions.like("longName", "%" + name + "%"));
+            institutions = criteria.list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+        }
+        return institutions;
+    }
+
+    public  List<Institution> getInstitutionsByCity( String city){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List<Institution> institutions = null;
+        try{
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Institution.class)
+                    .createCriteria("address")
+                    .add(Restrictions.eq("city",city));
+            institutions = criteria.list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+        }
+        return institutions;
+    }
+
+    public  List<Institution> getInstitutionsByCityAndDistrict(String city, String district){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List<Institution> institutions = null;
+        try{
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Institution.class)
+                    .createCriteria("address")
+                    .add(Restrictions.eq("city", city))
+                    .add(Restrictions.eq("district",district));
+            institutions = criteria.list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+        }
+        return institutions;
+    }
+
+    public  List<Institution> getInstitutionsByState(String state){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List<Institution> institutions = null;
+        try{
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Institution.class)
+                    .createCriteria("address")
+                    .add(Restrictions.eq("state",state));
+            institutions = criteria.list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+        }
+        return institutions;
+    }
+
     public Integer addInstitution(Institution institution){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Integer institutionID = null;
         try{
@@ -56,6 +135,7 @@ public class ManageInstitution {
     }
 
     public Integer addInstitutionAddress(Address address){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Integer id = null;
         try{
@@ -71,6 +151,7 @@ public class ManageInstitution {
     }
 
     public boolean updateInstitution(Institution institution){
+        session = HibernateUtil.getSession(country);
         boolean flag = false;
         Transaction tx = null;
         try{
@@ -87,6 +168,7 @@ public class ManageInstitution {
     }
 
     public boolean updateAddress(Address address){
+        session = HibernateUtil.getSession(country);
         boolean flag = false;
         Transaction tx = null;
         try{
@@ -103,6 +185,7 @@ public class ManageInstitution {
     }
 
     public Institution getInstitutionByID(int id){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Institution institution = null;
         try{
@@ -118,6 +201,7 @@ public class ManageInstitution {
     }
 
     public Address getInstitutionAddressByInstitutionID(int id){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Institution institution;
         Address address = null;
@@ -139,6 +223,7 @@ public class ManageInstitution {
     }
 
     public Institution getInstitutionByLongName(String longName){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Institution institution = null;
         try{
@@ -155,6 +240,7 @@ public class ManageInstitution {
     }
 
     public boolean deleteInstitution(Institution institution){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         boolean flag = false;
         try{

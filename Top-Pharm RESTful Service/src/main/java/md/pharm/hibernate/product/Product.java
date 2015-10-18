@@ -1,18 +1,21 @@
 package md.pharm.hibernate.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import md.pharm.hibernate.doctor.Doctor;
 import md.pharm.hibernate.doctor.DoctorComment;
 import md.pharm.hibernate.doctor.DoctorHistory;
 import md.pharm.hibernate.task.Task;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
  * Created by Andrei on 10/4/2015.
  */
 @Entity
-@Table(name="[TopPharm].[dbo].[Product]", uniqueConstraints = {
+@Table(name="Product", uniqueConstraints = {
         @UniqueConstraint(columnNames = "name")})
 public class Product {
 
@@ -22,19 +25,31 @@ public class Product {
     private Integer id;
 
     @Column(name = "name")
+    @NotNull
+    @Size(max = 100)
     private String name;
 
     @Column(name = "boxQuantity")
+    @Size(max = 20)
     private String boxQuantity;
 
-    @Column(name = "quantity")
-    private String averagePrice;
+    @Column(name = "averagePrice")
+    private Double averagePrice;
+
+    @Column(name = "category")
+    @Size(max = 30)
+    private String category;
 
     @Column(name = "message")
+    @Size(max = 512)
     private String message;
 
     @Column(name = "priority")
     private int priority;
+
+    @Column(name = "slideURL")
+    @Size(max = 1024)
+    private String slideURL;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Objective> objectives;
@@ -53,12 +68,14 @@ public class Product {
 
     public Product(){}
 
-    public Product(String name, String boxQuantity, String averagePrice, String message, int priority) {
+    public Product(String name, String category, String boxQuantity, Double averagePrice, String message, int priority, String slideURL) {
         this.name = name;
+        this.category = category;
         this.boxQuantity = boxQuantity;
         this.averagePrice = averagePrice;
         this.message = message;
         this.priority = priority;
+        this.slideURL = slideURL;
     }
 
     public Integer getId() {
@@ -77,6 +94,14 @@ public class Product {
         this.name = name;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public String getBoxQuantity() {
         return boxQuantity;
     }
@@ -85,11 +110,11 @@ public class Product {
         this.boxQuantity = boxQuantity;
     }
 
-    public String getAveragePrice() {
+    public Double getAveragePrice() {
         return averagePrice;
     }
 
-    public void setAveragePrice(String averagePrice) {
+    public void setAveragePrice(Double averagePrice) {
         this.averagePrice = averagePrice;
     }
 
@@ -109,6 +134,14 @@ public class Product {
         this.priority = priority;
     }
 
+    public String getSlideURL() {
+        return slideURL;
+    }
+
+    public void setSlideURL(String slideURL) {
+        this.slideURL = slideURL;
+    }
+
     public Set<Objective> getObjectives() {
         return objectives;
     }
@@ -123,6 +156,22 @@ public class Product {
 
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public Set<ProductComment> getProductComments() {
+        return productComments;
+    }
+
+    public void setProductComments(Set<ProductComment> productComments) {
+        this.productComments = productComments;
+    }
+
+    public Set<ProductHistory> getProductHistories() {
+        return productHistories;
+    }
+
+    public void setProductHistories(Set<ProductHistory> productHistories) {
+        this.productHistories = productHistories;
     }
 
     @Override

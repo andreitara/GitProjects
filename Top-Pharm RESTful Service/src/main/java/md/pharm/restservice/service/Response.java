@@ -1,18 +1,25 @@
 package md.pharm.restservice.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import md.pharm.hibernate.product.Objective;
+import md.pharm.hibernate.user.User;
+import md.pharm.hibernate.validator.Violation;
 
+import javax.validation.ConstraintViolation;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by Andrei on 9/24/2015.
  */
-public class Response {
+public class Response<T>{
     private String responseCode;
     private String responseMessage;
+    private Set<Violation> violations;
     private Object object;
+    @JsonIgnore
     private Map<String, Object> map;
 
     public Response(){
@@ -42,6 +49,14 @@ public class Response {
 
     public void setResponseMessage(String responseMessage) {
         this.responseMessage = responseMessage;
+    }
+
+    public Set<Violation> getViolations() {
+        return violations;
+    }
+
+    public void setViolations(Set<Violation> violations) {
+        this.violations = violations;
     }
 
     public Object getObject() {

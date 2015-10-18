@@ -2,6 +2,7 @@ package md.pharm.hibernate.task;
 
 import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.doctor.Doctor;
+import md.pharm.restservice.service.util.Country;
 import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -14,15 +15,16 @@ import java.util.List;
  * Created by Andrei on 9/5/2015.
  */
 public class ManageTask {
-    private SessionFactory factory;
-    private Session session;
 
-    public ManageTask(){
-        factory = HibernateUtil.getSessionFactory();
-        session = HibernateUtil.getSession();
+    private Session session;
+    Country country;
+
+    public ManageTask(String country){
+        this.country = Country.valueOf(country);
     }
 
     public List<Task> getTasks(){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         List<Task> list = null;
         try{
@@ -33,13 +35,12 @@ public class ManageTask {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-
         }
         return list;
     }
 
     public Integer addTask(Task task){
-        Session session = factory.openSession();
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Integer taskID = null;
         try{
@@ -50,13 +51,12 @@ public class ManageTask {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
-
         }
         return taskID;
     }
 
     public boolean updateTask(Task task){
-        Session session = factory.openSession();
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -75,6 +75,7 @@ public class ManageTask {
     }
 
     public Task getTaskByID(int id){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         Task task = null;
         try{
@@ -85,12 +86,12 @@ public class ManageTask {
             if(tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
-
         }
         return task;
     }
 
     public boolean deleteTask(Task task){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -103,12 +104,12 @@ public class ManageTask {
             e.printStackTrace();
             flag = false;
         }finally {
-
         }
         return flag;
     }
 
     public boolean deleteDoctorTask(Integer taskID, Integer doctorID){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -122,12 +123,12 @@ public class ManageTask {
             e.printStackTrace();
             flag = false;
         }finally {
-
         }
         return flag;
     }
 
     public boolean deleteProductTask(Integer taskID, Integer productID){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -142,12 +143,12 @@ public class ManageTask {
             e.printStackTrace();
             flag = false;
         }finally {
-
         }
         return flag;
     }
 
     public boolean deleteUserTask(Integer taskID, Integer userID){
+        session = HibernateUtil.getSession(country);
         Transaction tx = null;
         boolean flag = false;
         try{
@@ -162,7 +163,6 @@ public class ManageTask {
             e.printStackTrace();
             flag = false;
         }finally {
-
         }
         return flag;
     }

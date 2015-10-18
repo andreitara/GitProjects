@@ -3,6 +3,8 @@ package md.pharm.hibernate.message;
 import md.pharm.hibernate.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name="[TopPharm].[dbo].[Message]")
+@Table(name="Message")
 public class Message {
 
     @Id
@@ -20,16 +22,21 @@ public class Message {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fromID")
+    @NotNull
     private User from;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "toID")
+    @NotNull
     private User to;
 
     @Column(name = "date")
+    @NotNull
     private Date date;
 
     @Column(name = "message")
+    @Size(max = 512)
+    @NotNull
     private String message;
 
     public Message(){}

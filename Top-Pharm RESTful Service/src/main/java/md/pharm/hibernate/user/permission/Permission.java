@@ -4,13 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import md.pharm.hibernate.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Andrei on 9/28/2015.
  */
 
 @Entity
-@Table(name="[TopPharm].[dbo].[Permission]")
+@Table(name="Permission")
 public class Permission{
 
     @Id
@@ -24,26 +26,36 @@ public class Permission{
     private User user;
 
     @Column(name = "readUsers")
+    @NotNull
     private boolean readUsers;
 
     @Column(name = "writeUsers")
+    @NotNull
     private boolean writeUsers;
 
     @Column(name = "readMedicalEntity")
+    @NotNull
     private boolean readMedicalEntity;
 
     @Column(name = "writeMedicalEntity")
+    @NotNull
     private boolean writeMedicalEntity;
 
     @Column(name = "readTasks")
+    @NotNull
     private boolean readTasks;
 
     @Column(name = "writeTasks")
+    @NotNull
     private boolean writeTasks;
+
+    @Column(name = "specialWriteTask")
+    @NotNull
+    private boolean specialWriteTask;
 
     public Permission(){}
 
-    public Permission(User user, boolean readUsers, boolean writeUsers, boolean readMedicalEntity, boolean writeMedicalEntity, boolean readTasks, boolean writeTasks) {
+    public Permission(User user, boolean readUsers, boolean writeUsers, boolean readMedicalEntity, boolean writeMedicalEntity, boolean readTasks, boolean writeTasks, boolean specialWriteTask) {
         this.user = user;
         this.readUsers = readUsers;
         this.writeUsers = writeUsers;
@@ -51,6 +63,7 @@ public class Permission{
         this.writeMedicalEntity = writeMedicalEntity;
         this.readTasks = readTasks;
         this.writeTasks = writeTasks;
+        this.specialWriteTask = specialWriteTask;
     }
 
     public int getId() {
@@ -115,6 +128,14 @@ public class Permission{
 
     public void setWriteTasks(boolean writeTasks) {
         this.writeTasks = writeTasks;
+    }
+
+    public boolean isSpecialWriteTask() {
+        return specialWriteTask;
+    }
+
+    public void setSpecialWriteTask(boolean specialWriteTask) {
+        this.specialWriteTask = specialWriteTask;
     }
 
     @Override

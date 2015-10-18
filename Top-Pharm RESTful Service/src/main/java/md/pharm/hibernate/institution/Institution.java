@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import md.pharm.hibernate.common.Address;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -11,28 +15,37 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name="[TopPharm].[dbo].[Institution]", uniqueConstraints = {
+@Table(name="Institution", uniqueConstraints = {
         @UniqueConstraint(columnNames = "longName")})
 public class Institution {
 
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "longName")
+    @NotNull
+    @Size(max = 100)
     private String longName;
 
     @Column(name = "shortName")
+    @NotNull
+    @Size(max = 20)
     private String shortName;
 
     @Column(name = "phone1")
+    @Pattern(regexp = "^\\+?([0-9])+$")
+    @Size(max = 20)
     private String phone1;
 
     @Column(name = "phone2")
+    @Pattern(regexp = "^\\+?([0-9])+$")
+    @Size(max = 20)
     private String phone2;
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Valid
     private Address address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -57,11 +70,11 @@ public class Institution {
         this.address = address;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -136,7 +149,7 @@ public class Institution {
 
         Institution that = (Institution) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (longName != null ? !longName.equals(that.longName) : that.longName != null) return false;
         if (shortName != null ? !shortName.equals(that.shortName) : that.shortName != null) return false;
         if (phone1 != null ? !phone1.equals(that.phone1) : that.phone1 != null) return false;
@@ -147,7 +160,7 @@ public class Institution {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (longName != null ? longName.hashCode() : 0);
         result = 31 * result + (shortName != null ? shortName.hashCode() : 0);
         result = 31 * result + (phone1 != null ? phone1.hashCode() : 0);

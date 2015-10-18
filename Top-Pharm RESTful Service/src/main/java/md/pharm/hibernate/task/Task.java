@@ -10,6 +10,8 @@ import md.pharm.hibernate.user.User;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
 
@@ -17,7 +19,7 @@ import java.util.Set;
  * Created by Andrei on 9/5/2015.
  */
 @Entity
-@Table(name="[TopPharm].[dbo].[Task]")
+@Table(name="Task")
 public class Task {
 
     @Id
@@ -26,24 +28,31 @@ public class Task {
     private Integer id;
 
     @Column(name = "name")
+    @NotNull
+    @Size(max = 256)
     private String name;
 
     @Column(name = "type")
+    @Size(max = 50)
     private String type;
 
     @Column(name = "status")
+    @Size(max = 20)
     private String status;
 
     @Column(name = "visitNumbers")
     private int visitNumbers;
 
-    @Column(name = "date")
-    private Date date;
+    @Column(name = "startDate")
+    @NotNull
+    private Date startDate;
 
-    @Column(name = "duration")
-    private Date duration;
+    @Column(name = "endDate")
+    @NotNull
+    private Date endDate;
 
     @Column(name = "description")
+    @Size(max = 512)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,11 +65,11 @@ public class Task {
     private Set<Task> childTasks;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="[TopPharm].[dbo].[UserTask]", joinColumns=@JoinColumn(name="taskID"), inverseJoinColumns=@JoinColumn(name="userID"))
+    @JoinTable(name="UserTask", joinColumns=@JoinColumn(name="taskID"), inverseJoinColumns=@JoinColumn(name="userID"))
     private Set<User> users;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="[TopPharm].[dbo].[DoctorTask]", joinColumns=@JoinColumn(name="taskID"), inverseJoinColumns=@JoinColumn(name="doctorID"))
+    @JoinTable(name="DoctorTask", joinColumns=@JoinColumn(name="taskID"), inverseJoinColumns=@JoinColumn(name="doctorID"))
     private Set<Doctor> doctors;
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -79,18 +88,18 @@ public class Task {
     //private Set<Training> trainings;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="[TopPharm].[dbo].[ProductTask]", joinColumns=@JoinColumn(name="taskID"), inverseJoinColumns=@JoinColumn(name="productID"))
+    @JoinTable(name="ProductTask", joinColumns=@JoinColumn(name="taskID"), inverseJoinColumns=@JoinColumn(name="productID"))
     private Set<Product> products;
 
     public Task(){}
 
-    public Task(String name, String type, String status, int visitNumbers, Date date, Date duration, String description) {
+    public Task(String name, String type, String status, int visitNumbers, Date startDate, Date endDate, String description) {
         this.name = name;
         this.type = type;
         this.status = status;
         this.visitNumbers = visitNumbers;
-        this.date = date;
-        this.duration = duration;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.description = description;
     }
 
@@ -134,20 +143,20 @@ public class Task {
         this.visitNumbers = visitNumbers;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getDuration() {
-        return duration;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setDuration(Date duration) {
-        this.duration = duration;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public String getDescription() {
@@ -237,26 +246,26 @@ public class Task {
 
         Task task = (Task) o;
 
-        if (id != task.id) return false;
         if (visitNumbers != task.visitNumbers) return false;
+        if (id != null ? !id.equals(task.id) : task.id != null) return false;
         if (name != null ? !name.equals(task.name) : task.name != null) return false;
         if (type != null ? !type.equals(task.type) : task.type != null) return false;
         if (status != null ? !status.equals(task.status) : task.status != null) return false;
-        if (date != null ? !date.equals(task.date) : task.date != null) return false;
-        if (duration != null ? !duration.equals(task.duration) : task.duration != null) return false;
+        if (startDate != null ? !startDate.equals(task.startDate) : task.startDate != null) return false;
+        if (endDate != null ? !endDate.equals(task.endDate) : task.endDate != null) return false;
         return !(description != null ? !description.equals(task.description) : task.description != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + visitNumbers;
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (duration != null ? duration.hashCode() : 0);
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }

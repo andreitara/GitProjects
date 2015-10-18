@@ -8,7 +8,7 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name="[TopPharm].[dbo].[InstitutionComment]")
+@Table(name="InstitutionComment")
 public class InstitutionComment {
 
     @Id

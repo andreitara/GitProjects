@@ -3,13 +3,15 @@ package md.pharm.hibernate.product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Andrei on 10/4/2015.
  */
 
 @Entity
-@Table(name="[TopPharm].[dbo].[Objective]")
+@Table(name="Objective")
 public class Objective {
 
     @Id
@@ -18,9 +20,12 @@ public class Objective {
     private Integer id;
 
     @Column(name = "name")
+    @NotNull
+    @Size(max = 256)
     private String name;
 
     @Column(name = "description")
+    @Size(max = 512)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
