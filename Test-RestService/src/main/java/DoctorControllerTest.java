@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ import java.util.Map;
  */
 public class DoctorControllerTest {
 
-    public static Doctor doctor = new Doctor("first", "last", "speciality", null, "phone1", "phone2" ,"first@email.com","A","A","A","haha");
+    public static Doctor doctor = new Doctor("first@", "last@", "speciality", Calendar.getInstance().getTime(), null, null ,"first@email.com","A","A","A","haha");
 
     public static void createDoctorByAdmin() throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();

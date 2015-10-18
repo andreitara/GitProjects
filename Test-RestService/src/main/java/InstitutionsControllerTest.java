@@ -16,10 +16,10 @@ import java.util.Map;
  */
 public class InstitutionsControllerTest {
 
-    public static Address address = new Address("street34666", "city", "state", "country", "code");
+    public static Address address = new Address("street34666", "district", "city2", "state", "country", "code");
     public static Institution institution = new Institution("Long Name 34666", "LN", "1234","4321", address);
 
-    public static Institution institution2 = new Institution("Long Name", "LN", "1234","4321", null);
+    public static Institution institution2 = new Institution("Long Name 4", "LN", "1234","4321", address);
 
     public static void getAllInstitutionsByAdmin() throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
@@ -30,6 +30,56 @@ public class InstitutionsControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
     }
+
+    public static void getAllInstitutionsByCity(String city) throws JsonProcessingException {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
+        HttpEntity entity = new HttpEntity(headers);
+        Map<String,String> params = new HashMap<>();
+        params.put("city",city);
+        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.GET_INSTITUTIONS_BY_CITY_URI, HttpMethod.GET, entity, Response.class, params);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
+    }
+
+    public static void getAllInstitutionsByCityDistrict(String city, String district) throws JsonProcessingException {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
+        HttpEntity entity = new HttpEntity(headers);
+        Map<String,String> params = new HashMap<>();
+        params.put("city",city);
+        params.put("district",district);
+        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.GET_INSTITUTIONS_BY_DISTRICT_URI, HttpMethod.GET, entity, Response.class, params);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
+    }
+
+    public static void getAllInstitutionsByState(String state) throws JsonProcessingException {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
+        HttpEntity entity = new HttpEntity(headers);
+        Map<String,String> params = new HashMap<>();
+        params.put("state",state);
+        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.GET_INSTITUTIONS_BY_STATE_URI, HttpMethod.GET, entity, Response.class, params);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
+    }
+
+    public static void getAllInstitutionsByPartName(String name) throws JsonProcessingException {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("auth-token", StaticStrings.ADMIN_AUTH_TOKEN);
+        HttpEntity entity = new HttpEntity(headers);
+        Map<String,String> params = new HashMap<>();
+        params.put("name",name);
+        HttpEntity<Response> response = restTemplate.exchange(StaticStrings.GET_INSTITUTIONS_BY_PART_OF_NAME, HttpMethod.GET, entity, Response.class, params);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
+    }
+
 
     public static void getInstitutionsByAdmin(int id) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();

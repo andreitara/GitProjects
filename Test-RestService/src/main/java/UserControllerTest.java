@@ -6,22 +6,15 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Andrei on 9/22/2015.
  */
 
 public class UserControllerTest {
-    static String userID1 = UUID.randomUUID().toString();
-    static String userID2 = UUID.randomUUID().toString();
-    static User user1 = new User("Admin","First1","Last1",null,userID1,"password1","email1@toppharm.com");
-    static User user2 = new User("Admin","First2","Last2",null,userID2,"password2","email2@toppharm.com");
 
-    static User user = new User("user","user","user",null,"user","user","user@email.com");
+    static User user = new User("user","user","user","user", Calendar.getInstance().getTime(),"user1","useruseruser1","user@email.com","+698574","126345987",null);
 
     public static void createUserByAdmin() throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
@@ -49,7 +42,7 @@ public class UserControllerTest {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("auth-token", StaticStrings.USER_AUTH_TOKEN);
-        HttpEntity entity = new HttpEntity(user1, headers);
+        HttpEntity entity = new HttpEntity(user, headers);
         HttpEntity<String> response = restTemplate.exchange(StaticStrings.CREATE_USER_URI, HttpMethod.POST, entity, String.class);
         System.out.println();
         ObjectMapper mapper = new ObjectMapper();

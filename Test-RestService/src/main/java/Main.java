@@ -23,16 +23,23 @@ public class Main {
         //UserControllerTest.createUserByAdmin();
         //UserControllerTest.updateUserByAdmin(2);
         //UserControllerTest.deleteUserByAdmin(2);
-        //UserControllerTest.getUserByAdmin(2);
+        //UserControllerTest.getUserByAdmin(4);
         //UserControllerTest.getAllUsersByAdmin();
         //UserControllerTest.createUserByUser();
         //UserControllerTest.deleteUserByUser();
+        //DoctorUserControllerTest.addDoctorToUser(4,2);
+        //DoctorUserControllerTest.deleteDoctorFromUser(4,1);
+        //DoctorUserControllerTest.getAllDoctorsFromUser(4);
 
         //InstitutionsControllerTest.createInstitutionByAdmin();
         //InstitutionsControllerTest.getInstitutionsByAdmin(4);
         //InstitutionsControllerTest.getAllInstitutionsByAdmin();
         //InstitutionsControllerTest.updateInstitutionByAdmin(4);
         //InstitutionsControllerTest.deleteInstitutionByAdmin(3);
+        //InstitutionsControllerTest.getAllInstitutionsByCity("city1");
+        //InstitutionsControllerTest.getAllInstitutionsByState("state");
+        //InstitutionsControllerTest.getAllInstitutionsByCityDistrict("city1","district");
+        //InstitutionsControllerTest.getAllInstitutionsByPartName("Long Name 3");
 
         //InstitutionAddressControllerTest.getInstitutionAddressByAdmin(4);
         //InstitutionAddressControllerTest.createInstitutionAddressByAdmin(9);
@@ -41,7 +48,7 @@ public class Main {
         //DoctorControllerTest.createDoctorByAdmin();
         //DoctorControllerTest.updateDoctorByAdmin(1);
         //DoctorControllerTest.getAllDoctorsByAdmin();
-        //DoctorControllerTest.getDoctorByAdmin(2);
+        //DoctorControllerTest.getDoctorByAdmin(1);
         //DoctorControllerTest.deleteDoctorByAdmin(2);
 
         //ProductControllerTest.getAllProductsByAdmin();
@@ -76,15 +83,18 @@ public class Main {
         //ProductTaskControllerTest.getAllProductsTask(1);
         //ProductTaskControllerTest.deleteProductTask(1,2);
 
-        //UserTaskControllerTest.addUserToTask(1,3);
+        //UserTaskControllerTest.addUserToTask(6,2);
         //UserTaskControllerTest.deleteUserToTask(1,3);
-        //UserTaskControllerTest.getAllUsersTask(1);
+        //UserTaskControllerTest.getAllUsersTask(2);
+        //UserTaskControllerTest.getUserTasksByStartAndEndDate(2);
+        //UserTaskControllerTest.getUserTasksByStatus(2, "new");
+        //UserTaskControllerTest.getUserTasksByType(2, "simple");
 
         //InstitutionTaskControllerTest.addInstitutionToTask(1,4);
         //InstitutionTaskControllerTest.deleteInstitutionFromTask(1);
         //InstitutionTaskControllerTest.getInstitutionTask(1);
         //InstitutionTaskControllerTest.updateInstitutionToTask(1,5);
 
-        PerformanceTest.getTest();
+        //PerformanceTest.getTest();
     }
 }

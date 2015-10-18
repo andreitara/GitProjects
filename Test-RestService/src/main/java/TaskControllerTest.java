@@ -7,6 +7,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +17,19 @@ import java.util.Map;
  */
 public class TaskControllerTest {
 
-    public static Task task = new Task("taskName","simple","new",2,null,null,"description");
+    public static Calendar calendar ;
+    public static Date startDate;
+    public static Date endDate;
+
+    static{
+        calendar = Calendar.getInstance();
+        calendar.set(2014,1,20,13,0,0);
+        startDate = calendar.getTime();
+        calendar.set(2014,1,20,14,0,0);
+        endDate = calendar.getTime();
+    }
+
+    public static Task task = new Task("task 5","simple","new",2, startDate, endDate,"description");
 
     public static void createTaskByAdmin() throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
