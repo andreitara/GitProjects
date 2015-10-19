@@ -37,7 +37,7 @@ public class Product {
     private Double averagePrice;
 
     @Column(name = "category")
-    @Size(max = 30)
+    @Size(max = 50)
     private String category;
 
     @Column(name = "message")

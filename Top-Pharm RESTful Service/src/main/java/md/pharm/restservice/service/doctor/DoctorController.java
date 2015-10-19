@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -152,6 +153,75 @@ public class DoctorController {
         } else {
             response.setResponseCode(ErrorCodes.ResourceNotExists.name);
             response.setResponseMessage(ErrorCodes.ResourceNotExists.userMessage);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }
+    }
+
+
+    //GET DOCTORS
+    @RequestMapping(value = "/speciality/{speciality}", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllBySpeciality(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country,
+                                                @PathVariable(value = "speciality") String speciality) {
+        Response response = new Response();
+        ManageDoctor manageDoctor = new ManageDoctor(country);
+        List<Doctor> list = manageDoctor.getDoctorsBySpeciality(speciality);
+        if (list != null) {
+            response.setResponseCode(ErrorCodes.OK.name);
+            response.setResponseMessage(ErrorCodes.OK.userMessage);
+            response.setObject(list);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        } else {
+            response.setResponseCode(ErrorCodes.InternalError.name);
+            response.setResponseMessage(ErrorCodes.InternalError.userMessage);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }
+    }
+
+    @RequestMapping(value = "/institution/{institutionID}", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllBynstitutionID(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country,
+                                                  @PathVariable(value = "institutionID") Integer institutionID) {
+        Response response = new Response();
+        ManageDoctor manageDoctor = new ManageDoctor(country);
+        List<Doctor> list = manageDoctor.getDoctorsByInstitutionID(institutionID);
+        if (list != null) {
+            response.setResponseCode(ErrorCodes.OK.name);
+            response.setResponseMessage(ErrorCodes.OK.userMessage);
+            response.setObject(list);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        } else {
+            response.setResponseCode(ErrorCodes.InternalError.name);
+            response.setResponseMessage(ErrorCodes.InternalError.userMessage);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }
+    }
+
+    @RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllPartOfName(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country,
+                                              @PathVariable(value = "name") String name) {
+        Response response = new Response();
+        ManageDoctor manageDoctor = new ManageDoctor(country);
+        List<Doctor> list = null;
+        String[] names = name.trim().replace("( )+", " ").split(" ");
+        if (names.length == 1) {
+            list = manageDoctor.getDoctorsByPartOfFirstName(names[0]);
+            list.addAll(manageDoctor.getDoctorsByPartOfLastName(names[0]));
+        } else if (names.length == 2) {
+            list = manageDoctor.getDoctorsByPartOfFirstAndLastName(names[0],names[1]);
+            list.addAll(manageDoctor.getDoctorsByPartOfFirstAndLastName(names[1],names[0]));
+        } else if (names.length == 3) {
+            list = manageDoctor.getDoctorsByPartOfFirstLastAndFatherName(names[0],names[1],names[2]);
+            list.addAll(manageDoctor.getDoctorsByPartOfFirstLastAndFatherName(names[1],names[0],names[2]));
+        } else {
+            list = new ArrayList<>();
+        }
+        if (list != null) {
+            response.setResponseCode(ErrorCodes.OK.name);
+            response.setResponseMessage(ErrorCodes.OK.userMessage);
+            response.setObject(list);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        } else {
+            response.setResponseCode(ErrorCodes.InternalError.name);
+            response.setResponseMessage(ErrorCodes.InternalError.userMessage);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }
     }

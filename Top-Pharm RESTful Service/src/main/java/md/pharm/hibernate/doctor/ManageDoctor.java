@@ -4,12 +4,10 @@ import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.institution.Institution;
 import md.pharm.restservice.service.util.Country;
 import md.pharm.restservice.service.util.HibernateUtil;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 
 import java.util.List;
@@ -39,6 +37,118 @@ public class ManageDoctor {
         }finally {
         }
         return list;
+    }
+
+    public  List<Doctor> getDoctorsBySpeciality(String speciality){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List<Doctor> doctors = null;
+        try{
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Doctor.class)
+                    .add(Restrictions.eq("speciality", speciality));
+            doctors = criteria.list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+        }
+        return doctors;
+    }
+
+    public List<Doctor> getDoctorsByInstitutionID(Integer institutionID){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List<Doctor> doctors = null;
+        try{
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Doctor.class)
+                    .createCriteria("offices")
+                        .add(Restrictions.eq("institutionID", institutionID));
+            doctors = criteria.list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+        }
+        return doctors;
+    }
+
+    public  List<Doctor> getDoctorsByPartOfFirstLastAndFatherName(String firstName, String lastName, String fatherName){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List<Doctor> doctors = null;
+        try{
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Doctor.class)
+                    .add(Restrictions.like("firstName", "%" + firstName + "%"))
+                    .add(Restrictions.like("lastName", "%" + lastName + "%"))
+                    .add(Restrictions.like("fatherName", "%" + fatherName + "%"));
+            doctors = criteria.list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+        }
+        return doctors;
+    }
+
+    public  List<Doctor> getDoctorsByPartOfFirstAndLastName(String firstName, String lastName){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List<Doctor> doctors = null;
+        try{
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Doctor.class)
+                    .add(Restrictions.like("firstName", "%" + firstName + "%"))
+                    .add(Restrictions.like("lastName", "%" + lastName + "%"));
+            doctors = criteria.list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+        }
+        return doctors;
+    }
+
+    public  List<Doctor> getDoctorsByPartOfFirstName(String firstName){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List<Doctor> doctors = null;
+        try{
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Doctor.class)
+                    .add(Restrictions.like("firstName", "%" + firstName + "%"));
+            doctors = criteria.list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+        }
+        return doctors;
+    }
+
+    public  List<Doctor> getDoctorsByPartOfLastName(String lastName){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List<Doctor> doctors = null;
+        try{
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Doctor.class)
+                    .add(Restrictions.like("lastName", "%" + lastName + "%"));
+            doctors = criteria.list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+        }
+        return doctors;
     }
 
     public Integer addDoctor(Doctor doctor){

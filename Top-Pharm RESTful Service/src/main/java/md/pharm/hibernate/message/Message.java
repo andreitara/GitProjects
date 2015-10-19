@@ -18,20 +18,17 @@ public class Message {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fromID")
-    @NotNull
     private User from;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "toID")
-    @NotNull
     private User to;
 
     @Column(name = "date")
-    @NotNull
     private Date date;
 
     @Column(name = "message")
@@ -48,11 +45,11 @@ public class Message {
         this.message = message;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -95,7 +92,9 @@ public class Message {
 
         Message message1 = (Message) o;
 
-        if (id != message1.id) return false;
+        if (id != null ? !id.equals(message1.id) : message1.id != null) return false;
+        if (from != null ? !from.equals(message1.from) : message1.from != null) return false;
+        if (to != null ? !to.equals(message1.to) : message1.to != null) return false;
         if (date != null ? !date.equals(message1.date) : message1.date != null) return false;
         return !(message != null ? !message.equals(message1.message) : message1.message != null);
 
@@ -103,7 +102,9 @@ public class Message {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (from != null ? from.hashCode() : 0);
+        result = 31 * result + (to != null ? to.hashCode() : 0);
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (message != null ? message.hashCode() : 0);
         return result;

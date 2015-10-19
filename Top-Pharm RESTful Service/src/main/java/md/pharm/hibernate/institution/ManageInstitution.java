@@ -49,7 +49,8 @@ public class ManageInstitution {
         List<Institution> institutions = null;
         try{
             tx = session.beginTransaction();
-            Criteria criteria = session.createCriteria(Institution.class).add(Restrictions.like("longName", "%" + name + "%"));
+            Criteria criteria = session.createCriteria(Institution.class)
+                    .add(Restrictions.like("longName", "%" + name + "%"));
             institutions = criteria.list();
             tx.commit();
         }catch (HibernateException e){

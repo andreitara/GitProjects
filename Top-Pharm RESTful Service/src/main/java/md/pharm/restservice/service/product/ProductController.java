@@ -118,7 +118,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> delete(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "id") int id) {
+    public ResponseEntity<?> delete(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "id") Integer id) {
         Response response = new Response();
         ManageProduct manage = new ManageProduct(country);
         Product product = manage.getProductByID(id);
@@ -140,7 +140,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> get(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "id") int id){
+    public ResponseEntity<?> get(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "id") Integer id){
         Response response = new Response();
         ManageProduct manageProduct = new ManageProduct(country);
         Product product = manageProduct.getProductByID(id);
@@ -156,4 +156,43 @@ public class ProductController {
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }
     }
+
+
+    //GET PRODUCTS
+    @RequestMapping(value = "/category/{category}", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllByCategory(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country,
+                                              @PathVariable(value = "category") String category) {
+        Response response = new Response();
+        ManageProduct manageProduct = new ManageProduct(country);
+        List<Product> list = manageProduct.getProductsByPartOfCategory(category);
+        if (list != null) {
+            response.setResponseCode(ErrorCodes.OK.name);
+            response.setResponseMessage(ErrorCodes.OK.userMessage);
+            response.setObject(list);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        } else {
+            response.setResponseCode(ErrorCodes.InternalError.name);
+            response.setResponseMessage(ErrorCodes.InternalError.userMessage);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }
+    }
+
+    @RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllByName(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country,
+                                          @PathVariable(value = "name") String name) {
+        Response response = new Response();
+        ManageProduct manageProduct = new ManageProduct(country);
+        List<Product> list = manageProduct.getProductsByPartOfName(name);
+        if (list != null) {
+            response.setResponseCode(ErrorCodes.OK.name);
+            response.setResponseMessage(ErrorCodes.OK.userMessage);
+            response.setObject(list);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        } else {
+            response.setResponseCode(ErrorCodes.InternalError.name);
+            response.setResponseMessage(ErrorCodes.InternalError.userMessage);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }
+    }
+
 }

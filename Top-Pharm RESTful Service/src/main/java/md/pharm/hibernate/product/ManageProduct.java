@@ -4,12 +4,10 @@ import md.TopPharmResTfulServiceApplication;
 import md.pharm.hibernate.doctor.Doctor;
 import md.pharm.restservice.service.util.Country;
 import md.pharm.restservice.service.util.HibernateUtil;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 
 import java.util.List;
@@ -43,6 +41,42 @@ public class ManageProduct {
         return list;
     }
 
+    public List<Product> getProductsByPartOfCategory(String category){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List<Product> list = null;
+        try{
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Product.class)
+                    .add(Restrictions.like("category", "%" + category + "%"));
+            list = criteria.list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+        }
+        return list;
+    }
+
+    public List<Product> getProductsByPartOfName(String name){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List<Product> list = null;
+        try{
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Product.class)
+                    .add(Restrictions.like("name", "%" + name + "%"));
+            list = criteria.list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+        }
+        return list;
+    }
+
     public Integer addProduct(Product product){
         session = HibernateUtil.getSession(country);
         Transaction tx = null;
@@ -55,6 +89,22 @@ public class ManageProduct {
             if(tx!=null)tx.rollback();
             e.printStackTrace();
         }finally {
+        }
+        return id;
+    }
+    public Integer addObjective(Objective objective){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        Integer id = null;
+        try{
+            tx = session.beginTransaction();
+            id = (Integer) session.save(objective);
+            tx.commit();
+        }catch(HibernateException e){
+            if(tx!=null)tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
         }
         return id;
     }

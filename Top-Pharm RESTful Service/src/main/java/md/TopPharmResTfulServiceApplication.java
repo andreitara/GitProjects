@@ -1,17 +1,6 @@
 package md;
 
-import md.pharm.hibernate.connection.ManageConnection;
-import md.pharm.hibernate.doctor.ManageDoctor;
-import md.pharm.hibernate.institution.ManageInstitution;
-import md.pharm.hibernate.message.ManageMessage;
-import md.pharm.hibernate.task.ManageTask;
-import md.pharm.hibernate.training.ManageTraining;
-import md.pharm.hibernate.user.ManageUser;
-import md.pharm.hibernate.user.permission.ManagePermission;
 import md.pharm.restservice.service.util.HibernateUtil;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.service.ServiceRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

@@ -5,7 +5,10 @@ import md.pharm.restservice.service.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +33,52 @@ public class ManageMessage {
             tx.commit();
         }catch (HibernateException e){
             if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+        }
+        return list;
+    }
+
+    public List<Message> getMessagesFromDateToDate(Integer fromID, Integer toID, Date start, Date end){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List<Message> list = null;
+        try{
+            tx = session.beginTransaction();
+            list = session.createCriteria(Message.class)
+                    .add(Restrictions.le("date", end))
+                    .add(Restrictions.ge("date", start))
+                    .add(Restrictions.eq("fromID", fromID))
+                    .add(Restrictions.eq("toID", toID))
+                    .addOrder(Order.asc("date"))
+                    .list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            list=null;
+            e.printStackTrace();
+        }finally {
+        }
+        return list;
+    }
+
+    public List<Message> getMessagesFromDateToDateBidirectional(Integer fromID, Integer toID, Date start, Date end){
+        session = HibernateUtil.getSession(country);
+        Transaction tx = null;
+        List list = null;
+        try{
+            tx = session.beginTransaction();
+            list = session.createCriteria(Message.class)
+                    .add(Restrictions.le("date", end))
+                    .add(Restrictions.ge("date", start))
+                    .add(Restrictions.eq("fromID", fromID))
+                    .add(Restrictions.eq("toID", toID))
+                    .addOrder(Order.asc("date"))
+                    .list();
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            list=null;
             e.printStackTrace();
         }finally {
         }
