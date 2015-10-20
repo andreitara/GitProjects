@@ -23,7 +23,8 @@ import java.util.Set;
 public class DoctorUserController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResponseEntity<?> getAll(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "userID") int userID){
+    public ResponseEntity<?> getAll(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country,
+                                    @PathVariable(value = "userID") int userID){
         Response response = new Response();
         ManageUser manageUser = new ManageUser(country);
         User user = manageUser.getUserByID(userID);
@@ -41,7 +42,9 @@ public class DoctorUserController {
     }
 
     @RequestMapping(value = "/add/{doctorID}", method = RequestMethod.POST)
-    public ResponseEntity<?> add(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "userID") int userID, @PathVariable(value = "doctorID") int doctorID){
+    public ResponseEntity<?> add(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country,
+                                 @PathVariable(value = "userID") int userID,
+                                 @PathVariable(value = "doctorID") int doctorID){
         Response response = new Response();
         ManageUser manageUser = new ManageUser(country);
         User user = manageUser.getUserByID(userID);
@@ -67,7 +70,9 @@ public class DoctorUserController {
     }
 
     @RequestMapping(value = "/delete/{doctorID}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> delete(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "userID") int userID, @PathVariable(value = "doctorID") int doctorID){
+    public ResponseEntity<?> delete(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country,
+                                    @PathVariable(value = "userID") int userID,
+                                    @PathVariable(value = "doctorID") int doctorID){
         Response response = new Response();
         ManageUser manageUser = new ManageUser(country);
         User user = manageUser.getUserByID(userID);

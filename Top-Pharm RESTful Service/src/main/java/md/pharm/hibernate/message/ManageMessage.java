@@ -47,8 +47,10 @@ public class ManageMessage {
             list = session.createCriteria(Message.class)
                     .add(Restrictions.le("date", end))
                     .add(Restrictions.ge("date", start))
-                    .add(Restrictions.eq("fromID", fromID))
-                    .add(Restrictions.eq("toID", toID))
+                    .createAlias("from", "from")
+                    .createAlias("to", "to")
+                    .add(Restrictions.eq("from.id", fromID))
+                    .add(Restrictions.eq("to.id", toID))
                     .addOrder(Order.asc("date"))
                     .list();
             tx.commit();
@@ -67,11 +69,13 @@ public class ManageMessage {
         List list = null;
         try {
             tx = session.beginTransaction();
-            Criterion criterion1 = Restrictions.and(Restrictions.eq("fromID", fromID), Restrictions.eq("toID", toID));
-            Criterion criterion2 = Restrictions.and(Restrictions.eq("fromID", toID), Restrictions.eq("toID", fromID));
+            Criterion criterion1 = Restrictions.and(Restrictions.eq("from.id", fromID), Restrictions.eq("to.id", toID));
+            Criterion criterion2 = Restrictions.and(Restrictions.eq("from.id", toID), Restrictions.eq("to.id", fromID));
             list = session.createCriteria(Message.class)
                     .add(Restrictions.le("date", end))
                     .add(Restrictions.ge("date", start))
+                    .createAlias("from", "from")
+                    .createAlias("to", "to")
                     .add(Restrictions.or(criterion1, criterion2))
                     .addOrder(Order.asc("date"))
                     .list();

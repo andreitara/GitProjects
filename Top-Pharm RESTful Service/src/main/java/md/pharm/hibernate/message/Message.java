@@ -1,5 +1,6 @@
 package md.pharm.hibernate.message;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import md.pharm.hibernate.user.User;
 
 import javax.persistence.*;
@@ -22,10 +23,12 @@ public class Message {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fromID")
+    @JsonIgnore
     private User from;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "toID")
+    @JsonIgnore
     private User to;
 
     @Column(name = "date")
@@ -35,6 +38,12 @@ public class Message {
     @Size(max = 512)
     @NotNull
     private String message;
+
+    @Transient
+    private Integer fromID;
+
+    @Transient
+    private Integer toID;
 
     public Message(){}
 
@@ -59,6 +68,7 @@ public class Message {
 
     public void setFrom(User from) {
         this.from = from;
+        if(from!=null) fromID = from.getId();
     }
 
     public User getTo() {
@@ -67,6 +77,7 @@ public class Message {
 
     public void setTo(User to) {
         this.to = to;
+        if(to!=null) toID = to.getId();
     }
 
     public Date getDate() {
@@ -83,6 +94,24 @@ public class Message {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Integer getFromID() {
+        if(from!=null) return from.getId();
+        return fromID;
+    }
+
+    public void setFromID(Integer fromID) {
+        this.fromID = fromID;
+    }
+
+    public Integer getToID() {
+        if(to!=null) return to.getId();
+        return toID;
+    }
+
+    public void setToID(Integer toID) {
+        this.toID = toID;
     }
 
     @Override

@@ -26,7 +26,8 @@ import java.util.Set;
 public class DoctorTaskController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResponseEntity<?> getAll(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "taskID") int taskID){
+    public ResponseEntity<?> getAll(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country,
+                                    @PathVariable(value = "taskID") int taskID){
         Response response = new Response();
         ManageTask manageTask = new ManageTask(country);
         Task task = manageTask.getTaskByID(taskID);
@@ -45,7 +46,9 @@ public class DoctorTaskController {
     }
 
     @RequestMapping(value = "/add/{doctorID}", method = RequestMethod.POST)
-    public ResponseEntity<?> add(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "taskID") int taskID, @PathVariable(value = "doctorID") int doctorID){
+    public ResponseEntity<?> add(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country,
+                                 @PathVariable(value = "taskID") int taskID,
+                                 @PathVariable(value = "doctorID") int doctorID){
         Response response = new Response();
         ManageTask manageTask = new ManageTask(country);
         Task task = manageTask.getTaskByID(taskID);
@@ -72,7 +75,9 @@ public class DoctorTaskController {
     }
 
     @RequestMapping(value = "/delete/{doctorID}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> delete(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country, @PathVariable(value = "taskID") int taskID, @PathVariable(value = "doctorID") int doctorID){
+    public ResponseEntity<?> delete(@RequestHeader(value = StaticStrings.HEADER_COUNTRY) String country,
+                                    @PathVariable(value = "taskID") int taskID,
+                                    @PathVariable(value = "doctorID") int doctorID){
         Response response = new Response();
         ManageTask manageTask = new ManageTask(country);
         Task task = manageTask.getTaskByID(taskID);

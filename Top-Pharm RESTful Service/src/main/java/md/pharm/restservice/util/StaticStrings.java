@@ -18,5 +18,6 @@ public class StaticStrings {
     final public static String USER_PAGES = "/toppharm/user";
     final public static String MEDICAL_ENTITY_PAGES = "/toppharm/medical";
     final public static String TASK_PAGES = "/toppharm/task";
+    final public static String MESSAGES_PAGES = "/toppharm/message";
 
 }

@@ -75,6 +75,8 @@ class StatelessAuthenticationFilter extends GenericFilterBean {
 				if(permission.isWriteTasks())
 					return true;
 			}
+		}else if(uri.startsWith(StaticStrings.MESSAGES_PAGES)){
+			return true;
 		}
 		return false;
 	}
