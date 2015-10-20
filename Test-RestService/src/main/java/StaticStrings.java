@@ -8,7 +8,7 @@ public class StaticStrings {
     public static int ADMIN_ID = 1;
     public static int USER_ID = 2;
 
-    public static String ADMIN_AUTH_TOKEN = "d0525675-b4df-4539-bee2-8d9b9feb8cc5";
+    public static String ADMIN_AUTH_TOKEN = "94ddb4bc-c479-4e80-a04e-b9c2ff880df6";
     public static String USER_AUTH_TOKEN =  "5d9cf22b-4688-4754-8a37-ca6d63f97f8f";
 
     public static String LOGIN_URI =  REST_IP_PORT + "/toppharm/user/login";

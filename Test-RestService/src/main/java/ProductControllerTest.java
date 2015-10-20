@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class ProductControllerTest {
 
-    public static Product product = new Product("product name 12", "23", "123", "message", 1);
+    public static Product product = new Product("product name 12", "23", "", 123.0, "message", 1,"");
 
     public static void createProductByAdmin() throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();

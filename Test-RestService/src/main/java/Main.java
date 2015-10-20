@@ -95,6 +95,10 @@ public class Main {
         //InstitutionTaskControllerTest.getInstitutionTask(1);
         //InstitutionTaskControllerTest.updateInstitutionToTask(1,5);
 
+        //MessageControllerTest.addMessage();
+        //MessageControllerTest.getMessageUniDirectional();
+        MessageControllerTest.getMessageBiDirectional();
+
         //PerformanceTest.getTest();
     }
 }

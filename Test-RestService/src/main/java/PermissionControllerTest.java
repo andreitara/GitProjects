@@ -16,8 +16,8 @@ import java.util.Map;
  */
 public class PermissionControllerTest {
 
-    public static Permission fullPermissions = new Permission(null,true,true,true,true,true,true);
-    public static Permission defaultPermissions = new Permission(null,true,false,true,false,true,false);
+    public static Permission fullPermissions = new Permission(null,true,true,true,true,true,true,true);
+    public static Permission defaultPermissions = new Permission(null,true,false,true,false,true,false,false);
 
     public static void getAdminUserPermission(Integer userID) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();

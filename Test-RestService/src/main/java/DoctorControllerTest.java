@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class DoctorControllerTest {
 
-    public static Doctor doctor = new Doctor("first@", "last@", "speciality", Calendar.getInstance().getTime(), null, null ,"first@email.com","A","A","A","haha");
+    public static Doctor doctor = new Doctor("first", "last", "father", "speciality", Calendar.getInstance().getTime(), null, null ,"first@email.com","A","A","A","haha");
 
     public static void createDoctorByAdmin() throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
