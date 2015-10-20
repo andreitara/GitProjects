@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import md.pharm.hibernate.user.User;
+import md.pharm.hibernate.user.login.UserLogin;
 import md.pharm.restservice.service.Response;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,9 +16,9 @@ import java.util.UUID;
 public class LoginControllerTest {
 
     public static void loginAdmin() throws JsonProcessingException {
-        User user = new User();
-        user.setUsername("admin");
-        user.setPassword("admin");
+        UserLogin user = new UserLogin();
+        user.setUsername("adminmd");
+        user.setPassword("admin1234");
         RestTemplate restTemplate = new RestTemplate();
         Response response = restTemplate.postForObject(StaticStrings.LOGIN_URI, user, Response.class);
         ObjectMapper mapper = new ObjectMapper();

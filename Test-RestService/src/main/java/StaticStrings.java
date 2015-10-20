@@ -3,12 +3,12 @@
  */
 public class StaticStrings {
 
-    public static String REST_IP_PORT = "http://localhost:8181";
+    public static String REST_IP_PORT = "http://api.toppharm.md/:81";
 
     public static int ADMIN_ID = 1;
     public static int USER_ID = 2;
 
-    public static String ADMIN_AUTH_TOKEN = "94ddb4bc-c479-4e80-a04e-b9c2ff880df6";
+    public static String ADMIN_AUTH_TOKEN = "6cb5e49b-a21b-47a4-ad22-62ef8b5e44ba";
     public static String USER_AUTH_TOKEN =  "5d9cf22b-4688-4754-8a37-ca6d63f97f8f";
 
     public static String LOGIN_URI =  REST_IP_PORT + "/toppharm/user/login";
