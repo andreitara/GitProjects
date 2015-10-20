@@ -18,7 +18,7 @@ import java.util.Set;
  */
 
 @RestController
-@RequestMapping("/toppharm/task/{taskID}/product/")
+@RequestMapping(StaticStrings.PORT_FOR_ALL_CONTROLLERS + "/toppharm/task/{taskID}/product/")
 public class ProductTaskController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)

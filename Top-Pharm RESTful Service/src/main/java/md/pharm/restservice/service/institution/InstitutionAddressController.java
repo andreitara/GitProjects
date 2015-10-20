@@ -23,7 +23,7 @@ import java.util.Set;
  */
 
 @RestController
-@RequestMapping("/toppharm/medical/institution/{institutionID}/address")
+@RequestMapping(StaticStrings.PORT_FOR_ALL_CONTROLLERS + "/toppharm/medical/institution/{institutionID}/address")
 public class InstitutionAddressController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

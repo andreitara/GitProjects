@@ -1,9 +1,15 @@
 package md.pharm.restservice.service.util;
 
+import md.pharm.hibernate.user.ManageUser;
+import md.pharm.hibernate.user.User;
+import md.pharm.hibernate.user.permission.Permission;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
+
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Andrei on 10/14/2015.
@@ -59,6 +65,26 @@ public class HibernateUtil {
             session = factory.openSession();
         }
         return session;
+    }
+
+    public static void createDefaultAdminsIfUsersNotExist(){
+        ManageUser manageUser = new ManageUser("MD");
+        List<User> users = manageUser.getUsers();
+        if(users.size()==0){
+            User admin = new User("admin", "admin", "admin", "admin", Calendar.getInstance().getTime(),"adminmd", "admin1234", null, null, null, "MD");
+            Permission permission = new Permission(admin, true,true,true,true,true,true,true);
+            admin.setPermission(permission);
+            manageUser.addUser(admin);
+        }
+
+        manageUser = new ManageUser("RO");
+        users = manageUser.getUsers();
+        if(users.size()==0){
+            User admin = new User("admin", "admin", "admin", "admin", Calendar.getInstance().getTime(),"adminro", "admin1234", null, null, null, "RO");
+            Permission permission = new Permission(admin, true,true,true,true,true,true,true);
+            admin.setPermission(permission);
+            manageUser.addUser(admin);
+        }
     }
 
 }

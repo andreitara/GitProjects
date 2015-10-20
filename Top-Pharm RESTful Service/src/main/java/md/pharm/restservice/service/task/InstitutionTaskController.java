@@ -20,7 +20,7 @@ import java.util.Set;
  */
 
 @RestController
-@RequestMapping("/toppharm/task/{taskID}/institution")
+@RequestMapping(StaticStrings.PORT_FOR_ALL_CONTROLLERS + "/toppharm/task/{taskID}/institution")
 public class InstitutionTaskController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

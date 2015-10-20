@@ -20,7 +20,7 @@ import java.util.Set;
  */
 
 @RestController
-@RequestMapping("toppharm/medical/doctor")
+@RequestMapping(StaticStrings.PORT_FOR_ALL_CONTROLLERS + "toppharm/medical/doctor")
 public class DoctorController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)

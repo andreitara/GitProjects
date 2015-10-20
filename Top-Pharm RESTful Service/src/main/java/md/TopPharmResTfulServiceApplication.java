@@ -18,6 +18,7 @@ public class TopPharmResTfulServiceApplication extends WebMvcConfigurationSuppor
     public static void main(String[] args) {
         HibernateUtil.buildROSessionFactory();
         HibernateUtil.buildMDSessionFactory();
+        HibernateUtil.createDefaultAdminsIfUsersNotExist();
         SpringApplication.run(TopPharmResTfulServiceApplication.class, args);
     }
 

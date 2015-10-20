@@ -50,7 +50,7 @@ class StatelessAuthenticationFilter extends GenericFilterBean {
 	}
 
 	public static boolean userHasPermission(Permission permission, HttpServletRequest httpRequest){
-		String uri = httpRequest.getRequestURI();
+		String uri = StringUtils.stripFront(StringUtils.stripBack(httpRequest.getRequestURI(), '/'), '/');
 		if(uri.startsWith(StaticStrings.USER_PAGES)){
 			if(httpRequest.getMethod().equals("GET")){
 				if(permission.isReadUsers())

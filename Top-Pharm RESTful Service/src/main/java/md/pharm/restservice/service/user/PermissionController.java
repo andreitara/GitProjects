@@ -19,7 +19,7 @@ import java.util.Set;
  */
 
 @RestController
-@RequestMapping("toppharm/user/permission/")
+@RequestMapping(StaticStrings.PORT_FOR_ALL_CONTROLLERS + "toppharm/user/permission/")
 public class PermissionController {
 
     @RequestMapping(value = "/{userID}", method = RequestMethod.GET)

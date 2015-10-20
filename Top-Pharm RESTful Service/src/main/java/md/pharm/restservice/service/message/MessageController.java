@@ -26,7 +26,7 @@ import java.util.Set;
  */
 
 @RestController
-@RequestMapping("toppharm/message")
+@RequestMapping(StaticStrings.PORT_FOR_ALL_CONTROLLERS + "toppharm/message")
 public class MessageController {
 
     @RequestMapping(value = "from/{fromID}/to/{toID}/add", method = RequestMethod.POST)

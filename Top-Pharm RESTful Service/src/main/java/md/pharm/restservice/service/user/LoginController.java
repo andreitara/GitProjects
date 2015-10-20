@@ -4,6 +4,7 @@ import md.pharm.hibernate.connection.Connection;
 import md.pharm.hibernate.connection.ManageConnection;
 import md.pharm.hibernate.user.ManageUser;
 import md.pharm.hibernate.user.User;
+import md.pharm.hibernate.user.login.UserLogin;
 import md.pharm.restservice.service.Response;
 import md.pharm.restservice.util.ErrorCodes;
 import md.pharm.restservice.util.StaticStrings;
@@ -19,11 +20,11 @@ import java.util.Map;
  */
 
 @RestController
-@RequestMapping("toppharm/user")
+@RequestMapping(StaticStrings.PORT_FOR_ALL_CONTROLLERS + "toppharm/user")
 public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@RequestBody User user){
+    public ResponseEntity<?> createUser(@RequestBody UserLogin user){
         Response response = new Response();
         if(user!=null) {
             ManageUser manageUser = new ManageUser("MD");
@@ -46,18 +47,18 @@ public class LoginController {
                     return new ResponseEntity<Object>(response, HttpStatus.OK);
                 } else {
                     response.setResponseCode(ErrorCodes.InvalidAuthenticationInfo.name);
-                    response.setResponseMessage(ErrorCodes.InvalidAuthenticationInfo.userMessage);
-                    return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+                    response.setResponseMessage(ErrorCodes.InvalidAuthenticationInfo.userMessage + ". Password is incorect");
+                    return new ResponseEntity<Object>(response, HttpStatus.OK);
                 }
             }else{
                 response.setResponseCode(ErrorCodes.InvalidAuthenticationInfo.name);
-                response.setResponseMessage(ErrorCodes.InvalidAuthenticationInfo.userMessage);
-                return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+                response.setResponseMessage(ErrorCodes.InvalidAuthenticationInfo.userMessage + ". User do not exists");
+                return new ResponseEntity<Object>(response, HttpStatus.OK);
             }
         }else{
             response.setResponseCode(ErrorCodes.InvalidAuthenticationInfo.name);
-            response.setResponseMessage(ErrorCodes.InvalidAuthenticationInfo.userMessage);
-            return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+            response.setResponseMessage(ErrorCodes.InvalidAuthenticationInfo.userMessage + ". Send user is null");
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
         }
     }
 
